@@ -1,2 +1,3 @@
 # NLPTwitchBot
-Twitch Bot NLP project
+Twitch Bot NLP project 
+S8 SCIA
