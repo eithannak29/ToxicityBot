@@ -1,3 +1,3 @@
-# NLPTwitchBot
-Twitch Bot NLP project 
+# ToxicityBot
+Twitch Bot for toxicity containt
 S8 SCIA
