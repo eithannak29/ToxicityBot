@@ -1,0 +1,1 @@
+CATEGORIES = ["sexual", "sexual/minors", "harassment", "hate", "violence", "self-harm", "violence/graphic", "self-harm/instructions", "hate/threatening", "self-harm/intent", "harassment/threatening"]
