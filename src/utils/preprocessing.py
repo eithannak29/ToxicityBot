@@ -65,5 +65,16 @@ def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
     
     return df
 
+
+def binarize_categories(df: pd.DataFrame) -> pd.DataFrame:
+    df['max'] = df[CATEGORIES].idxmax(axis=1)
+
+    for category in CATEGORIES:
+        df[category] = df.apply(lambda x: 1 if x['max'] == category else 0, axis=1)
+        
+    df.loc[df['toxicity'] == 0, CATEGORIES] = 0
+
+    return df
+
 if __name__ == "__main__":
     print("Preprocessing done")
