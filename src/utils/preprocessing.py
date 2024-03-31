@@ -67,14 +67,15 @@ def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def binarize_categories(df: pd.DataFrame) -> pd.DataFrame:
-    df['max'] = df[CATEGORIES].idxmax(axis=1)
+    df_res = pd.DataFrame()
+    df_res['max'] = df[CATEGORIES].idxmax(axis=1)
 
     for category in CATEGORIES:
-        df[category] = df.apply(lambda x: 1 if x['max'] == category else 0, axis=1)
+        df_res[category] = df_res.apply(lambda x: 1 if x['max'] == category else 0, axis=1)
         
-    df.loc[df['toxicity'] == 0, CATEGORIES] = 0
+    df_res.loc[df['toxicity'] == 0, CATEGORIES] = 0
 
-    return df
+    return df_res
 
 if __name__ == "__main__":
     print("Preprocessing done")
