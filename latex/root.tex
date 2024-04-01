@@ -1,23 +1,23 @@
-% !TEX root = ./root.tex
+\documentclass[12pt]{report}
+\input{PackagesAndSettings}
 
-\documentclass{article}
+
 \usepackage{inputenc}
 \usepackage{graphicx}
 \usepackage{subfiles} % Best loaded last in the preamble
 
-\title{My First LaTeX Document}
-\author{Your Name}
-\date{\today}
 
 \begin{document}
-\maketitle
 
-\subfile{sections/introduction}
-\subfile{sections/methodology}
-\subfile{sections/results}
-\subfile{sections/conclusion}
+\include{sections/TitlePage}
+\tableofcontents
 
-\bibliography{bibliography/references}
-\bibliographystyle{plain}
+\include{sections/introduction}
+% \subfile{sections/introduction}
+% \subfile{sections/results}
+% \subfile{sections/conclusion}
+
+% \bibliography{bibliography/references}
+% \bibliographystyle{plain}
 
 \end{document}
