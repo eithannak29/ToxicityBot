@@ -1,0 +1,69 @@
+\usepackage [left=2.5cm, right=3.5cm, top=3cm, bottom=3cm]{geometry}
+\setlength{\headheight}{14.49998pt}%\geometry{showframe}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{tabularx}
+
+
+\usepackage[T1]{fontenc}      % for T1 font encoding
+\usepackage[english]{babel}
+\usepackage{fancyhdr}
+
+% Configuration du package fancyhdr
+\pagestyle{fancy}
+\fancyhf{} % nettoie l'en-tête et le pied de page par défaut
+\fancyhead[L]{\nouppercase{\leftmark}} % En-tête gauche : nom du chapitre
+\fancyfoot[L]{} % Pied de page gauche : auteur
+\fancyfoot[C]{NLP - Chat Moderation} % Pied de page centre : titre du document
+\fancyfoot[R]{\thepage} % Pied de page droit : numéro de page
+
+% Pour s'assurer que le en-tête et pied de page apparaissent sur la première page d'un chapitre
+\fancypagestyle{plain}{
+\fancyhf{}
+  \fancyhead[L]{\nouppercase{\leftmark}}
+  \fancyfoot[L]{}
+  \fancyfoot[C]{NLP - Chat Moderation}
+  \fancyfoot[R]{\thepage}
+}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{datetime}
+\usepackage{tikz}
+
+\usepackage{appendix}
+
+\makeatletter
+\renewcommand\Huge{\@setfontsize\huge{18}{18}}
+\renewcommand\huge{\@setfontsize\huge{18}{18}}
+\renewcommand\Large{\@setfontsize\large{15}{15}}
+\renewcommand\large{\@setfontsize\large{15}{15}}
+
+\makeatother
+\linespread{1.2}
+
+% \usepackage[top=3cm, bottom=3cm, headheight=15pt, headsep=10mm, footskip=10mm]{geometry}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=blue,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\usepackage{glossaries}
+\makeglossaries
+\newacronym{ai}{AI}{Artificial Intelligence}
+\newacronym{ml}{ML}{Machine Learning}
+
+
+\usepackage{titlesec}
+
+% Configuration de titlesec pour les titres de chapitre
+\titleformat{\chapter}[block]
+  {\normalfont\bfseries\Huge}{\thechapter.}{1em}{\normalfont\bfseries}
+\titlespacing*{\chapter}{0pt}{-30pt}{5pt}
