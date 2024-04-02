@@ -7,6 +7,34 @@ from sklearn.model_selection import train_test_split
 from constants import CATEGORIES
 
 
+
+def load_dataframes2(sampling_strategy: str = 'undersample', test_size: float = 0.2, seed: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    dataset = load_dataset("lmsys/toxic-chat", "toxicchat0124")
+    
+    # Prétraitement des données
+    df = preprocess_df(dataset['train'].to_pandas())
+    
+    # Séparation des classes
+    df_toxic = df[df['toxicity'] == 1]
+    df_non_toxic = df[df['toxicity'] == 0]
+    
+    # Application de la stratégie d'équilibrage
+    if sampling_strategy == 'undersample':
+        df_non_toxic_sampled = df_non_toxic.sample(n=len(df_toxic), random_state=seed)
+        df_balanced = pd.concat([df_toxic, df_non_toxic_sampled])
+    elif sampling_strategy == 'oversample':
+        df_toxic_sampled = df_toxic.sample(n=len(df_non_toxic), replace=True, random_state=seed)
+        df_balanced = pd.concat([df_toxic_sampled, df_non_toxic])
+    else:
+        raise ValueError("sampling_strategy doit être 'undersample' ou 'oversample'")
+    
+    # Séparation des données en jeux d'entraînement, de validation et de test
+    df_train, df_temp = train_test_split(df_balanced, test_size=test_size, random_state=seed)
+    df_val, df_test = train_test_split(df_temp, test_size=0.5, random_state=seed)
+    
+    return df_train, df_val, df_test
+
+
 def load_dataframes(test_size:int =0.2,seed: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     dataset = load_dataset("lmsys/toxic-chat", "toxicchat0124")
     
