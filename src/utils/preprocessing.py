@@ -35,18 +35,30 @@ def load_dataframes2(sampling_strategy: str = 'undersample', test_size: float = 
     return df_train, df_val, df_test
 
 
-def load_dataframes(test_size:int =0.2,seed: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    dataset = load_dataset("lmsys/toxic-chat", "toxicchat0124")
+# def load_dataframes(test_size:int =0.2,seed: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+#     dataset = load_dataset("lmsys/toxic-chat", "toxicchat0124")
     
-    df_train = dataset['train'].to_pandas()
-    df_test = dataset['test'].to_pandas()
+#     df_train = dataset['train'].to_pandas()
+#     df_test = dataset['test'].to_pandas()
     
-    df_train = preprocess_df(df_train)
-    df_test = preprocess_df(df_test)
+#     df_train = preprocess_df(df_train)
+#     df_test = preprocess_df(df_test)
     
-    df_train, df_val = train_test_split(df_train, test_size=test_size, random_state=seed)
+#     df_train, df_val = train_test_split(df_train, test_size=test_size, random_state=seed)
     
-    return (df_train, df_val, df_test)
+#     return (df_train, df_val, df_test)
+
+
+def load_dataframes(test_size: float = 0.2, seed: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    # Charger le dataset
+    train_data = pd.read_csv("../data/train.csv")
+    test_data = pd.read_csv("../data/test.csv")
+    
+    # Diviser le dataset en train et validation
+    train_df, val_df = train_test_split(train_data, test_size=test_size, random_state=seed)
+    
+    return train_df, val_df, test_data
+
 
 
 def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
