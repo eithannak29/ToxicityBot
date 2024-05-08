@@ -1,6 +1,5 @@
 import ast
 import pandas as pd
-from datasets import load_dataset
 from typing import Tuple
 from sklearn.model_selection import train_test_split
 from constants import TEST_LABEL_PATH, TEST_PATH, TRAIN_PATH
