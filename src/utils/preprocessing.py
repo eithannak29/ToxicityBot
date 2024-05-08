@@ -37,25 +37,6 @@ def load_dataframes() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     df_train = pd.read_csv(TRAIN_PATH)
     df_train = set_overall_toxic(df_train) 
     df_test = set_overall_toxic(df_test)
-def set_overall_toxic(df: pd.DataFrame) -> pd.DataFrame:
-    df["overall_toxic"] = 0
-    df.loc[
-        (df["toxic"] == 1)
-        | (df["severe_toxic"] == 1)
-        | (df["obscene"] == 1)
-        | (df["threat"] == 1)
-        | (df["insult"] == 1)
-        | (df["identity_hate"] == 1),
-        "overall_toxic",
-    ] = 1
-    return df
-
-
-def load_dataframes() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    df_test = load_dataframe_test(TEST_LABEL_PATH, TEST_PATH)
-    df_train = pd.read_csv(TRAIN_PATH)
-    df_train = set_overall_toxic(df_train) 
-    df_test = set_overall_toxic(df_test)
     df_test = remove_empty_lines(df_test)
     df_train = remove_empty_lines(df_train)
     df_train, df_val = train_test_split(df_train, test_size=0.2, random_state=42)
