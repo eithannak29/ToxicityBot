@@ -3,35 +3,24 @@ import pandas as pd
 from datasets import load_dataset
 from typing import Tuple
 from sklearn.model_selection import train_test_split
+from constants import TEST_LABEL_PATH, TEST_PATH, TRAIN_PATH
 
-from constants import CATEGORIES
+def load_dataframe_test(path_label: str, path_text:str ) -> pd.DataFrame:
+    texts = pd.read_csv(path_text)
+    labels = pd.read_csv(path_label)
+    labels = labels[labels['toxic'] != -1]
+    df_test = pd.merge(labels, texts, on='id')
+    return df_test
 
+def remove_empty_lines(df: pd.DataFrame ) -> pd.DataFrame:
+    return df[df['comment_text'] != ""]
 
-
-def load_dataframes2(sampling_strategy: str = 'undersample', test_size: float = 0.2, seed: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    dataset = load_dataset("lmsys/toxic-chat", "toxicchat0124")
-    
-    # Prétraitement des données
-    df = preprocess_df(dataset['train'].to_pandas())
-    
-    # Séparation des classes
-    df_toxic = df[df['toxicity'] == 1]
-    df_non_toxic = df[df['toxicity'] == 0]
-    
-    # Application de la stratégie d'équilibrage
-    if sampling_strategy == 'undersample':
-        df_non_toxic_sampled = df_non_toxic.sample(n=len(df_toxic), random_state=seed)
-        df_balanced = pd.concat([df_toxic, df_non_toxic_sampled])
-    elif sampling_strategy == 'oversample':
-        df_toxic_sampled = df_toxic.sample(n=len(df_non_toxic), replace=True, random_state=seed)
-        df_balanced = pd.concat([df_toxic_sampled, df_non_toxic])
-    else:
-        raise ValueError("sampling_strategy doit être 'undersample' ou 'oversample'")
-    
-    # Séparation des données en jeux d'entraînement, de validation et de test
-    df_train, df_temp = train_test_split(df_balanced, test_size=test_size, random_state=seed)
-    df_val, df_test = train_test_split(df_temp, test_size=0.5, random_state=seed)
-    
+def load_dataframes() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    df_test  = load_dataframe_test(TEST_LABEL_PATH, TEST_PATH)
+    df_train  = pd.read_csv(TRAIN_PATH)
+    df_test = remove_empty_lines(df_test)
+    df_train = remove_empty_lines(df_train)
+    df_train, df_val = train_test_split(df_train, test_size=0.2, random_state=42)
     return df_train, df_val, df_test
 
 
