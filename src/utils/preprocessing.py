@@ -1,81 +1,42 @@
 import ast
 import pandas as pd
-from datasets import load_dataset
 from typing import Tuple
 from sklearn.model_selection import train_test_split
-
-from constants import CATEGORIES
-
+from constants import TEST_LABEL_PATH, TEST_PATH, TRAIN_PATH
 
 
-def load_dataframes2(sampling_strategy: str = 'undersample', test_size: float = 0.2, seed: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    dataset = load_dataset("lmsys/toxic-chat", "toxicchat0124")
-    
-    # Prétraitement des données
-    df = preprocess_df(dataset['train'].to_pandas())
-    
-    # Séparation des classes
-    df_toxic = df[df['toxicity'] == 1]
-    df_non_toxic = df[df['toxicity'] == 0]
-    
-    # Application de la stratégie d'équilibrage
-    if sampling_strategy == 'undersample':
-        df_non_toxic_sampled = df_non_toxic.sample(n=len(df_toxic), random_state=seed)
-        df_balanced = pd.concat([df_toxic, df_non_toxic_sampled])
-    elif sampling_strategy == 'oversample':
-        df_toxic_sampled = df_toxic.sample(n=len(df_non_toxic), replace=True, random_state=seed)
-        df_balanced = pd.concat([df_toxic_sampled, df_non_toxic])
-    else:
-        raise ValueError("sampling_strategy doit être 'undersample' ou 'oversample'")
-    
-    # Séparation des données en jeux d'entraînement, de validation et de test
-    df_train, df_temp = train_test_split(df_balanced, test_size=test_size, random_state=seed)
-    df_val, df_test = train_test_split(df_temp, test_size=0.5, random_state=seed)
-    
-    return df_train, df_val, df_test
+def load_dataframe_test(path_label: str, path_text: str) -> pd.DataFrame:
+    texts = pd.read_csv(path_text)
+    labels = pd.read_csv(path_label)
+    labels = labels[labels["toxic"] != -1]
+    df_test = pd.merge(labels, texts, on="id")
+    return df_test
 
 
-# def load_dataframes(test_size:int =0.2,seed: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-#     dataset = load_dataset("lmsys/toxic-chat", "toxicchat0124")
-    
-#     df_train = dataset['train'].to_pandas()
-#     df_test = dataset['test'].to_pandas()
-    
-#     df_train = preprocess_df(df_train)
-#     df_test = preprocess_df(df_test)
-    
-#     df_train, df_val = train_test_split(df_train, test_size=test_size, random_state=seed)
-    
-#     return (df_train, df_val, df_test)
+def remove_empty_lines(df: pd.DataFrame) -> pd.DataFrame:
+    return df[df["comment_text"] != ""]
 
 
-def load_dataframes(test_size: float = 0.2, seed: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    # Charger le dataset
-    train_data = pd.read_csv("../data/train.csv")
-    test_data = pd.read_csv("../data/test.csv")
-    
-    # Diviser le dataset en train et validation
-    train_df, val_df = train_test_split(train_data, test_size=test_size, random_state=seed)
-    
-    return train_df, val_df, test_data
-
-
-
-def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
-    cols_to_keep = ['user_input', 'human_annotation', 'toxicity', 'jailbreaking', 'openai_moderation']
-    for col in df.columns:
-        if col not in cols_to_keep:
-            df.drop(col, axis=1, inplace=True)
-            
-    df["openai_moderation"] = df["openai_moderation"].apply(ast.literal_eval)
-    
-    categories = CATEGORIES
-    for content_type in categories:
-        df[content_type] = df["openai_moderation"].apply(lambda x: next((item[1] for item in x if item[0] == content_type), 0))
-    
-    df.drop('openai_moderation', axis=1, inplace=True)
-    
+def set_overall_toxic(df: pd.DataFrame) -> pd.DataFrame:
+    df["overall_toxic"] = 0
+    df.loc[
+        (df["toxic"] == 1)
+        | (df["severe_toxic"] == 1)
+        | (df["obscene"] == 1)
+        | (df["threat"] == 1)
+        | (df["insult"] == 1)
+        | (df["identity_hate"] == 1),
+        "overall_toxic",
+    ] = 1
     return df
 
-if __name__ == "__main__":
-    print("Preprocessing done")
+
+def load_dataframes() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    df_test = load_dataframe_test(TEST_LABEL_PATH, TEST_PATH)
+    df_train = pd.read_csv(TRAIN_PATH)
+    df_train = set_overall_toxic(df_train) 
+    df_test = set_overall_toxic(df_test)
+    df_test = remove_empty_lines(df_test)
+    df_train = remove_empty_lines(df_train)
+    df_train, df_val = train_test_split(df_train, test_size=0.2, random_state=42)
+    return df_train, df_val, df_test

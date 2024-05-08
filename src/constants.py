@@ -1,1 +1,5 @@
-CATEGORIES = ["sexual", "sexual/minors", "harassment", "hate", "violence", "self-harm", "violence/graphic", "self-harm/instructions", "hate/threatening", "self-harm/intent", "harassment/threatening"]
+TEST_LABEL_PATH = 'C:\\Users\\Samy\\Desktop\\NLP\\newRepo\\ToxicityBot\\src\\data\\test_labels.csv'
+TEST_PATH = 'C:\\Users\\Samy\\Desktop\\NLP\\newRepo\\ToxicityBot\\src\\data\\test.csv'
+TRAIN_PATH = 'C:\\Users\\Samy\\Desktop\\NLP\\newRepo\\ToxicityBot\\src\\data\\train.csv'
+
+CATEGORIES = ["toxic","severe_toxic","obscene", "threat", "insult", "identity_hate"]
