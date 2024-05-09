@@ -98,4 +98,24 @@ La lemmatisation consiste à réduire les mots fléchis ou dérivés à leur for
 
 La mise en minuscules permet d'uniformiser le texte en convertissant toutes les lettres en minuscules. Cela permet d'éviter les doublons dus à la casse.
 
+\subsubsection*{Identification des verbes et des noms}
+
+Nous avons modifié la méthode de lemmatisation pour identifier les verbes et les noms dans une phrase. Parfois, les verbes étaient considérés comme des noms et ne pouvaient pas être lemmatisés avec le lemmatiseur par défaut.
+
+\subsection{Pré-traitement supplémentaire du jeu de données}
+
+En plus des techniques de pré-traitement déjà mentionnées, nous avons également effectué les actions suivantes pour rendre notre jeu de données plus adapté à l'entraînement de nos modèles :
+
+\subsubsection*{Conservation des caractères spéciaux}
+
+Nous avons choisi de ne pas supprimer les caractères spéciaux du texte. En effet, la ponctuation, par exemple, peut être importante pour détecter la toxicité dans le langage (par exemple, "!!!!").
+
+\subsubsection*{Conservation des symboles '=' et des chiffres}
+
+Nous avons décidé de conserver les symboles '=' et les chiffres dans le texte, car ils peuvent être utilisés dans des expressions symboliques (par exemple, "8==>" pour représenter un penis).
+
+\subsubsection*{Suppression des balises HTML, des URL et des adresses e-mail}
+
+Nous avons supprimé les balises HTML, les URL et les adresses e-mail de notre jeu de données. Ces éléments étaient fréquents dans notre base de données en raison d'erreurs de récupération de données lors de la collecte de commentaires sur Wikipedia.
+
 \end{document}
