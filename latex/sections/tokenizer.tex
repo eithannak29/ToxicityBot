@@ -106,13 +106,25 @@ Nous avons modifié la méthode de lemmatisation pour identifier les verbes et l
 
 En plus des techniques de pré-traitement déjà mentionnées, nous avons également effectué les actions suivantes pour rendre notre jeu de données plus adapté à l'entraînement de nos modèles :
 
-\subsubsection*{Conservation des caractères spéciaux}
+\subsubsection*{Réflexion sur la suppression des symboles opérateurs et des chiffres}
 
-Nous avons choisi de ne pas supprimer les caractères spéciaux du texte. En effet, la ponctuation, par exemple, peut être importante pour détecter la toxicité dans le langage (par exemple, "!!!!").
+Dans le cadre du prétraitement des données, nous avons envisagé initialement de supprimer les symboles opérateurs et les chiffres présents dans nos textes. Cependant, après réflexion, nous avons réalisé que ces symboles pouvaient avoir une valeur sémantique importante pour déterminer si une phrase est toxique ou non. Ainsi, au lieu de les supprimer, nous avons mis en place un processus sophistiqué consistant à utiliser une série d'expressions régulières (regex) pour remplacer ces symboles par leur signification correspondante. Par exemple, nous avons remplacé des symboles comme ":/" par leur signification afin d'améliorer la compréhension du texte par nos modèles. Cette approche nous permet d'assurer des interactions plus contextuelles et pertinentes avec les utilisateurs, tout en garantissant une analyse précise et efficace du langage. Chacune de ces expressions régulières a été soigneusement personnalisée par notre équipe pour répondre aux besoins spécifiques de notre projet, permettant ainsi à notre IA de mieux comprendre le langage naturel et d'interagir de manière plus fluide avec les utilisateurs.
 
-\subsubsection*{Conservation des symboles '=' et des chiffres}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Élément toxique} & \textbf{Fréquence} \\ \hline
+8======d~~ & dick \\ \hline
+x)))) & happy \\ \hline
+:/ & sad \\ \hline
+x) & happy \\ \hline
+:D & laught \\ \hline
+8============> & dick \\ \hline
+\end{tabular}
+\caption{Exemple d'éléments toxiques contenant des symboles opérateurs et des chiffres que nous avons remplacé par leurs signification}
+\end{table}
 
-Nous avons décidé de conserver les symboles '=' et les chiffres dans le texte, car ils peuvent être utilisés dans des expressions symboliques (par exemple, "8==>" pour représenter un penis).
 
 \subsubsection*{Suppression des balises HTML, des URL et des adresses e-mail}
 
