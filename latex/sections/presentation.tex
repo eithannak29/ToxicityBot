@@ -1,0 +1,46 @@
+
+\chapter{Présentation du jeu de données}
+
+\subsubsection*{Objectifs et Financement du Dataset}
+Le dataset de classification des commentaires toxiques de JIGSAW a été créé pour promouvoir la recherche sur la détection de la toxicité dans les commentaires en ligne.
+Il vise à identifier des comportements indésirables tels que les commentaires toxiques.
+Ce corpus a été collecté dans le but de développer des technologies et des méthodes capables de modérer automatiquement ces types de contenu nuisible sur les plateformes en ligne.
+
+Le projet a été financé par Jigsaw (anciennement connu sous le nom de Google Ideas) et Google, dans le cadre d'un concours organisé sur la plateforme Kaggle. 
+Ce partenariat a non seulement mis à disposition les ressources nécessaires, mais a également encouragé la communauté globale des data scientists à résoudre ce problème urgent de modération des contenus toxiques sur Internet.
+
+\subsubsection*{Contexte et Caractéristiques des Données du Dataset }
+Les commentaires inclus dans le dataset proviennent des pages de discussion de Wikipedia. 
+Ces discussions sont menées en anglais par des contributeurs qui échangent sur les améliorations à apporter aux articles et sur les modifications nécessaires. 
+Ces échanges sont caractéristiques des interactions collaboratives typiques sur Wikipedia, où les utilisateurs débattent de la véracité, de la neutralité et de la complétude des articles.
+
+Le format du texte est écrit et prend la forme de communications en ligne non formelles mais structurées. 
+Cela signifie que les commentaires, bien que rédigés dans un cadre informel, suivent une certaine structure logique et sont orientés vers des objectifs spécifiques de collaboration et de modification de contenu.
+
+\subsubsection*{Démographie des auteurs}
+Les informations démographiques spécifiques sur les auteurs des commentaires ne sont pas fournies.
+
+\newpage
+\subsubsection*{Processus de collecte}
+Le dataset comprend environ 160 000 commentaires pour l'entraînement et 60 000 commentaires pour le test. Ces données ont été extraites dans le but de représenter divers comportements toxiques, bien que la méthode exacte d'échantillonnage n'ait pas été spécifiée. 
+
+Étant issues de plateformes ouvertes, les questions de consentement sont gérées dans le cadre des normes de Wikipedia concernant la publication de commentaires publics. Toutefois, les détails spécifiques concernant le consentement des auteurs ne sont pas divulgués.
+
+En ce qui concerne le prétraitement, les données ont été anonymisées et les informations personnellement identifiables ont été supprimées pour protéger la vie privée des utilisateurs. 
+
+\subsubsection*{Processus d'annotation}
+Le dataset est structuré autour de plusieurs catégories d'annotations qui permettent de définir la nature de la toxicité des commentaires. 
+Celles-ci incluent :
+\textbf{Toxique},
+\textbf{Très toxique},
+\textbf{Obscène},
+\textbf{Menace},
+\textbf{Insulte},
+\textbf{Haine identitaire}.
+Ces catégories ont été choisies pour couvrir un large éventail de comportements toxiques potentiellement rencontrés dans les commentaires en ligne.
+
+La méthode d'annotation repose sur l'intervention de multiples annotateurs pour chaque commentaire. Cette approche vise à maximiser la fiabilité des annotations.
+Le recours à plusieurs annotateurs permet de réduire les biais individuels et d'améliorer la précision générale des données annotées, assurant ainsi que les modèles de machine learning entraînés avec ce dataset peuvent fonctionner de manière efficace et équitable.
+
+\subsubsection*{Distribution}
+Le dataset est disponible à des fins de recherche non commerciales. Les utilisateurs doivent généralement accepter des conditions d'utilisation qui limitent l'utilisation commerciale et la redistribution.
