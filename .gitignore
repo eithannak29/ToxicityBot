@@ -10,5 +10,4 @@ __pycache__
 *.gz
 *.toc
 *ist
-minbpe/
 jigsaw-toxic-comment-classification-challenge/
