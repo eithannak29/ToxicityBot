@@ -8,17 +8,47 @@ Le pré-traitement des données est une étape essentielle dans le processus d'a
 
 La tokenisation est le processus de division du texte en unités plus petites appelées "tokens". La tokenisation à base d’expressions régulières utilise des règles basées sur des motifs d'expressions régulières pour diviser le texte en tokens.
 
+\subsubsection*{Description de la méthode de tokenisation à base d'expressions régulières}
+
+La tokenisation à base d'expressions régulières consiste à diviser le texte en tokens en utilisant des règles définies par des motifs d'expressions régulières. Ces motifs permettent de reconnaître les limites entre les mots, les ponctuations, etc.
+
 \subsubsection*{Implémentation de la tokenisation à l'aide de la classe RegexTokenizer}
 
 Nous commençons par importer la classe RegexTokenizer et appliquer la tokenisation sur notre jeu de données.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Avant tokenisation} & \textbf{Après tokenisation} \\ \hline
+``Hello, World!'' & ['Hello', ',', 'World', '!'] \\ \hline
+``I love NLTK'' & ['I', 'love', 'NLTK'] \\ \hline
+\end{tabular}
+\caption{Exemple de tokenisation à base d'expressions régulières}
+\end{table}
 
 \subsection{Tokenisation byte-pair encoding (TikToken)}
 
 Le byte-pair encoding (BPE) est une méthode de tokenisation qui découpe le texte en sous-unités de texte appelées "tokens" en utilisant un algorithme de compression de données.
 
+\subsubsection*{Description de la méthode de tokenisation byte-pair encoding}
+
+La tokenisation BPE découpe le texte en sous-unités de texte de taille variable, appelées "tokens", en utilisant un algorithme de compression de données.
+
 \subsubsection*{Implémentation de la tokenisation à l'aide de la bibliothèque TikToken}
 
 Nous appliquons la tokenisation BPE sur notre jeu de données en utilisant la bibliothèque TikToken.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Avant tokenisation} & \textbf{Après tokenisation} \\ \hline
+``Hello, World!'' & ['Hello', ',', 'World', '!'] \\ \hline
+``I love TikToken'' & ['I', 'love', 'Ti', 'k', 'To', 'ken'] \\ \hline
+\end{tabular}
+\caption{Exemple de tokenisation BPE}
+\end{table}
 
 \subsection{Méthodes de normalisation du texte}
 
@@ -35,3 +65,5 @@ La lemmatisation consiste à réduire les mots fléchis ou dérivés à leur for
 \subsubsection*{Mise en minuscules}
 
 La mise en minuscules permet d'uniformiser le texte en convertissant toutes les lettres en minuscules. Cela permet d'éviter les doublons dus à la casse.
+
+\end{document}
