@@ -60,36 +60,17 @@ def gpt_tokenize(df_test: pd.DataFrame, lowercase: bool = True, remove_stopwords
     tokens = enc.encode(normalized_text)
     return [str(token) for token in tokens]
 
-def byte_tokenize(df_test: pd.DataFrame, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True) -> List[str]:
+def bytePairTokenizer(df_test: pd.DataFrame, tokenizer=None, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True, vocab_size: int = 1024) -> List[str]:
     """
-    Tokenise le texte en utilisant l'encodage de bytes.
+    Tokenise le texte en utilisant le Byte Pair Encoding (BPE).
     
     Args:
     df_test (DataFrame): DataFrame contenant le texte à tokeniser.
+    tokenizer (BasicTokenizer, optional): Tokenizer pré-entraîné (par défaut None).
     lowercase (bool, optional): Mettre le texte en minuscule (par défaut True).
     remove_stopwords (bool, optional): Supprimer les stopwords (par défaut True).
     lemmatization (bool, optional): Lemmatiser les mots (par défaut True).
-    
-    Returns:
-    list: Liste des tokens.
-    """
-    viet_list = list(df_test["comment_text"])
-    viet_strings = " ".join(viet_list)
-    normalized_text = normalize_text(viet_strings, lowercase, remove_stopwords, lemmatization)
-    tokens = normalized_text.encode("utf-8")
-    tokens = list(map(int, tokens))
-    return [str(token) for token in tokens]
-
-def basicTokenize(df_test: pd.DataFrame, vocab_size: int = 1024, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True) -> List[str]:
-    """
-    Tokenise le texte en utilisant le BasicTokenizer.
-    
-    Args:
-    df_test (DataFrame): DataFrame contenant le texte à tokeniser.
     vocab_size (int, optional): Taille du vocabulaire (par défaut 1024).
-    lowercase (bool, optional): Mettre le texte en minuscule (par défaut True).
-    remove_stopwords (bool, optional): Supprimer les stopwords (par défaut True).
-    lemmatization (bool, optional): Lemmatiser les mots (par défaut True).
     
     Returns:
     list: Liste des tokens.
@@ -97,22 +78,27 @@ def basicTokenize(df_test: pd.DataFrame, vocab_size: int = 1024, lowercase: bool
     viet_list = list(df_test["comment_text"])
     viet_strings = " ".join(viet_list)
     normalized_text = normalize_text(viet_strings, lowercase, remove_stopwords, lemmatization)
-    tokenizer = BasicTokenizer()
-    tokenizer.train(normalized_text, vocab_size=vocab_size)
+    
+    if tokenizer is None:
+        tokenizer = BasicTokenizer()
+        tokenizer.train(normalized_text, vocab_size=vocab_size)
+        tokenizer.save('BytePairTokenizer')
+        
     viet_tokens = tokenizer.encode(normalized_text)
-    tokenizer.save('BasicTokenizer')
+    
     return [str(token) for token in viet_tokens]
 
-def regexTokenize(df_test: pd.DataFrame, vocab_size: int = 1024, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True) -> List[str]:
+def regexTokenize(df_test: pd.DataFrame, tokenizer=None, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True, vocab_size: int = 1024) -> List[str]:
     """
     Tokenise le texte en utilisant le RegexTokenizer.
     
     Args:
     df_test (DataFrame): DataFrame contenant le texte à tokeniser.
-    vocab_size (int, optional): Taille du vocabulaire (par défaut 1024).
+    tokenizer (RegexTokenizer, optional): Tokenizer pré-entraîné (par défaut None).
     lowercase (bool, optional): Mettre le texte en minuscule (par défaut True).
     remove_stopwords (bool, optional): Supprimer les stopwords (par défaut True).
     lemmatization (bool, optional): Lemmatiser les mots (par défaut True).
+    vocab_size (int, optional): Taille du vocabulaire (par défaut 1024).
     
     Returns:
     list: Liste des tokens.
@@ -120,18 +106,18 @@ def regexTokenize(df_test: pd.DataFrame, vocab_size: int = 1024, lowercase: bool
     viet_list = list(df_test["comment_text"])
     viet_strings = " ".join(viet_list)
     normalized_text = normalize_text(viet_strings, lowercase, remove_stopwords, lemmatization)
-    tokenizer = RegexTokenizer()
-    tokenizer.train(normalized_text, vocab_size=vocab_size)
+    
+    if tokenizer is None:
+        tokenizer = RegexTokenizer()
+        tokenizer.train(normalized_text, vocab_size=vocab_size)
+        tokenizer.save('RegexTokenizer')
+    
     viet_tokens = tokenizer.encode(normalized_text)
-    tokenizer.save('RegexTokenizer')
+    
     return [str(token) for token in viet_tokens]
 
-if __name__ == "__main__":
-    import preprocessing
-    
-    # Charger les données
-    (df_train, df_val, df_test) = preprocessing.load_dataframes()
-    
-    # Exemple d'utilisation de la fonction gpt_tokenize
-    tokens = gpt_tokenize(df_test)
-    print(tokens[:10])
+# if __name__ == "__main__":
+#     import preprocessing
+#     (df_train, df_val, df_test) = preprocessing.load_dataframes()
+#     tokens = gpt_tokenize(df_test)
+#     print(tokens[:10])
