@@ -16,27 +16,35 @@ import tiktoken
 lemmatizer = WordNetLemmatizer()
 
 stop_words = set(stopwords.words('english'))
+stop_words.add("'ll")
+stop_words.add("'t")
+stop_words.add("'ve")
+stop_words.add("'d")
 
-def normalize_text(viet_list):
+def normalize_text(phrase):
+ # Ici j'initialise les stopwords 
+    lemmatizer = WordNetLemmatizer()
 
-    tokens = viet_list
-
+    stop_words = set(stopwords.words('english'))
+    stop_words.add("'ll")
+    stop_words.add("'t")
+    stop_words.add("'ve")
+    stop_words.add("'d")
+#
+    tokens = word_tokenize(phrase)
     tokens = [word.lower() for word in tokens]
-
     tokens = [word for word in tokens if word not in stop_words]
-
     tokens = [lemmatizer.lemmatize(word) for word in tokens]
-
-    return tokens
-
-def gpt_tokenize(df_test):  
-    viet_list = list(df_test["user_input"])
-    viet_strings = " ".join(viet_list)
-    normalized_tokens = normalize_text(viet_strings)
-    viet_strings = " ".join(normalized_tokens)
+    text = " ".join(tokens)
+    return text
+# gpt_tokenize refait de facon a ce qu'il tokenize des phrases et non tout le dataframe
+def gpt_tokenize(text):  
+    newtokens = normalize_text(text)
     enc = tiktoken.encoding_for_model("gpt-4")
-    tokens = enc.encode(viet_strings, allowed_special={'<|endofprompt|>'})
-    return [str(token) for token in tokens]
+    tokens = enc.encode(newtokens)
+    tokens_list = [(enc.decode([word])) for word in tokens]
+    return tokens_list
+
 
 def normalize2_text(text):
     # Tokenisation et normalisation d'un texte
