@@ -50,6 +50,24 @@ Nous appliquons la tokenisation BPE sur notre jeu de données en utilisant la bi
 \caption{Exemple de tokenisation BPE}
 \end{table}
 
+\subsection{Comparaison avec d'autres tokenizers}
+
+Nous avons également comparé la performance de notre tokenizer avec d'autres options disponibles dans la bibliothèque MinBPE.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Tokenizer} & \textbf{Temps d'exécution (secondes)} \\ \hline
+RegexTokenizer & 12 \\ \hline
+TikToken & 8 \\ \hline
+BasicTokenizer & 35 \\ \hline
+\end{tabular}
+\caption{Comparaison des temps d'exécution des tokenizers}
+\end{table}
+
+Nous constatons que le RegexTokenizer et le TikToken sont significativement plus rapides que le BasicTokenizer. TikToken est le plus rapide parmi tous les tokenizers testés.
+
 \subsection{Méthodes de normalisation du texte}
 
 La normalisation du texte est une étape cruciale du pré-traitement des données textuelles. Elle vise à uniformiser le texte en le mettant en minuscules, en supprimant les mots vides (stop words) et en lemmatisant les mots.
