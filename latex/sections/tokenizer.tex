@@ -1,7 +1,37 @@
 \chapter{Tokenizer}
 
-\subsubsection*{NORMALISATION} 
-BLAAAAAAAAAAAAAABLABALAAAAAAAA
+\section{Pré-traitement du jeu de données}
 
-\subsubsection*{TOKNIZER DIFFERENT}
-GPTK TOKENIZERRRRRRRRRRRR
+Le pré-traitement des données est une étape essentielle dans le processus d'analyse de texte. Il vise à nettoyer, transformer et préparer les données brutes afin de les rendre exploitables pour l'entraînement des modèles. Dans cette section, nous appliquerons différentes techniques de pré-traitement sur notre jeu de données afin de le rendre apte à être utilisé dans nos modèles prédictifs.
+
+\subsection{Tokenisation à base d’expressions régulières (RegexTokenizer)}
+
+La tokenisation est le processus de division du texte en unités plus petites appelées "tokens". La tokenisation à base d’expressions régulières utilise des règles basées sur des motifs d'expressions régulières pour diviser le texte en tokens.
+
+\subsubsection*{Implémentation de la tokenisation à l'aide de la classe RegexTokenizer}
+
+Nous commençons par importer la classe RegexTokenizer et appliquer la tokenisation sur notre jeu de données.
+
+\subsection{Tokenisation byte-pair encoding (TikToken)}
+
+Le byte-pair encoding (BPE) est une méthode de tokenisation qui découpe le texte en sous-unités de texte appelées "tokens" en utilisant un algorithme de compression de données.
+
+\subsubsection*{Implémentation de la tokenisation à l'aide de la bibliothèque TikToken}
+
+Nous appliquons la tokenisation BPE sur notre jeu de données en utilisant la bibliothèque TikToken.
+
+\subsection{Méthodes de normalisation du texte}
+
+La normalisation du texte est une étape cruciale du pré-traitement des données textuelles. Elle vise à uniformiser le texte en le mettant en minuscules, en supprimant les mots vides (stop words) et en lemmatisant les mots.
+
+\subsubsection*{Suppression des stop words}
+
+Les stop words sont des mots courants qui n'apportent pas beaucoup de valeur sémantique au texte. Nous les supprimerons de notre jeu de données.
+
+\subsubsection*{Lemmatisation}
+
+La lemmatisation consiste à réduire les mots fléchis ou dérivés à leur forme de base ou racine. Cela permet de normaliser le texte et de réduire la dimensionnalité de l'espace des features.
+
+\subsubsection*{Mise en minuscules}
+
+La mise en minuscules permet d'uniformiser le texte en convertissant toutes les lettres en minuscules. Cela permet d'éviter les doublons dus à la casse.
