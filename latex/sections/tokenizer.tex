@@ -129,5 +129,19 @@ x) & happy \\ \hline
 \subsubsection*{Suppression des balises HTML, des URL et des adresses e-mail}
 
 Nous avons supprimé les balises HTML, les URL et les adresses e-mail de notre jeu de données. Ces éléments étaient fréquents dans notre base de données en raison d'erreurs de récupération de données lors de la collecte de commentaires sur Wikipedia.
+\newpage
+\subsubsection*{Correction des erreurs orthographiques et des fautes de frappe}
 
-\end{document}
+Nous avons utilisé un algorithme de correction des erreurs orthographiques et des fautes de frappe pour améliorer la qualité de nos données textuelles. Cet algorithme remplace les mots incorrectement orthographiés par les mots les plus proches dans notre dictionnaire de référence. Par exemple les caractères spéciaux, tels que 'ı' utilisé à la place de 'i', seront corrigés. Voici des exemples de phrases avant et après l'application de notre algorithme de correction :
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Avant correction} & \textbf{Après correction} \\ \hline
+    lıes  & lies \\ \hline
+    penisd i'\textbackslash m & penis i'm  \\ \hline
+    fùck8 & fuck  \\ \hline
+    \end{tabular}
+    \caption{Exemple de phrase avant et après correction}
+\end{table}
