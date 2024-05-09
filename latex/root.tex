@@ -1,0 +1,26 @@
+\documentclass[12pt]{report}
+\input{PackagesAndSettings}
+
+
+\usepackage{inputenc}
+\usepackage{graphicx}
+\usepackage{subfiles} % Best loaded last in the preamble
+
+
+\begin{document}
+
+\include{sections/TitlePage}
+\tableofcontents
+
+\include{sections/introduction}
+\include{sections/presentation}
+\include{sections/statistiques}
+\appendix
+\include{sections/appendix_stats}
+% \subfile{sections/results
+% \subfile{sections/conclusion}
+
+% \ \subfile{sections/conclusion}
+% \bibliography
+
+\end{document}
