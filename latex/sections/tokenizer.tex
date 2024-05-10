@@ -8,10 +8,6 @@ Le pré-traitement des données est une étape essentielle dans le processus d'a
 
 La tokenisation est le processus de division du texte en unités plus petites appelées "tokens". La tokenisation à base d’expressions régulières utilise des règles basées sur des motifs d'expressions régulières pour diviser le texte en tokens.
 
-\subsubsection*{Description de la méthode de tokenisation à base d'expressions régulières}
-
-La tokenisation à base d'expressions régulières consiste à diviser le texte en tokens en utilisant des règles définies par des motifs d'expressions régulières. Ces motifs permettent de reconnaître les limites entre les mots, les ponctuations, etc.
-
 \subsubsection*{Implémentation de la tokenisation à l'aide de la classe RegexTokenizer}
 
 Nous commençons par importer la classe RegexTokenizer et appliquer la tokenisation sur notre jeu de données.
@@ -30,10 +26,6 @@ Nous commençons par importer la classe RegexTokenizer et appliquer la tokenisat
 \subsection{Tokenisation byte-pair encoding (TikToken)}
 
 Le byte-pair encoding (BPE) est une méthode de tokenisation qui découpe le texte en sous-unités de texte appelées "tokens" en utilisant un algorithme de compression de données.
-
-\subsubsection*{Description de la méthode de tokenisation byte-pair encoding}
-
-La tokenisation BPE découpe le texte en sous-unités de texte de taille variable, appelées "tokens", en utilisant un algorithme de compression de données.
 
 \subsubsection*{Implémentation de la tokenisation à l'aide de la bibliothèque TikToken}
 
@@ -129,7 +121,7 @@ x) & happy \\ \hline
 \subsubsection*{Suppression des balises HTML, des URL et des adresses e-mail}
 
 Nous avons supprimé les balises HTML, les URL et les adresses e-mail de notre jeu de données. Ces éléments étaient fréquents dans notre base de données en raison d'erreurs de récupération de données lors de la collecte de commentaires sur Wikipedia.
-\newpage
+
 \subsubsection*{Correction des erreurs orthographiques et des fautes de frappe}
 
 Nous avons utilisé un algorithme de correction des erreurs orthographiques et des fautes de frappe pour améliorer la qualité de nos données textuelles. Cet algorithme remplace les mots incorrectement orthographiés par les mots les plus proches dans notre dictionnaire de référence. Par exemple les caractères spéciaux, tels que 'ı' utilisé à la place de 'i', seront corrigés. Voici des exemples de phrases avant et après l'application de notre algorithme de correction :
@@ -146,6 +138,7 @@ Nous avons utilisé un algorithme de correction des erreurs orthographiques et d
     \caption{Exemple de phrase avant et après correction}
 \end{table}
 
+\newpage
 \subsubsection*{Exemple d'une phrase après toutes les étapes de normalisation}
 
 \begin{table}[h]
@@ -163,3 +156,6 @@ Nous avons utilisé un algorithme de correction des erreurs orthographiques et d
     }
     \caption{Étapes de normalisation du texte}
 \end{table}
+
+\subsubsection*{Non-application de la correction d'orthographe}
+Initialement, nous avions envisagé d'appliquer un algorithme de correction d'orthographe pour améliorer la qualité de nos données textuelles. Cependant, après avoir réalisé que cette étape prenait trop de temps et pouvait introduire des erreurs, notamment en modifiant des noms propres en mots n'ayant aucun rapport, nous avons décidé de ne pas l'appliquer. En effet, cela pourrait introduire des biais importants, notamment si un prénom ressemble à une insulte, ce qui pourrait transformer une phrase anodine en une phrase insultante. Par conséquent, nous avons choisi de ne pas effectuer cette étape de correction d'orthographe pour garantir l'intégrité et la qualité de nos données textuelles.
