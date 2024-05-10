@@ -109,7 +109,7 @@ def replace_emojis(text: str) -> str:
 
     return cleaned_text
 
-def remove_special_characters(text: str) -> str:
+def remove_special_characters(text: str, remove_punctuations = False) -> str:
     """
     Supprime les caractères spéciaux, les adresses e-mail, les URLs, etc. du texte.
     
@@ -131,9 +131,15 @@ def remove_special_characters(text: str) -> str:
     # Remplacement des motifs ressemblant à un pénis par le mot 'penis'
     cleaned_text = re.sub(r'\b8=+[=d]+', 'penis', cleaned_text)
 
+    # Supppresion des chiffres
+    cleaned_text = re.sub(r'\d', '', cleaned_text)
+
+    if remove_punctuations:
+        # Suppresion des ponctuations
+        cleaned_text = re.sub(r'[^\w\s]', '', cleaned_text)    
     return cleaned_text
 
-def preprocess_text(text: str,is_replace_emojis: bool = True, is_remove_special_characters: bool = True, is_lowercase: bool = True, remove_stopwords: bool = True, is_lemmatization: bool = True, tokenize = word_tokenize) -> str:
+def preprocess_text(text: str,is_replace_emojis: bool = True, is_remove_special_characters: bool = True, is_lowercase: bool = True, remove_stopwords: bool = True, is_lemmatization: bool = True, remove_punctuations = True,tokenize = word_tokenize) -> str:
     """
     Prétraitement complet du texte : correction de l'orthographe, remplacement des emojis,
     suppression des caractères spéciaux, des adresses e-mail, des URLs, etc., et normalisation du texte.
@@ -151,7 +157,7 @@ def preprocess_text(text: str,is_replace_emojis: bool = True, is_remove_special_
         text = replace_emojis(text)
     # Suppression des caractères spéciaux, des adresses e-mail, des URLs, etc.
     if is_remove_special_characters:
-        text = remove_special_characters(text)
+        text = remove_special_characters(text, remove_punctuations)
     tokens = tokenize(text)
     if is_lemmatization:
         tokens = lemmatize_normalize_text(tokens)
@@ -291,4 +297,4 @@ if __name__ == "__main__":
     # tokens = gpt_tokenize(df_test, normalize=True)
     # print("Tokens obtenus avec GPT Tokenizer avec normalisation:")
     # print(tokens[:10])
-    # print()
+    # print(
