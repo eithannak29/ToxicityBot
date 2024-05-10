@@ -1,0 +1,59 @@
+\chapter{Régression logistique}
+
+\subsubsection*{Présentation du modèle}
+
+Ce modèle est un bon point de départ pour la classification de texte, car il est simple, rapide et efficace pour les tâches de classification binaire.
+Pour créé un modèle qui répond à notre problème de classification multi-label, nous allons utiliser la méthode MulitOutputClassifier de la librairie scikit-learn.
+Cette méthode permet de transformer un problème de classification multi-label en plusieurs problèmes de classification binaire.
+Nous allons donc entraîner un modèle de régression logistique pour chaque label de toxicité du jeu de données puis combiner les prédictions pour obtenir un modèle multi-label.
+
+\subsubsection*{Prétraitement des données}
+
+Pour prétraiter les données, nous avons utilisé la méthode TfidfVectorizer de la librairie scikit-learn.
+Cette méthode permet de transformer les commentaires en vecteurs de fréquence de termes-inverse de document (TF-IDF) qui nous permettent de représenter les commentaires sous forme de vecteurs numériques.
+Nous avons également utilisé la méthode de prétraitement de texte de la librairie NLTK pour nettoyer les commentaires en supprimant les caractères spéciaux, les chiffres et les mots vides.
+
+\subsubsection*{Recherche des hyperparamètres}
+Une fois le modele établie et les données prétraitées, nous allons chercher les meilleurs hyperparamètres pour notre modèle en utilisant la méthode bayésienne d'optimisation des hyperparamètres à l'aide de la libraire optuna.
+Ainsi nous allons pouvoir obtenir un modèle de régression logistique qui prédit la toxicité des commentaires de manière efficace et équitable.
+Voici les hyperparamètres de notre modèle ainsi que ses performances sur le jeu de données de test :
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Hyperparamètre} & \textbf{Valeur} \\ \hline
+C                       & 4.24             \\ \hline
+penalty                 & l1            \\ \hline
+solver                  & liblinear           \\ \hline
+max\_iter               & 1000           \\ \hline
+\end{tabular}
+\caption{Hyperparamètres du modèle de régression logistique}
+\end{table}
+
+\subsubsection*{Performances}
+
+Voici les performances du modèle de régression logistique sur le jeu de données de test :
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lcccc}
+        \hline
+        \textbf{Classe} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\
+        \hline
+        Toxic          & 0.64 & 0.72 & 0.67 & 6090 \\
+        Severe Toxic   & 0.37 & 0.31 & 0.34 & 367 \\
+        Obscene        & 0.74 & 0.62 & 0.68 & 3691 \\
+        Threat         & 0.54 & 0.26 & 0.35 & 211 \\
+        Insult         & 0.72 & 0.53 & 0.61 & 3427 \\
+        Identity Hate  & 0.67 & 0.26 & 0.37 & 712 \\
+        \hline
+        \textbf{Micro Avg} & 0.67 & 0.61 & 0.64 & 14498 \\
+        \textbf{Macro Avg} & 0.61 & 0.45 & 0.50 & 14498 \\
+        \textbf{Weighted Avg} & 0.68 & 0.61 & 0.63 & 14498 \\
+        \textbf{Samples Avg} & 0.06 & 0.06 & 0.06 & 14498 \\
+        \hline
+    \end{tabular}
+    \caption{Rapport de classification des différentes classes}
+    \label{tab:classification_report}
+\end{table}
