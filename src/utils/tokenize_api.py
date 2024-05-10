@@ -141,26 +141,35 @@ def remove_special_characters(text: str) -> str:
 
     return cleaned_text
 
-def preprocess_text(text: str) -> str:
+def preprocess_text(text: str, correct_spelling: bool = True, replace_emojis: bool = True, remove_special_characters: bool = True, normalize_text: bool = True) -> str:
     """
     Prétraitement complet du texte : correction de l'orthographe, remplacement des emojis,
     suppression des caractères spéciaux, des adresses e-mail, des URLs, etc., et normalisation du texte.
     
     Args:
     text (str): Le texte à prétraiter.
+    correct_spelling (bool): Indique si la correction de l'orthographe doit être appliquée (par défaut True).
+    replace_emojis (bool): Indique si le remplacement des emojis doit être appliqué (par défaut True).
+    remove_special_characters (bool): Indique si la suppression des caractères spéciaux, des adresses e-mail, des URLs, etc., doit être appliquée (par défaut True).
+    normalize_text (bool): Indique si la normalisation du texte doit être appliquée (par défaut True).
     
     Returns:
     str: Texte prétraité.
     """
     # Correction de l'orthographe
-    text = correct_spelling(text)
+    if correct_spelling:
+        text = correct_spelling(text)
     # Remplacement des emojis
-    text = replace_emojis(text)
+    if replace_emojis:
+        text = replace_emojis(text)
     # Suppression des caractères spéciaux, des adresses e-mail, des URLs, etc.
-    text = remove_special_characters(text)
+    if remove_special_characters:
+        text = remove_special_characters(text)
     # Normalisation du texte
-    text = normalize_text(text)
+    if normalize_text:
+        text = normalize_text(text)
     return text
+
 
 def gpt_tokenize(df_test: pd.DataFrame, normalize: bool = False, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True) -> List[str]:
     """
