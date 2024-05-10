@@ -8,6 +8,8 @@ from minbpe import BasicTokenizer, RegexTokenizer
 import tiktoken
 from typing import List
 import pandas as pd
+import re
+from textblob import TextBlob
 
 # Télécharger les stopwords et le lemmatizer de WordNet Si besoin
 # nltk.download('punkt')
@@ -65,6 +67,101 @@ def normalize_text(phrase: str, lowercase: bool = True, remove_stopwords: bool =
         tokens = [word for word in tokens if word not in stop_words]
     return " ".join(tokens)
 
+
+def correct_spelling(text: str) -> str:
+    """
+    Corrige l'orthographe du texte en utilisant la bibliothèque TextBlob.
+    
+    Args:
+    text (str): Le texte à corriger.
+    
+    Returns:
+    str: Texte corrigé.
+    """
+    blob = TextBlob(text)
+    corrected_text = str(blob.correct())
+    return corrected_text
+
+def replace_emojis(text: str) -> str:
+    """
+    Remplace les emojis du texte par leur équivalent en mots.
+    
+    Args:
+    text (str): Le texte à traiter.
+    
+    Returns:
+    str: Texte avec les emojis remplacés.
+    """
+    # Dictionnaire contenant les mappings d'emojis à remplacer
+    emoji_mappings = {
+        ':)': 'happy',
+        ':(': 'sad',
+        ':D': 'laughing',
+        ':P': 'tongue_out',
+        ':O': 'surprised',
+        ':|': 'neutral'
+    }
+    # Expressions régulières pour capturer des motifs d'emojis supplémentaires
+    additional_emoji_patterns = [
+        r'\bwatching\b',  # Exemple de motif d'émoticône supplémentaire
+    ]
+
+    # Combine les motifs d'emojis avec ceux du dictionnaire
+    all_emoji_patterns = '|'.join(re.escape(key) for key in emoji_mappings.keys())
+    all_emoji_patterns += '|' + '|'.join(additional_emoji_patterns)
+    # Génère une regex qui capture tous les emojis dans le dictionnaire et les motifs supplémentaires
+    emoji_pattern = re.compile(all_emoji_patterns)
+
+    # Remplace les emojis par les mots correspondants du dictionnaire
+    cleaned_text = emoji_pattern.sub(lambda match: emoji_mappings.get(match.group(0), match.group(0)), text)
+
+    return cleaned_text
+
+def remove_special_characters(text: str) -> str:
+    """
+    Supprime les caractères spéciaux, les adresses e-mail, les URLs, etc. du texte.
+    
+    Args:
+    text (str): Le texte à traiter.
+    
+    Returns:
+    str: Texte sans les caractères spéciaux, les adresses e-mail, les URLs, etc.
+    """
+    # Suppression des caractères spécifiés '<', '>', '\n', les adresses e-mail, les URLs et les mots contenant '@'
+    # cleaned_text = re.sub(r'[<>\n@=]', '', text)
+    # Suppression des adresses e-mail
+    cleaned_text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '', text)
+    # Suppression des URLs
+    cleaned_text = re.sub(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', cleaned_text)
+    # Suppression des mots contenant '@'
+    # cleaned_text = re.sub(r'\b\w*@\w*\b', '', cleaned_text)
+    cleaned_text = re.sub(r'wikipedia[\w%\'\.]*', '', cleaned_text, flags=re.IGNORECASE)
+    # Remplacement des motifs ressemblant à un pénis par le mot 'penis'
+    cleaned_text = re.sub(r'\b8=+[=d]+', 'penis', cleaned_text)
+
+    return cleaned_text
+
+def preprocess_text(text: str) -> str:
+    """
+    Prétraitement complet du texte : correction de l'orthographe, remplacement des emojis,
+    suppression des caractères spéciaux, des adresses e-mail, des URLs, etc., et normalisation du texte.
+    
+    Args:
+    text (str): Le texte à prétraiter.
+    
+    Returns:
+    str: Texte prétraité.
+    """
+    # Correction de l'orthographe
+    text = correct_spelling(text)
+    # Remplacement des emojis
+    text = replace_emojis(text)
+    # Suppression des caractères spéciaux, des adresses e-mail, des URLs, etc.
+    text = remove_special_characters(text)
+    # Normalisation du texte
+    text = normalize_text(text)
+    return text
+
 def gpt_tokenize(df_test: pd.DataFrame, normalize: bool = False, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True) -> List[str]:
     """
     Tokenise le texte en utilisant le modèle GPT-4 de OpenAI.
@@ -81,7 +178,7 @@ def gpt_tokenize(df_test: pd.DataFrame, normalize: bool = False, lowercase: bool
     viet_list = list(df_test["comment_text"])
     viet_strings = " ".join(viet_list)
     if (normalize):
-        normalized_text = normalize_text(viet_strings, lowercase, remove_stopwords, lemmatization)
+        normalized_text = preprocess_text(viet_strings)
     else:
         normalized_text = viet_strings
     enc = tiktoken.encoding_for_model("gpt-4")
@@ -109,7 +206,7 @@ def byte_pair_tokenize(df_test: pd.DataFrame, tokenizer=None, normalize: bool = 
     viet_strings = " ".join(viet_list)
 
     if (normalize):
-        normalized_text = normalize_text(viet_strings, lowercase, remove_stopwords, lemmatization)
+        normalized_text = preprocess_text(viet_strings)
     else:
         normalized_text = viet_strings
     
@@ -144,7 +241,7 @@ def regex_tokenize(df_test: pd.DataFrame, tokenizer=None, normalize: bool = Fals
 
     
     if (normalize):
-        normalized_text = normalize_text(viet_strings, lowercase, remove_stopwords, lemmatization)
+        normalized_text = preprocess_text(viet_strings)
     else:
         normalized_text = viet_strings
     
@@ -162,8 +259,46 @@ def regex_tokenize(df_test: pd.DataFrame, tokenizer=None, normalize: bool = Fals
 if __name__ == "__main__":
     import preprocessing
     (df_train, df_val, df_test) = preprocessing.load_dataframes()
-    print(df_test["comment_text"][0])
-    # new_sentence = lemmatize_normalize_text(df_test["comment_text"][0])
 
-    tokens = gpt_tokenize(df_test)
-    print(tokens[:10])
+    # Texte initial
+    # original_text = df_test["comment_text"][0] #met ta phrase pour testt
+    original_text = "Thankz yuu for understanding. I thinkk very highly of you and wouldd not revert without this discussion. :) 8=="
+    print("Texte initial:")
+    print(original_text)
+    print()
+
+    # Texte après correction de l'orthographe
+    corrected_text = correct_spelling(original_text)
+    print("Texte après correction de l'orthographe:")
+    print(corrected_text)
+    print()
+
+    # Texte après remplacement des emojis
+    emoji_replaced_text = replace_emojis(corrected_text)
+    print("Texte après remplacement des emojis:")
+    print(emoji_replaced_text)
+    print()
+
+    # Texte après suppression des caractères spéciaux
+    special_chars_removed_text = remove_special_characters(emoji_replaced_text)
+    print("Texte après suppression des caractères spéciaux:")
+    print(special_chars_removed_text)
+    print()
+
+    # Texte après normalisation
+    normalized_text = preprocess_text(original_text)
+    print("Texte après normalisation complète:")
+    print(normalized_text)
+    print()
+
+    # # Test avec GPT Tokenizer sans normalisation
+    # tokens = gpt_tokenize(df_test)
+    # print("Tokens obtenus avec GPT Tokenizer sans normalisation:")
+    # print(tokens[:10])
+    # print()
+
+    # # Test avec GPT Tokenizer avec normalisation
+    # tokens = gpt_tokenize(df_test, normalize=True)
+    # print("Tokens obtenus avec GPT Tokenizer avec normalisation:")
+    # print(tokens[:10])
+    # print()
