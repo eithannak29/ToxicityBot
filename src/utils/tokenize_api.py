@@ -4,7 +4,7 @@ from nltk import pos_tag
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from minbpe import BasicTokenizer, RegexTokenizer
+from utils.minbpe import BasicTokenizer, RegexTokenizer
 import tiktoken
 from typing import List
 import pandas as pd
@@ -12,60 +12,52 @@ import re
 from textblob import TextBlob
 
 # Télécharger les stopwords et le lemmatizer de WordNet Si besoin
-# nltk.download('punkt')
-# nltk.download('stopwords')
-# nltk.download('wordnet')
-# nltk.download('averaged_perceptron_tagger')
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
 
 # Initialiser le lemmatizer et les stopwords
 lemmatizer = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
 stop_words.update(["'ll", "'t", "'ve", "'d"])
 
+def lemmatize_normalize_text(tokens):
+    pos_tags = pos_tag(tokens)
 
-def lemmatize_normalize_text(text):
-    tokens = word_tokenize(text)  # Tokenisation des mots
-    pos_tags = pos_tag(tokens)  # Étiquetage POS des mots
-    lemmatized_tokens = []
-    for token, pos in pos_tags:
-        if token.isupper():  # Si le mot est en majuscule (nom propre), conservez-le tel quel
-            lemmatized_tokens.append(token)
-        elif token.lower() not in stop_words:  # Si le mot n'est pas dans les stop words, lemmatisez-le
-            if pos.startswith('V'):  # Verbe
-                lemmatized_token = lemmatizer.lemmatize(token.lower(), pos='v')
-            elif pos.startswith('J'):  # Adjectif
-                lemmatized_token = lemmatizer.lemmatize(token.lower(), pos='a')
-            elif pos.startswith('R'):  # Adverbe
-                lemmatized_token = lemmatizer.lemmatize(token.lower(), pos='r')
-            elif pos.startswith('N'):  # Nom
-                lemmatized_token = lemmatizer.lemmatize(token.lower(), pos='n')
-            else:
-                lemmatized_token = lemmatizer.lemmatize(token.lower())  # Autres cas
-            lemmatized_tokens.append(lemmatized_token)
-    return ' '.join(lemmatized_tokens)  # Rejoignez les mots lemmatisés en une seule chaîne de caractères
+    # Create an output list using list comprehension for optimal performance
+    lemmatized_tokens = [
+        token if token.isupper() else  # Keep uppercase tokens as they are (proper nouns)
+        lemmatizer.lemmatize(token.lower(), pos='v') if pos.startswith('V') else
+        lemmatizer.lemmatize(token.lower(), pos='a') if pos.startswith('J') else
+        lemmatizer.lemmatize(token.lower(), pos='r') if pos.startswith('R') else
+        lemmatizer.lemmatize(token.lower(), pos='n') if pos.startswith('N') else
+        lemmatizer.lemmatize(token.lower())
+        for token, pos in pos_tags if token.lower() not in stop_words
+    ]
 
+    return lemmatized_tokens
 
-def normalize_text(phrase: str, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True) -> str:
-    """
-    Normalise le texte en supprimant les stopwords, la mise en minuscule et la lemmatisation.
-    
-    Args:
-    phrase (str): Le texte à normaliser.
-    lowercase (bool, optional): Mettre le texte en minuscule (par défaut True).
-    remove_stopwords (bool, optional): Supprimer les stopwords (par défaut True).
-    lemmatization (bool, optional): Lemmatiser les mots (par défaut True).
-    
-    Returns:
-    str: Texte normalisé.
-    """
-    if lemmatization:
-        phrase = lemmatize_normalize_text(phrase)
-    tokens = word_tokenize(phrase)
-    if lowercase:
-        tokens = [word.lower() for word in tokens]
-    if remove_stopwords:
-        tokens = [word for word in tokens if word not in stop_words]
-    return " ".join(tokens)
+# def lemmatize_normalize_text(text):
+#     tokens = word_tokenize(text)  # Tokenisation des mots
+#     pos_tags = pos_tag(tokens)  # Étiquetage POS des mots
+#     lemmatized_tokens = []
+#     for token, pos in pos_tags:
+#         if token.isupper():  # Si le mot est en majuscule (nom propre), conservez-le tel quel
+#             lemmatized_tokens.append(token)
+#         elif token.lower() not in stop_words:  # Si le mot n'est pas dans les stop words, lemmatisez-le
+#             if pos.startswith('V'):  # Verbe
+#                 lemmatized_token = lemmatizer.lemmatize(token.lower(), pos='v')
+#             elif pos.startswith('J'):  # Adjectif
+#                 lemmatized_token = lemmatizer.lemmatize(token.lower(), pos='a')
+#             elif pos.startswith('R'):  # Adverbe
+#                 lemmatized_token = lemmatizer.lemmatize(token.lower(), pos='r')
+#             elif pos.startswith('N'):  # Nom
+#                 lemmatized_token = lemmatizer.lemmatize(token.lower(), pos='n')
+#             else:
+#                 lemmatized_token = lemmatizer.lemmatize(token.lower())  # Autres cas
+#             lemmatized_tokens.append(lemmatized_token)
+#     return ' '.join(lemmatized_tokens)  # Rejoignez les mots lemmatisés en une seule chaîne de caractères
 
 
 def correct_spelling(text: str) -> str:
@@ -141,7 +133,7 @@ def remove_special_characters(text: str) -> str:
 
     return cleaned_text
 
-def preprocess_text(text: str) -> str:
+def preprocess_text(text: str,is_replace_emojis: bool = True, is_remove_special_characters: bool = True, is_lowercase: bool = True, remove_stopwords: bool = True, is_lemmatization: bool = True, tokenize = word_tokenize) -> str:
     """
     Prétraitement complet du texte : correction de l'orthographe, remplacement des emojis,
     suppression des caractères spéciaux, des adresses e-mail, des URLs, etc., et normalisation du texte.
@@ -153,16 +145,23 @@ def preprocess_text(text: str) -> str:
     str: Texte prétraité.
     """
     # Correction de l'orthographe
-    text = correct_spelling(text)
+    # text = correct_spelling(text)
     # Remplacement des emojis
-    text = replace_emojis(text)
+    if is_replace_emojis:
+        text = replace_emojis(text)
     # Suppression des caractères spéciaux, des adresses e-mail, des URLs, etc.
-    text = remove_special_characters(text)
-    # Normalisation du texte
-    text = normalize_text(text)
-    return text
+    if is_remove_special_characters:
+        text = remove_special_characters(text)
+    tokens = tokenize(text)
+    if is_lemmatization:
+        tokens = lemmatize_normalize_text(tokens)
+    if is_lowercase:
+        tokens = [word.lower() for word in tokens]
+    if remove_stopwords:
+        tokens = [word for word in tokens if word not in stop_words]
+    return " ".join(tokens)
 
-def gpt_tokenize(df_test: pd.DataFrame, normalize: bool = False, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True) -> List[str]:
+def gpt_tokenize(viet_strings: str, normalize: bool = False, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True) -> List[str]:
     """
     Tokenise le texte en utilisant le modèle GPT-4 de OpenAI.
     
@@ -175,8 +174,6 @@ def gpt_tokenize(df_test: pd.DataFrame, normalize: bool = False, lowercase: bool
     Returns:
     list: Liste des tokens.
     """
-    viet_list = list(df_test["comment_text"])
-    viet_strings = " ".join(viet_list)
     if (normalize):
         normalized_text = preprocess_text(viet_strings)
     else:
@@ -187,7 +184,7 @@ def gpt_tokenize(df_test: pd.DataFrame, normalize: bool = False, lowercase: bool
     decoded_words = decoded_tokens.split()
     return decoded_words
 
-def byte_pair_tokenize(df_test: pd.DataFrame, tokenizer=None, normalize: bool = False, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True, vocab_size: int = 1024) -> List[str]:
+def byte_pair_tokenize(viet_strings: str, tokenizer=None, normalize: bool = False, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True, vocab_size: int = 1024) -> List[str]:
     """
     Tokenise le texte en utilisant le Byte Pair Encoding (BPE).
     
@@ -202,9 +199,6 @@ def byte_pair_tokenize(df_test: pd.DataFrame, tokenizer=None, normalize: bool = 
     Returns:
     list: Liste des tokens.
     """
-    viet_list = list(df_test["comment_text"])
-    viet_strings = " ".join(viet_list)
-
     if (normalize):
         normalized_text = preprocess_text(viet_strings)
     else:
@@ -221,7 +215,7 @@ def byte_pair_tokenize(df_test: pd.DataFrame, tokenizer=None, normalize: bool = 
     
     return decoded_words
 
-def regex_tokenize(df_test: pd.DataFrame, tokenizer=None, normalize: bool = False, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True, vocab_size: int = 1024) -> List[str]:
+def regex_tokenize(viet_strings: str, tokenizer=None, normalize: bool = False, lowercase: bool = True, remove_stopwords: bool = True, lemmatization: bool = True, vocab_size: int = 1024) -> List[str]:
     """
     Tokenise le texte en utilisant le RegexTokenizer.
     
@@ -235,11 +229,7 @@ def regex_tokenize(df_test: pd.DataFrame, tokenizer=None, normalize: bool = Fals
     
     Returns:
     list: Liste des tokens.
-    """
-    viet_list = list(df_test["comment_text"])
-    viet_strings = " ".join(viet_list)
-
-    
+    """    
     if (normalize):
         normalized_text = preprocess_text(viet_strings)
     else:
