@@ -145,3 +145,21 @@ Nous avons utilisé un algorithme de correction des erreurs orthographiques et d
     \end{tabular}
     \caption{Exemple de phrase avant et après correction}
 \end{table}
+
+\subsubsection*{Exemple d'une phrase après toutes les étapes de normalisation}
+
+\begin{table}[h]
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Étape}               & \textbf{Texte normalisé} \\ \hline
+        Texte initial               & \begin{tabular}[t]{@{}l@{}}Thankz yuu for understanding.\\ I thinkk very highly of you and wouldd\\ not revert without this discussion. :) 8== \end{tabular} \\ \hline
+        Correction de l'orthographe & \begin{tabular}[t]{@{}l@{}}Thank you for understanding.\\ I think very highly of you and would\\ not revert without this discussion. :) 8== \end{tabular} \\ \hline
+        Remplacement des emojis     & \begin{tabular}[t]{@{}l@{}}Thank you for understanding.\\ I think very highly of you and would\\ not revert without this discussion. happy 8== \end{tabular} \\ \hline
+        Suppression des caractères spéciaux & \begin{tabular}[t]{@{}l@{}}Thank you for understanding.\\ I think very highly of you and would\\ not revert without this discussion. happy penis \end{tabular} \\ \hline
+        Normalisation complète & \begin{tabular}[t]{@{}l@{}}thank understand .\\ think highly would revert without\\ discussion . happy penis \end{tabular} \\ \hline
+    \end{tabular}%
+    }
+    \caption{Étapes de normalisation du texte}
+\end{table}
