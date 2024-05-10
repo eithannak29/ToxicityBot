@@ -297,4 +297,4 @@ if __name__ == "__main__":
     # tokens = gpt_tokenize(df_test, normalize=True)
     # print("Tokens obtenus avec GPT Tokenizer avec normalisation:")
     # print(tokens[:10])
-    # print(
+    # print()
