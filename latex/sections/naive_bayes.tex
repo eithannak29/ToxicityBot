@@ -42,17 +42,24 @@ Nous avons entraîné le modèle Bayésien naïf en suivant les étapes suivante
 
 \subsection{Évaluation des performances du modèle}
 
-\begin{itemize}
-    \item Précision : 0.88
-    \item Recall : 0.88
-    \item F1-score : 0.88
-    \item Précision pondérée : 0.88
-    \item Score F1 pondéré : 0.88
-    \item Précision macro : 0.88
-    \item Recall macro : 0.88
-\end{itemize}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|}
+    \hline
+    \textbf{Technique de prétraitement} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-score} & \textbf{Support} \\ \hline
+    comment\_text\_word\_tokenize\_no\_normalization & \textbf{0.89} & \textbf{0.89} & \textbf{0.89} & 5193 \\ \hline
+    comment\_text\_gpt\_tokenize\_no\_normalization & \textbf{0.89} & \textbf{0.89} & \textbf{0.89} & 5193 \\ \hline
+    comment\_text\_word\_tokenize\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
+    comment\_text\_gpt\_tokenize\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
+    comment\_text\_word\_tokenize\_full\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
+    comment\_text\_gpt\_tokenize\_full\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
+    comment\_text\_word\_tokenize\_simple\_normalization & 0.88 & 0.88 & 0.88 & 5193 \\ \hline
+    comment\_text\_gpt\_tokenize\_simple\_normalization & 0.88 & 0.88 & 0.88 & 5193 \\ \hline
+    \end{tabular}
+    \caption{Performances du modèle Bayésien naïf avec différentes techniques de prétraitement}
+\end{table}
 
-\section{Validation croisée}
+\subsection{Validation croisée}
 
 Nous avons également effectué une validation croisée en utilisant la métrique \texttt{f1\_macro}.
 
