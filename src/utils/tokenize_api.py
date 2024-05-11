@@ -4,18 +4,18 @@ from nltk import pos_tag
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from utils.minbpe import BasicTokenizer, RegexTokenizer
+from minbpe import BasicTokenizer, RegexTokenizer
 import tiktoken
 from typing import List
 import pandas as pd
 import re
-from textblob import TextBlob
+# from textblob import TextBlob
 
 # Télécharger les stopwords et le lemmatizer de WordNet Si besoin
-# nltk.download('punkt')
-# nltk.download('stopwords')
-# nltk.download('wordnet')
-# nltk.download('averaged_perceptron_tagger')
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
 
 # Initialiser le lemmatizer et les stopwords
 lemmatizer = WordNetLemmatizer()

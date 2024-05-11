@@ -2,7 +2,7 @@ import pandas as pd
 from typing import Tuple, Dict, Any
 from sklearn.model_selection import train_test_split
 from constants import TEST_LABEL_PATH, TEST_PATH, TRAIN_PATH
-from utils.tokenize_api import preprocess_text, gpt_tokenize
+from tokenize_api import preprocess_text, gpt_tokenize
 from nltk.tokenize import word_tokenize
 import os
 
@@ -43,17 +43,16 @@ def load_dataframes() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     df_train, df_val = train_test_split(df_train, test_size=0.2, random_state=42)
     return df_train, df_val, df_test
 
-def preprocess_text_default(text: str, tokenize_func=word_tokenize, is_remove_special_characters: bool = True,
+def preprocess_text_default(text: str, tokenize=word_tokenize, is_remove_special_characters: bool = True,
                             remove_stopwords: bool = True, is_replace_emojis: bool = True, is_lowercase: bool = True,
                             is_lemmatization: bool = True, remove_punctuations: bool = True) -> str:
-    return preprocess_text(text, tokenize_func=tokenize_func,
+    return preprocess_text(text, tokenize=tokenize,
                            is_remove_special_characters=is_remove_special_characters,
                            remove_stopwords=remove_stopwords, is_replace_emojis=is_replace_emojis,
                            is_lowercase=is_lowercase, is_lemmatization=is_lemmatization,
                            remove_punctuations=remove_punctuations)
 
-def preprocess_dataframe(df_train: pd.DataFrame, df_val: pd.DataFrame, df_test: pd.DataFrame,
-                         params: Dict[str, Dict[str, Any]] = None, output_dir: str = 'data') -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def load_preprocessed_dataframe(params: Dict[str, Dict[str, Any]] = None, output_dir: str = 'data') -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     if params is None:
         params = {
             "word_tokenize_no_normalization": {
@@ -133,6 +132,9 @@ def preprocess_dataframe(df_train: pd.DataFrame, df_val: pd.DataFrame, df_test: 
     if not os.path.exists(os.path.join(output_dir, 'df_train_preprocessed.parquet')) or \
        not os.path.exists(os.path.join(output_dir, 'df_val_preprocessed.parquet')) or \
        not os.path.exists(os.path.join(output_dir, 'df_test_preprocessed.parquet')):
+        
+        print("40 MINUTES TO DOWNLOAD")
+        df_train, df_val, df_test = load_dataframes()
         for tn, p in params.items():
             print(f"Processing {tn}")
             df_train[f'comment_text_{tn}'] = df_train['comment_text'].apply(
@@ -153,6 +155,7 @@ def preprocess_dataframe(df_train: pd.DataFrame, df_val: pd.DataFrame, df_test: 
         df_val.to_parquet(os.path.join(output_dir, 'df_val_preprocessed.parquet'), index=False)
         df_test.to_parquet(os.path.join(output_dir, 'df_test_preprocessed.parquet'), index=False)
     else:
+        print("5 sec TO LOAD")
         df_train = pd.read_parquet(os.path.join(output_dir, 'df_train_preprocessed.parquet'))
         df_val = pd.read_parquet(os.path.join(output_dir, 'df_val_preprocessed.parquet'))
         df_test = pd.read_parquet(os.path.join(output_dir, 'df_test_preprocessed.parquet'))
