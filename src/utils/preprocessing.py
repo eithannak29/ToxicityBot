@@ -6,7 +6,6 @@ from tokenize_api import preprocess_text, gpt_tokenize
 from nltk.tokenize import word_tokenize
 import os
 
-
 def load_dataframe_test(path_label: str, path_text: str) -> pd.DataFrame:
     texts = pd.read_csv(path_text)
     labels = pd.read_csv(path_label)
@@ -14,10 +13,8 @@ def load_dataframe_test(path_label: str, path_text: str) -> pd.DataFrame:
     df_test = pd.merge(labels, texts, on="id")
     return df_test
 
-
 def remove_empty_lines(df: pd.DataFrame) -> pd.DataFrame:
     return df[df["comment_text"] != ""]
-
 
 def set_overall_toxic(df: pd.DataFrame) -> pd.DataFrame:
     df["overall_toxic"] = 0
@@ -31,7 +28,6 @@ def set_overall_toxic(df: pd.DataFrame) -> pd.DataFrame:
         "overall_toxic",
     ] = 1
     return df
-
 
 def load_dataframes() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     df_test = load_dataframe_test(TEST_LABEL_PATH, TEST_PATH)
