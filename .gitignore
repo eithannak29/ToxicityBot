@@ -12,3 +12,4 @@ __pycache__
 *ist
 /minbpe-master/
 jigsaw-toxic-comment-classification-challenge/
+.env
