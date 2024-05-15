@@ -42,21 +42,43 @@ Nous avons entraîné le modèle Bayésien naïf en suivant les étapes suivante
 
 \subsection{Évaluation des performances du modèle}
 
-\begin{table}[h]
+% \begin{table}[h]
+%     \centering
+%     \begin{tabular}{|l|l|l|l|l|l|l|l|}
+%     \hline
+%     \textbf{Technique de prétraitement} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-score} & \textbf{Support} \\ \hline
+%     comment\_text\_word\_tokenize\_no\_normalization & \textbf{0.89} & \textbf{0.89} & \textbf{0.89} & 5193 \\ \hline
+%     comment\_text\_gpt\_tokenize\_no\_normalization & \textbf{0.89} & \textbf{0.89} & \textbf{0.89} & 5193 \\ \hline
+%     comment\_text\_word\_tokenize\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
+%     comment\_text\_gpt\_tokenize\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
+%     comment\_text\_word\_tokenize\_full\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
+%     comment\_text\_gpt\_tokenize\_full\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
+%     comment\_text\_word\_tokenize\_simple\_normalization & 0.88 & 0.88 & 0.88 & 5193 \\ \hline
+%     comment\_text\_gpt\_tokenize\_simple\_normalization & 0.88 & 0.88 & 0.88 & 5193 \\ \hline
+%     \end{tabular}
+%     \caption{Performances du modèle Bayésien naïf avec différentes techniques de prétraitement}
+% \end{table}
+
+\begin{table}[htbp]
     \centering
-    \begin{tabular}{|l|l|l|l|l|l|l|l|}
-    \hline
-    \textbf{Technique de prétraitement} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-score} & \textbf{Support} \\ \hline
-    comment\_text\_word\_tokenize\_no\_normalization & \textbf{0.89} & \textbf{0.89} & \textbf{0.89} & 5193 \\ \hline
-    comment\_text\_gpt\_tokenize\_no\_normalization & \textbf{0.89} & \textbf{0.89} & \textbf{0.89} & 5193 \\ \hline
-    comment\_text\_word\_tokenize\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
-    comment\_text\_gpt\_tokenize\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
-    comment\_text\_word\_tokenize\_full\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
-    comment\_text\_gpt\_tokenize\_full\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
-    comment\_text\_word\_tokenize\_simple\_normalization & 0.88 & 0.88 & 0.88 & 5193 \\ \hline
-    comment\_text\_gpt\_tokenize\_simple\_normalization & 0.88 & 0.88 & 0.88 & 5193 \\ \hline
-    \end{tabular}
-    \caption{Performances du modèle Bayésien naïf avec différentes techniques de prétraitement}
+    \caption{Combined Classification Reports Across Different Methods}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}lccccccccc@{}}
+    \toprule
+    \textbf{Method} & \textbf{Features Dimension} & \multicolumn{2}{c}{\textbf{Class 0}} & \multicolumn{2}{c}{\textbf{Class 1}} & \textbf{Accuracy} & \textbf{Macro Avg} & \textbf{Weighted Avg} \\
+    & & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} & \textbf{Recall} & & & \\
+    \midrule
+    Word Tokenize No Norm. & (25962, 52478) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.85, 0.72) & (0.92, 0.85, 0.88) \\
+    GPT Tokenize No Norm. & (25962, 52493) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.86, 0.72) & (0.92, 0.85, 0.88) \\
+    Word Tokenize Norm. & (25962, 43939) & 0.98 & 0.85 & 0.39 & 0.87 & 0.85 & (0.69, 0.86, 0.73) & (0.93, 0.85, 0.88) \\
+    GPT Tokenize Norm. & (25962, 46271) & 0.98 & 0.85 & 0.39 & 0.87 & 0.85 & (0.69, 0.86, 0.73) & (0.93, 0.85, 0.88) \\
+    Word Full Norm. & (25962, 50156) & 0.98 & 0.85 & 0.39 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
+    GPT Full Norm. & (25962, 50160) & 0.98 & 0.85 & 0.39 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
+    Word Simple Norm. & (25962, 52460) & 0.98 & 0.85 & 0.39 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
+    GPT Simple Norm. & (25962, 52491) & 0.98 & 0.85 & 0.39 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
+    \bottomrule
+    \end{tabular}%
+    }
 \end{table}
 
 \subsection{Validation croisée}
