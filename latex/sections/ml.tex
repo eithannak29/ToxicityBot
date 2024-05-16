@@ -1,0 +1,200 @@
+\chapter{Régression Logistique}
+
+\subsubsection{Choix des Métrics}
+Avant de débuter l'analyse avec le modèle, il a été décidé de sélectionner des métriques d'évaluation telles que le macro rappel et le F1-score macro pour les labels "toxique".
+En utilisant un modèle de régression linéaire, la compréhension des phrases peut être difficile et entraîner une précision réduite, surtout avec une labellisation imparfaite et des faux positifs, mais il est crucial de maximiser le rappel pour détecter un maximum de phrases toxiques, quitte à accepter quelques erreurs.
+Le choix de la pondération macro a été privilégié pour une évaluation globale de la performance, en donnant le même poids à chaque classe.
+Ainsi lors de chaque optimisation des paramètres, la métrique de rappel macro a été maximisée.
+
+
+\subsubsection{Etape de la construction du modèle}
+La classification multilabel a été simplifiée en classification binaire par la création d'un label unique nommé \textit{overall toxic}, considéré comme vrai si au moins un des labels toxiques est présent. 
+Deux méthodes de featurisation et 12 méthodes de pré-traitement ont été explorée. Pour chaque featurisation, divers hyperparamètres ont été optimisés à l'aide de la bibliothèque Optuna. 
+Enfin un modèle de régression linéaire multilabel a été entrainé sur les meilleurs méthodes de pré-traitement et featurisation.
+
+\subsection{TF-IDF}
+La featurisation TF-IDF est une méthode qui transforme les mots en vecteurs numériques, attribuant un poids à chaque mot selon sa fréquence dans le document et dans l'ensemble du corpus. 
+Cette technique ne prend pas en compte la séquence des mots ou les relations entre eux. 
+Malgré cette limitation, elle se révèle très efficace lorsqu'utilisée avec des modèles de régression linéaire.
+
+\subsubsection{Premier Résultats}
+Étant donné le déséquilibre du jeu de données, le paramètre \texttt{class\_weight} a été ajusté à \texttt{balanced} pour compenser cette disparité. 
+Des tests ont été réalisés sur les douze variantes de pré-traitement du jeu de données.
+Voici les résultats obtenus pour le modèle de régression logistique sans optimisation des hyperparamètres :
+
+\begin{table}[ht]
+    \centering
+    \caption{Score Macro du Modele de Regression logistique TF-IDF, sur le jeu de données de validation. (3 meilleurs)}
+    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Technique de Normalisation} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support} \\ \hline
+    BPE Tokenize 2                       & \textbf{0.826}         & \textbf{0.911}         & \textbf{0.862}             & 31915            \\
+    BPE Tokenize 1                           & 0.822              & 0.910                   & 0.859             & 31915            \\
+    GPT Tokenize 1                              & 0.820              & 0.910                & 0.857             & 31915            \\ \hline
+    Baseline (Sans Pré-traitement)                & 0.790              & 0.887           & 0.8318             & 31915            \\ \hline
+    \end{tabular}
+    \label{tab:results}
+    \end{table}
+
+\subsubsection{Optimisation des hyper-paramètres}
+Afin d'optimiser les performances du modèle, une optimisation des hyperparamètres a été réalisé sur la meilleure méthode de pré-traitement \textit{BPE Tokenize 2}. 
+Les meilleurs paramètres obtenues sont une régularisation de type \textit{L1} avec un paramètre de régularisation $C$ égal à \textit{0.60}.
+
+\begin{table}[ht]
+    \centering
+    \caption{Score Macro du Modele Optimisé de Regression logistique TF-IDF, sur le jeu de données de validation. (3 meilleurs)}
+    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Technique de Normalisation} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support} \\ \hline
+    BPE Tokenize 2                          & \textbf{0.826}              & \textbf{0.916}           & \textbf{0.863}             & 31915            \\
+    GPT Tokenize 1                          & 0.820              & 0.915           & 0.859             & 31915            \\
+    BPE Tokenize 1                           & 0.821              & 0.914           & 0.860             & 31915            \\ \hline
+    Baseline (Sans Pré-traitement)             & 0.784             & 0.890           & 0.825             & 31915            \\ \hline
+\end{tabular}
+\label{tab:results}
+\end{table}
+
+
+\subsubsection{Résultat sur le jeu de test}
+\begin{table}[ht]
+    \centering
+    \caption{Score Macro du Modele Optimisé de Regression logistique TF-IDF, sur le jeu de données de test}
+    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Technique de Normalisation} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support} \\ \hline
+    BPE Tokenize 2                          & \textbf{0.706}              & \textbf{0.900}           & \textbf{0.751}            & 63978            \\\hline
+    Baseline (Sans Pré-traitement)           & 0.695              & 0.869           & 0.737             & 63978            \\ 
+\end{tabular}
+\label{tab:results}
+\end{table}
+La meilleur technique de pré-traitement rest le \textit{BPE Tokenize 2} avec ces paramètres de régularisation.
+On remarque néanmoins que les résultats sur le jeu de test sont moins bons que sur le jeu de validation.
+
+\subsubsection{Interprétation des résultats}
+\subsubsection{Faux positifs}
+L'examen des faux positifs révèle la présence de termes offensants, confirmant ainsi une labellisation imparfaite. 
+Un nuage de mots des faux positifs est disponible en appendice.
+
+\subsubsection{Faux négatifs}
+Il est à noter que certains termes négatifs sont plus fréquents dans le jeu de données de test que dans celui d'entraînement, ce qui contribue aux erreurs du modèle.
+Par exemple, le terme ``boob'' apparaît 1000 fois dans le jeu de données de test contre 32 fois dans celui d'entraînement. 
+Un nuage de mots des faux négatifs est également disponible en appendice.
+
+\subsubsection{Valeurs SHAP}
+Les valeurs SHAP révèlent les mots ayant le plus d'impact sur le modèle. 
+Sans surprise, les termes les plus influents sont les plus vulgaires. 
+Un aperçu des 20 mots avec les plus grandes valeurs SHAP est présenté en appendice.
+
+\subsection{Word2Vec}
+La featurisation Word To Vec est une technique qui permet de convertir les mots en vecteurs de nombres. 
+Elle permet de réduire la dimensionnalité des données et de capturer les relations sémantiques entre les mots.
+
+\subsubsection{Comparaison Pré-Entraîné et Scratch}
+Nous avons sélectionné le modèle pré-entraîné \textit{glove-200-twitter} pour sa pertinence, celui-ci ayant été entraîné sur des tweets, un domaine où le contenu toxique est souvent présent.
+La comparaison entre une régression logistique appliquée sur un modèle \textit{word2vec} pré-entraîné et un modèle \textit{word2vec} entraîné à partir de notre jeu de données a été effectuée. 
+Le modèle entrainé à partir de zéro repose sur 200 dimensions pour être comparable au modèle pré-entraîné.
+Il en ressort que le modèle pré-entraîné surpasse nettement le modèle développé à partir de zéro, ce qui peut s'expliquer par un manque de donné pour exprimer la sémantique des mots.
+On note aussi que l'importance des pré-traitements des données, qui est plus marqué que pour la featurisation TF-IDF.
+Les \textit{GPT Tokenizer} sont moins bons sur le modèle pré-entrainé que les modèles\textit{word tokenize}. Cela s'explique par le fait que le modèle \textit{word2vec} pré-entrainé attend des mots et non des tokens. 
+
+\begin{table}[ht]
+    \centering
+    \caption{Score Macro du Modèle de Régression Logistique Word2Vec, sur le Jeu de Données de Validation}
+    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Technique de Normalisation} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support}  \\
+    \multicolumn{1}{c}{\textbf{Pré-Entraîné}} \\
+    Word Tokenize 1             & \textbf{0.744}              & \textbf{0.884}           & \textbf{0.790}            & 31915            \\
+    BPE Tokenize 2              & 0.740              & 0.880           & 0.784            & 31915            \\ \hline 
+    Baseline                     & 0.637              & 0.810           & 0.654            & 31915            \\
+    \hline \multicolumn{1}{c}{\textbf{Entraîné}} \\
+    Word Tokenize 3             & \textbf{0.677}              & \textbf{0.863}           & \textbf{0.712}            & 31915            \\
+    BPE Tokenize 1              & 0.674              & 0.862           & 0.708            & 31915            \\ \hline
+    Baseline               & 0.650              & 0.809           & 0.676            & 31915            \\ 
+    \hline \end{tabular}
+    \label{tab:results}
+    \end{table}
+
+\subsubsection{Resultat apres optimization des hyperparamètres}
+On a optiimisé le regression logistique sur la meilleur technique de pré-traitement \textit{Word Tokenize 3} vectorisé par un le modèle \textit{word2vec} pré-entrainé.
+Lors de l'optimisation, il n'a pas été possible de tester la régularisation L1 car le modèle prenait trop de temps à converger. 
+Le meilleur ensemble de paramètres est une régularisation\textit{L2 }avec un \textit{C} de \textit{27.26}
+
+\subsubsection{Resultat sur le jeu de test}
+\begin{table}[ht]
+    \centering
+    \caption{Score Macro du modèle Optimisé de régression logistique Word2Vec, sur le jeu de données de test}
+    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Technique de Normalisation} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support} \\ \hline
+    Word Tokenize 3                          & 0.673              & \textbf{0.870}           & 0.706            & 63978            \\\hline
+    Word Tokenize 1                          & \textbf{0.680}              & 0.859           & \textbf{0.716}             & 63978            \\\hline
+    Baseline (Sans Pré-traitement)           & 0.637              & 0.810           & 0.655             & 63978            \\ 
+\end{tabular}
+\label{tab:results}
+\end{table}
+
+On peut noter que les résultats sont moins bons qu'à partir d'une featurisation TF-IDF.
+
+\subsubsection{Interpretation des resultats}
+\subsubsection{Faux positifs}
+On peut tirer les meme conclusions qu'avec TF-IDF. 
+
+\subsubsection{Faux negatifs}
+Les faux négatifs sont cependant plus nombreux qu'avec la featurisation TF-IDF. 
+Ils présentent également des différences. 
+On remarque que certains mots longs, qui sont des insultes, sont mal prédits. 
+Par exemple, le modèle n'a pas identifié "motherfucker" comme toxique. 
+Cela révèle deux problèmes : le tokenizer ne sépare pas les mots composés et le modèle Word2Vec n'a pas été entraîné sur ces mots plus longs. 
+Un ensemble de données plus grand et un entraînement de Word2Vec avec un tokenizer par byte auraient été nécessaires pour une meilleure compréhension globale de la sémantique et pour prédire ce type de mots.
+
+\subsection{Regression multilabel}
+En raison de la nette différence de performance entre le modèle Word2Vec et TF-IDF, la featurisation TF-IDF a été choisie pour le modèle multi-label. 
+Le prétraitement choisi est "BPE Tokenize 2", car il a obtenu les meilleurs scores en termes de macro et de F1-score rappel. 
+Un modèle est entraîné par label.
+
+Voici ici le score pour chaque label sans optimsation des hyper-paramètres.
+\begin{table}[ht]
+    \centering
+    \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle de régression logistique TF-IDF pour chaque label, sur le jeu de test}
+    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Label} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\ \hline
+    toxic          & 0.44               & 0.91            & 0.59              & 6090             \\
+    severe\_toxic  & 0.14               & 0.87            & 0.24              & 367              \\
+    obscene        & 0.48               & 0.87            & 0.62              & 3691             \\
+    threat         & 0.21               & 0.78            & 0.33              & 211              \\
+    insult         & 0.40               & 0.87            & 0.55              & 3427             \\
+    identity\_hate & 0.25               & 0.84            & 0.38              & 712              \\
+    overall\_non\_toxic & 0.99           & 0.87            & 0.93              & 57735            \\\hline
+    macro avg      & 0.41               & 0.86            & 0.52              & 72233            \\
+    weighted avg   & 0.88               & 0.88            & 0.86              & 72233            \\
+    \end{tabular}
+    \label{tab:scores}
+\end{table}
+\subsubsection{Optimisation des hyperparamètres}
+Apres optimisation des hyperparmaètre pour chaque label on obtient les résultats suivants:
+
+\begin{table}[ht]
+    \centering
+    \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle de régression logistique Optimisé TF-IDF pour chaque label, sur le jeu de test}    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Label} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\ \hline
+    toxic          & 0.42               & 0.93            & 0.58              & 6090             \\
+    severe\_toxic  & 0.10               & 0.92            & 0.19              & 367              \\
+    obscene        & 0.43               & 0.91            & 0.59              & 3691             \\
+    threat         & 0.09               & 0.90            & 0.16              & 211              \\
+    insult         & 0.37               & 0.90            & 0.53              & 3427             \\
+    identity\_hate & 0.17               & 0.91            & 0.28              & 712              \\
+    overall\_non\_toxic & 0.99           & 0.84            & 0.91              & 57735            \\\hline
+    macro avg      & 0.37               & 0.90            & 0.46              & 72233            \\
+    weighted avg   & 0.87               & 0.86            & 0.84              & 72233            \\
+    \end{tabular}
+    \label{tab:scores}
+\end{table}
+
+On remarque que pour le label "threat", en améliorant le rappel, la précision a nettement diminué. 
+Cela est dû au fait qu'il y a très peu de menaces dans le jeu de données. 
+De plus, le modèle de régression logistique utilisant TF-IDF ne prend pas en compte la sémantique des mots. 
+Ainsi, le modèle de régression logistique sera efficace pour identifier les éléments toxiques (macro rappel de 0,90), mais moins efficace pour déterminer précisément le type de toxicité présent (macro de précision 0.37).
+
