@@ -12,3 +12,6 @@ __pycache__
 *ist
 /minbpe-master/
 jigsaw-toxic-comment-classification-challenge/
+/src/models/data/
+/src/models/gloves/
+*.deb
