@@ -100,19 +100,17 @@ Nous avons également créé une fonction \texttt{complete\_the\_phrase} qui pre
 
 \section{Évaluation des performances du modèle}
 
-Pour évaluer les performances de notre modèle, nous avons calculé plusieurs métriques de performance, incluant la précision, le rappel et le F1-score pour différentes configurations de n-grams.
-On test sur les une cinquentaine de phrase le modèle configuré pour obtenir ces resultas.
-
+Pour évaluer les performances de notre modèle, nous avons calculé son accuracy. Nous avons testé le modèle sur une cinquantaine de phrases concaténées afin d'obtenir ces résultats.
 \begin{table}[h]
     \centering
-    \begin{tabular}{|l|l|l|l|}
+    \begin{tabular}{|l|l|}
     \hline
-    \textbf{N-gram} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-score} \\ \hline
-    Bigram & 0.0 & 0.0 & 0.0 \\ \hline
-    Trigram & 0.0 & 0.0 & 0.0 \\ \hline
-    4-gram & 0.0 & 0.0 & 0.0 \\ \hline
+    \textbf{N-gram} & \textbf{Accuracy} \\ \hline
+    Bigram & 0.0925   \\ \hline
+    Trigram & 0.0925  \\ \hline
+    % 4-gram & 0.0 \\ \hline
     \end{tabular}
-    \caption{Performances du modèle N-gram avec différentes configurations}
+    \caption{Performances du modèle N-gram avec différentes configurations (sur 50 phrases)}
 \end{table}
 
 \section{Analyse des résultats}
