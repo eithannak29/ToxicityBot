@@ -42,23 +42,7 @@ Nous avons entraîné le modèle Bayésien naïf en suivant les étapes suivante
 
 \subsection{Évaluation des performances du modèle}
 
-% \begin{table}[h]
-%     \centering
-%     \begin{tabular}{|l|l|l|l|l|l|l|l|}
-%     \hline
-%     \textbf{Technique de prétraitement} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-score} & \textbf{Support} \\ \hline
-%     comment\_text\_word\_tokenize\_no\_normalization & \textbf{0.89} & \textbf{0.89} & \textbf{0.89} & 5193 \\ \hline
-%     comment\_text\_gpt\_tokenize\_no\_normalization & \textbf{0.89} & \textbf{0.89} & \textbf{0.89} & 5193 \\ \hline
-%     comment\_text\_word\_tokenize\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
-%     comment\_text\_gpt\_tokenize\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
-%     comment\_text\_word\_tokenize\_full\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
-%     comment\_text\_gpt\_tokenize\_full\_normalization & 0.87 & 0.87 & 0.87 & 5193 \\ \hline
-%     comment\_text\_word\_tokenize\_simple\_normalization & 0.88 & 0.88 & 0.88 & 5193 \\ \hline
-%     comment\_text\_gpt\_tokenize\_simple\_normalization & 0.88 & 0.88 & 0.88 & 5193 \\ \hline
-%     \end{tabular}
-%     \caption{Performances du modèle Bayésien naïf avec différentes techniques de prétraitement}
-% \end{table}
-
+Les "Feature Dimensions" indiquent la taille de la matrice de caractéristiques utilisée pour chaque méthode. Le premier nombre représente le nombre d'échantillons (lignes) dans l'ensemble de données, et le deuxième nombre représente le nombre de caractéristiques (colonnes) générées par le vectoriseur.
 \begin{table}[htbp]
     \centering
     \caption{Combined Classification Reports Across Different Methods}
@@ -68,18 +52,23 @@ Nous avons entraîné le modèle Bayésien naïf en suivant les étapes suivante
     \textbf{Method} & \textbf{Features Dimension} & \multicolumn{2}{c}{\textbf{Class 0}} & \multicolumn{2}{c}{\textbf{Class 1}} & \textbf{Accuracy} & \textbf{Macro Avg} & \textbf{Weighted Avg} \\
     & & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} & \textbf{Recall} & & & \\
     \midrule
-    Word Tokenize No Norm. & (25962, 52478) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.85, 0.72) & (0.92, 0.85, 0.88) \\
-    GPT Tokenize No Norm. & (25962, 52493) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.86, 0.72) & (0.92, 0.85, 0.88) \\
-    Word Tokenize Norm. & (25962, 43939) & 0.98 & 0.85 & 0.39 & 0.87 & 0.85 & (0.69, 0.86, 0.73) & (0.93, 0.85, 0.88) \\
-    GPT Tokenize Norm. & (25962, 46271) & 0.98 & 0.85 & 0.39 & 0.87 & 0.85 & (0.69, 0.86, 0.73) & (0.93, 0.85, 0.88) \\
-    Word Full Norm. & (25962, 50156) & 0.98 & 0.85 & 0.39 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
-    GPT Full Norm. & (25962, 50160) & 0.98 & 0.85 & 0.39 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
-    Word Simple Norm. & (25962, 52460) & 0.98 & 0.85 & 0.39 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
-    GPT Simple Norm. & (25962, 52491) & 0.98 & 0.85 & 0.39 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
+    comment\_text\_baseline & (127656, 165785) & 0.96 & 0.94 & 0.54 & 0.68 & 0.91 & (0.75, 0.81, 0.78) & (0.92, 0.91, 0.92) \\
+    comment\_text\_bpe\_tokenize\_full\_normalization & (127656, 29611) & 0.97 & 0.93 & 0.53 & 0.77 & 0.91 & (0.75, 0.85, 0.79) & (0.93, 0.91, 0.92) \\
+    comment\_text\_word\_tokenize\_no\_normalization & (127656, 165757) & 0.96 & 0.94 & 0.54 & 0.68 & 0.91 & (0.75, 0.81, 0.78) & (0.92, 0.91, 0.92) \\
+    comment\_text\_gpt\_tokenize\_no\_normalization & (127656, 64839) & 0.96 & 0.93 & 0.50 & 0.64 & 0.90 & (0.73, 0.78, 0.75) & (0.91, 0.90, 0.91) \\
+    comment\_text\_word\_tokenize\_normalization & (127656, 136809) & 0.97 & 0.94 & 0.56 & 0.69 & 0.92 & (0.76, 0.81, 0.78) & (0.93, 0.92, 0.92) \\
+    comment\_text\_gpt\_tokenize\_normalization & (127656, 36098) & 0.97 & 0.92 & 0.49 & 0.69 & 0.90 & (0.73, 0.81, 0.76) & (0.92, 0.90, 0.91) \\
+    comment\_text\_word\_tokenize\_full\_normalization & (127656, 134296) & 0.97 & 0.94 & 0.56 & 0.69 & 0.92 & (0.76, 0.81, 0.78) & (0.93, 0.92, 0.92) \\
+    comment\_text\_gpt\_tokenize\_full\_normalization & (127656, 32705) & 0.97 & 0.93 & 0.52 & 0.73 & 0.91 & (0.74, 0.83, 0.78) & (0.93, 0.91, 0.91) \\
+    comment\_text\_word\_tokenize\_simple\_normalization & (127656, 145452) & 0.97 & 0.94 & 0.54 & 0.69 & 0.91 & (0.75, 0.81, 0.78) & (0.92, 0.91, 0.92) \\
+    comment\_text\_gpt\_tokenize\_simple\_normalization & (127656, 40563) & 0.97 & 0.91 & 0.48 & 0.74 & 0.90 & (0.73, 0.83, 0.76) & (0.92, 0.90, 0.91) \\
+    comment\_text\_bpe\_tokenize\_simple\_dup\_normalization & (127656, 33322) & 0.97 & 0.92 & 0.51 & 0.77 & 0.90 & (0.74, 0.85, 0.78) & (0.93, 0.90, 0.91) \\
+    comment\_text\_bpe\_tokenize\_no\_dup\_no\_punc\_normalization & (127656, 33402) & 0.97 & 0.92 & 0.51 & 0.77 & 0.91 & (0.74, 0.84, 0.78) & (0.93, 0.91, 0.91) \\
     \bottomrule
     \end{tabular}%
     }
 \end{table}
+
 
 \subsection{Validation croisée}
 
@@ -90,8 +79,8 @@ Nous avons également effectué une validation croisée en utilisant la métriqu
     \begin{tabular}{|l|l|}
     \hline
     \textbf{Métrique} & \textbf{Score} \\ \hline
-    f1\_macro (moyenne) & 0.888 \\ \hline
-    f1\_macro (écart type) & 0.004 \\ \hline
+    f1\_macro (moyenne) & 0.8438 \\ \hline
+    f1\_macro (écart type) & 0.0055 \\ \hline
     \end{tabular}
     \caption{Résultats de la validation croisée}
 \end{table}
@@ -101,8 +90,8 @@ Nous avons également effectué une validation croisée en utilisant la métriqu
 \subsection{Calcul des probabilités}
 
 \begin{itemize}
-    \item Probabilités a priori pour chaque classe : \{0: 0.501, 1: 0.499\}
-    \item Vocabulaire contient 46 849 mots uniques
+    \item Probabilités a priori pour chaque classe : \{0: 0.89831, 1: 0.10168\}
+    \item Vocabulaire contient 33397 mots uniques
 \end{itemize}
 
 \subsection{Calcul des vraisemblances}
@@ -134,3 +123,5 @@ Nous avons également créé une fonction \texttt{isToxicity} qui prend en entr�
     \includegraphics[width=.47\linewidth]{figures/distribution-toxicity-naive_bayes.png}
     \caption{Distribution de la toxicité des commentaires}
 \end{figure}
+
+\end{document}
