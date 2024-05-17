@@ -11,3 +11,4 @@ __pycache__
 *.toc
 *ist
 jigsaw-toxic-comment-classification-challenge/
+/src/models/data
