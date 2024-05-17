@@ -28,16 +28,16 @@ Voici les résultats obtenus pour le modèle de régression logistique sans opti
     \begin{tabular}{lcccc}
     \hline
     \textbf{Technique de Pré-Traitement} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support} \\ \hline
-    BPE Tokenize 2                       & \textbf{0.826}         & \textbf{0.911}         & \textbf{0.862}             & 31915            \\
-    BPE Tokenize 1                           & 0.822              & 0.910                   & 0.859             & 31915            \\
-    GPT Tokenize 1                              & 0.820              & 0.910                & 0.857             & 31915            \\ \hline
+    BPE Tokenizer 2                       & \textbf{0.826}         & \textbf{0.911}         & \textbf{0.862}             & 31915            \\
+    BPE Tokenizer 1                           & 0.822              & 0.910                   & 0.859             & 31915            \\
+    GPT Tokenizer 1                              & 0.820              & 0.910                & 0.857             & 31915            \\ \hline
     Baseline                & 0.790              & 0.887           & 0.8318             & 31915            \\ \hline
     \end{tabular}
     \label{tab:results}
     \end{table}
 
 \subsubsection{Optimisation des hyper-paramètres}
-Afin d'optimiser les performances du modèle, une optimisation des hyper-paramètres a été réalisé sur la meilleure méthode de pré-traitement \textit{BPE Tokenize 2}. 
+Afin d'optimiser les performances du modèle, une optimisation des hyper-paramètres a été réalisé sur la meilleure méthode de pré-traitement \textit{BPE Tokenizer 2}. 
 Les meilleurs paramètres obtenues sont une régularisation de type \textit{L1} avec un paramètre de régularisation $C$ égal à \textit{0.60}.
 
 \begin{table}[ht]
@@ -46,9 +46,9 @@ Les meilleurs paramètres obtenues sont une régularisation de type \textit{L1} 
     \begin{tabular}{lcccc}
     \hline
     \textbf{Technique de Pré-Traitement} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support} \\ \hline
-    BPE Tokenize 2                          & \textbf{0.826}              & \textbf{0.916}           & \textbf{0.863}             & 31915            \\
-    GPT Tokenize 1                          & 0.820              & 0.915           & 0.859             & 31915            \\
-    BPE Tokenize 1                           & 0.821              & 0.914           & 0.860             & 31915            \\ \hline
+    BPE Tokenizer 2                          & \textbf{0.826}              & \textbf{0.916}           & \textbf{0.863}             & 31915            \\
+    GPT Tokenizer 1                          & 0.820              & 0.915           & 0.859             & 31915            \\
+    BPE Tokenizer 1                           & 0.821              & 0.914           & 0.860             & 31915            \\ \hline
     Baseline             & 0.784             & 0.890           & 0.825             & 31915            \\ \hline
 \end{tabular}
 \label{tab:results}
@@ -62,12 +62,12 @@ Les meilleurs paramètres obtenues sont une régularisation de type \textit{L1} 
     \begin{tabular}{lcccc}
     \hline
     \textbf{Technique de Pré-Traitement} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support} \\ \hline
-    BPE Tokenize 2                          & \textbf{0.706}              & \textbf{0.900}           & \textbf{0.751}            & 63978            \\\hline
+    BPE Tokenizer 2                          & \textbf{0.706}              & \textbf{0.900}           & \textbf{0.751}            & 63978            \\\hline
     Baseline                               & 0.695              & 0.869           & 0.737             & 63978            \\ \hline
 \end{tabular}
 \label{tab:results}
 \end{table}
-La meilleur technique de pré-traitement reste le \textit{BPE Tokenize 2} avec ces paramètres de régularisation.
+La meilleur technique de pré-traitement reste le \textit{BPE Tokenizer 2} avec ces paramètres de régularisation.
 On remarque néanmoins que les résultats sur le jeu de test sont moins bons que sur le jeu de validation.
 
 \subsubsection{Interprétation des résultats}
@@ -100,12 +100,12 @@ Il en ressort que la regréssion logistique est nettement meilleur avec un modè
     \hline
     \textbf{Technique de Pré-Traitement} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support}  \\
     \multicolumn{1}{c}{\textbf{Pré-Entraîné}} \\
-    Word Tokenize 1             & \textbf{0.744}              & \textbf{0.884}           & \textbf{0.790}            & 31915            \\
-    BPE Tokenize 2              & 0.740              & 0.880           & 0.784            & 31915            \\ \hline 
+    Word Tokenizer 1             & \textbf{0.744}              & \textbf{0.884}           & \textbf{0.790}            & 31915            \\
+    BPE Tokenizer 2              & 0.740              & 0.880           & 0.784            & 31915            \\ \hline 
     Baseline                     & 0.637              & 0.810           & 0.654            & 31915            \\
     \hline \multicolumn{1}{c}{\textbf{Entraîné}} \\
-    Word Tokenize 3             & \textbf{0.677}              & \textbf{0.863}           & \textbf{0.712}            & 31915            \\
-    BPE Tokenize 1              & 0.674              & 0.862           & 0.708            & 31915            \\ \hline
+    Word Tokenizer 3             & \textbf{0.677}              & \textbf{0.863}           & \textbf{0.712}            & 31915            \\
+    BPE Tokenizer 1              & 0.674              & 0.862           & 0.708            & 31915            \\ \hline
     Baseline               & 0.650              & 0.809           & 0.676            & 31915            \\ 
     \hline \end{tabular}
     \label{tab:results}
@@ -113,10 +113,10 @@ Il en ressort que la regréssion logistique est nettement meilleur avec un modè
 
 Ce tableau comparatif soulève plusieurs points.
 L'importance des pré-traitements des données est plus marquée que pour la featurisation \textit{TF-IDF}. 
-De plus, les pré-traitement \textit{GPT Tokenizer} sont moins performants avec le modèle \textit{word2vec} pré-entraîné que les pré-traitement \textit{word tokenize}. 
+De plus, les pré-traitement \textit{GPT Tokenizerr} sont moins performants avec le modèle \textit{word2vec} pré-entraîné que les pré-traitement \textit{word Tokenizer}. 
 Cela s'explique par le fait que le modèle \textit{word2vec} pré-entraîné attend des mots et non des \textit{byte tokens}.
 \subsubsection{Résultat après optimisation des hyper-paramètres}
-La régression logistique a été optimisée en utilisant la meilleure technique de pré-traitement \textit{Word Tokenize 1}, vectorisée par le modèle \textit{word2vec} pré-entraîné. 
+La régression logistique a été optimisée en utilisant la meilleure technique de pré-traitement \textit{Word Tokenizer 1}, vectorisée par le modèle \textit{word2vec} pré-entraîné. 
 Lors de l'optimisation, il n'a pas été possible de tester la régularisation L1 car le modèle prenait trop de temps à converger.
 Le meilleur ensemble de paramètres inclut une régularisation \textit{L2} avec un \textit{C} égale à \textit{27.26}.
 
@@ -128,8 +128,8 @@ Le meilleur ensemble de paramètres inclut une régularisation \textit{L2} avec 
     \begin{tabular}{lcccc}
     \hline
     \textbf{Technique de Pré-Traitement} & \textbf{Précision} & \textbf{Rappel} & \textbf{Score F1} & \textbf{Support} \\ \hline
-    Word Tokenize 3                          & 0.673              & \textbf{0.870}           & 0.706            & 63978            \\\hline
-    Word Tokenize 1                          & \textbf{0.680}              & 0.859           & \textbf{0.716}             & 63978            \\\hline
+    Word Tokenizer 3                          & 0.673              & \textbf{0.870}           & 0.706            & 63978            \\\hline
+    Word Tokenizer 1                          & \textbf{0.680}              & 0.859           & \textbf{0.716}             & 63978            \\\hline
     Baseline (Sans Pré-traitement)           & 0.637              & 0.810           & 0.655             & 63978            \\ \hline
 \end{tabular}
 \label{tab:results}
@@ -146,12 +146,12 @@ On peut tirer les mêmes conclusions qu'avec \textit{TF-IDF}.
 Les faux négatifs sont cependant plus nombreux qu'avec la featurisation \textit{TF-IDF}. 
 Ils présentent également des différences. On remarque que certains mots longs, qui sont des insultes, sont mal prédits. 
 Par exemple, le modèle n'a pas identifié \texttt{motherfucker} comme toxique. 
-Cela révèle deux problèmes : le tokenizer ne sépare pas les mots composés et le modèle \textit{Word2Vec} n'a pas été entraîné sur ces mots plus longs. 
-Un ensemble de données plus grand et un entraînement de \textit{Word2Vec} avec un tokenizer entraîné sur le jeu d'entraînement auraient été nécessaires pour une meilleure compréhension globale de la sémantique.
+Cela révèle deux problèmes : le Tokenizerr ne sépare pas les mots composés et le modèle \textit{Word2Vec} n'a pas été entraîné sur ces mots plus longs. 
+Un ensemble de données plus grand et un entraînement de \textit{Word2Vec} avec un Tokenizerr entraîné sur le jeu d'entraînement auraient été nécessaires pour une meilleure compréhension globale de la sémantique.
 
 \subsection{Régression Multilabel}
 En raison de la nette différence de performance entre le modèle \textit{Word2Vec} et \textit{TF-IDF}, la featurisation TF-IDF a été choisie pour le modèle \textit{multilabel}. 
-Le prétraitement choisi est \textit{BPE Tokenize 2}, car il a obtenu les meilleurs scores en termes de macro et de F1-score rappel. 
+Le prétraitement choisi est \textit{BPE Tokenizer 2}, car il a obtenu les meilleurs scores en termes de macro et de F1-score rappel. 
 Un modèle est entraîné par label.
 
 Voici ici le score pour chaque label sans optimsation des hyper-paramètres.
