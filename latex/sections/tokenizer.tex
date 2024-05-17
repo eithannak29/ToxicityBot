@@ -59,28 +59,14 @@ BasicTokenizer & 69 \\ \hline
 \end{table}
 
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Tokenizer} & \textbf{Temps d'éxecution (seconde)} \\ \hline
-RegexTokenizer & ??? \\ \hline
-TikToken & ??? \\ \hline
-BasicTokenizer & ??? \\ \hline
-\end{tabular}
-\caption{Comparaison des temps d'éxecution des tokenizers}
-\end{table}
-
-
 Nous constatons que le RegexTokenizer et le TikToken sont significativement plus rapides que le BasicTokenizer. TikToken est le plus rapide parmi tous les tokenizers testés.
 
 \subsection{Méthodes de normalisation du texte}
-
 La normalisation du texte est une étape cruciale du pré-traitement des données textuelles. Elle vise à uniformiser le texte en le mettant en minuscules, en supprimant les stop words et en lemmatisant les mots.
 
 \subsubsection*{Suppression des stop words}
 
-Les stop words sont des mots courants qui n'apportent pas beaucoup de valeur sémantique au texte. Nous les supprimerons de notre jeu de données.
+Les stop words sont des mots courants qui n'apportent pas beaucoup de valeur sémantique au texte(exemple : 'a' , 'the' ,'for',...). Nous les supprimerons de notre jeu de données.
 
 \subsubsection*{Lemmatisation}
 
@@ -93,6 +79,50 @@ La mise en minuscules permet d'uniformiser le texte en convertissant toutes les 
 \subsubsection*{Identification des verbes et des noms}
 
 Nous avons modifié la méthode de lemmatisation pour identifier les verbes et les noms dans une phrase. Parfois, les verbes étaient considérés comme des noms et ne pouvaient pas être lemmatisés avec le lemmatiseur par défaut.
+
+\subsubsection*{Les caractères spéciaux}
+
+En examinant attentivement notre base de données, nous avons constaté la présence de nombreux tokens représentant des URL, des adresses e-mail et d’autres éléments inutiles pour nos calculs d’entraînement des modèles. 
+Par conséquent, nous avons décidé de les supprimer afin de réduire au maximum le bruit dans nos données et ainsi optimiser nos modèles.
+
+\subsubsection*{Remplacement des emojis}
+
+Certains emojis peuvent etre important pour l'indication d'une toxicité ou non c'est pourquoi nous avons pris la décision de remplacer certains emojis par un mot le représentant au mieux afin de permettre aux models de mieux s'adapter.
+
+\subsubsection*{Effacement des ponctuations}
+
+Parfois, certaines ponctuations occupent trop d’espace sans être utiles au modèle. Ainsi, nous pouvons supprimer tous les caractères qui ne sont pas dans la table ASCII ainsi que les signes de ponctuation qui pourraient compromettre l’entraînement des modèles.
+
+\subsubsection*{Effacement des duplication}
+En constatant que plusieurs messages vulgaires étaient dissimulés parmi nos tokens en raison de la duplication des premières et/ou dernières lettres, nous avons été contraints de corriger ces tokens pour leur attribuer une plus grande valeur.
+
+% \subsubsection*{Tableau représentatif des différentes fonctions de pré-traitement}
+% \begin{table}[ht]
+%     \centering
+%     % \begin{adjustbox}{max width=\textwidth}
+%     \renewcommand{\arraystretch}{1.5} % Increases row height
+%     \setlength{\tabcolsep}{6pt} % Adjusts column padding
+%     \begin{tabular}{|p{3.5cm}|c|c|c|c|c|c|c|}
+%         \hline
+%         \textbf{Pré traitement} & \textbf{Remove special caractère} & \textbf{Remove Stop W} & \textbf{Replace emojis} & \textbf{Lowercase} & \textbf{Lemmatization} & \textbf{Remove punctuation} & \textbf{Remove duplication} \\
+%         \hline
+%         BPE Tokenizer 2 (no\_dup\_no\_punc) & TRUE & FALSE & FALSE & TRUE & FALSE & TRUE & TRUE \\
+%         BPE Tokenizer 1 (simple dup) & TRUE & FALSE & FALSE & TRUE & FALSE & FALSE & TRUE \\
+%         Word Tokenizer 4 (full) & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE \\
+%         Word Tokenizer 3 (norm) & TRUE & TRUE & TRUE & TRUE & TRUE & FALSE & FALSE \\
+%         Word Tokenizer 2 (simple) & TRUE & FALSE & FALSE & TRUE & FALSE & TRUE & FALSE \\
+%         Word Tokenizer 1 (no) & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE \\
+%         GPT Tokenizer 4 (full) & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE \\
+%         GPT Tokenizer 3 (norm) & TRUE & TRUE & TRUE & TRUE & TRUE & FALSE & FALSE \\
+%         GPT Tokenizer 2 (simpl) & TRUE & FALSE & FALSE & TRUE & FALSE & FALSE & FALSE \\
+%         GPT Tokenizer 1 (no) & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE \\
+%         Baseline (split espace) & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE \\
+%         \hline
+%     \end{tabular}
+%     % \end{adjustbox}
+%     \caption{Pré traitement comparatif}
+%     \label{tab:pre_treatment_comparative}
+% \end{table}
 
 \subsection{Pré-traitement supplémentaire du jeu de données}
 
@@ -138,24 +168,27 @@ Nous avons utilisé un algorithme de correction des erreurs orthographiques et d
     \caption{Exemple de phrase avant et après correction}
 \end{table}
 
+\subsubsection*{Non-application de la correction d'orthographe}
+Initialement, nous avions envisagé d'appliquer un algorithme de correction d'orthographe pour améliorer la qualité de nos données textuelles. Cependant, après avoir réalisé que cette étape prenait trop de temps et pouvait introduire des erreurs, notamment en modifiant des noms propres en mots n'ayant aucun rapport, nous avons décidé de ne pas l'appliquer. En effet, cela pourrait introduire des biais importants, notamment si un prénom ressemble à une insulte, ce qui pourrait transformer une phrase anodine en une phrase insultante. Par conséquent, nous avons choisi de ne pas effectuer cette étape de correction d'orthographe pour garantir l'intégrité et la qualité de nos données textuelles.
+
 \newpage
 \subsubsection*{Exemple d'une phrase après toutes les étapes de normalisation}
 
 \begin{table}[h]
     \centering
     \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|l|}
+    \begin{tabular}{|>{\raggedright\arraybackslash}m{5cm}|>{\raggedright\arraybackslash}m{15cm}|}
         \hline
-        \textbf{Étape}               & \textbf{Texte normalisé} \\ \hline
-        Texte initial               & \begin{tabular}[t]{@{}l@{}}Thankz yuu for understanding.\\ I thinkk very highly of you and wouldd\\ not revert without this discussion. :) 8== \end{tabular} \\ \hline
-        Correction de l'orthographe & \begin{tabular}[t]{@{}l@{}}Thank you for understanding.\\ I think very highly of you and would\\ not revert without this discussion. :) 8== \end{tabular} \\ \hline
-        Remplacement des emojis     & \begin{tabular}[t]{@{}l@{}}Thank you for understanding.\\ I think very highly of you and would\\ not revert without this discussion. happy 8== \end{tabular} \\ \hline
-        Suppression des caractères spéciaux & \begin{tabular}[t]{@{}l@{}}Thank you for understanding.\\ I think very highly of you and would\\ not revert without this discussion. happy penis \end{tabular} \\ \hline
-        Normalisation complète & \begin{tabular}[t]{@{}l@{}}thank understand .\\ think highly would revert without\\ discussion . happy penis \end{tabular} \\ \hline
+        \textbf{\fontsize{14}{16}\selectfont Étape} & \textbf{\fontsize{14}{16}\selectfont Texte normalisé} \\ \hline
+        \fontsize{14}{16}\selectfont Texte initial & \fontsize{14}{16}\selectfont motherrrrrrrrrrrrFuckkkkkkkk!!!!aaaaaaa***** stringssss ***!!!!!!!bitchhhhhh :) 8========= \\ \hline
+        \fontsize{14}{16}\selectfont Après remplacement des emojis & \fontsize{14}{16}\selectfont motherrrrrrrrrrrrFuckkkkkkkk!!!!aaaaaaa***** stringssss ***!!!!!!!bitchhhhhh happy 8========= \\ \hline
+        \fontsize{14}{16}\selectfont Après suppression des caractères spéciaux & \fontsize{14}{16}\selectfont motherFuck a strings bitch happy penis \\ \hline
+        \fontsize{14}{16}\selectfont Après tokenisation & \fontsize{14}{16}\selectfont 'motherFuck', 'a', 'strings', 'bitch', 'happy', 'penis' \\ \hline
+        \fontsize{14}{16}\selectfont Après conversion en minuscules & \fontsize{14}{16}\selectfont 'motherfuck', 'a', 'strings', 'bitch', 'happy', 'penis' \\ \hline
+        \fontsize{14}{16}\selectfont Après lemmatisation & \fontsize{14}{16}\selectfont 'motherfuck', 'a', 'string', 'bitch', 'happy', 'penis' \\ \hline
+        \fontsize{14}{16}\selectfont Après suppression des stopwords & \fontsize{14}{16}\selectfont 'motherfuck', 'string', 'bitch', 'happy', 'penis' \\ \hline
+        \fontsize{14}{16}\selectfont Texte final après re-tokenisation & \fontsize{14}{16}\selectfont mother fuck string bitch happy penis \\ \hline
     \end{tabular}%
     }
     \caption{Étapes de normalisation du texte}
 \end{table}
-
-\subsubsection*{Non-application de la correction d'orthographe}
-Initialement, nous avions envisagé d'appliquer un algorithme de correction d'orthographe pour améliorer la qualité de nos données textuelles. Cependant, après avoir réalisé que cette étape prenait trop de temps et pouvait introduire des erreurs, notamment en modifiant des noms propres en mots n'ayant aucun rapport, nous avons décidé de ne pas l'appliquer. En effet, cela pourrait introduire des biais importants, notamment si un prénom ressemble à une insulte, ce qui pourrait transformer une phrase anodine en une phrase insultante. Par conséquent, nous avons choisi de ne pas effectuer cette étape de correction d'orthographe pour garantir l'intégrité et la qualité de nos données textuelles.
