@@ -45,29 +45,29 @@ Nous avons entraîné le modèle Bayésien naïf en suivant les étapes suivante
 Les "Feature Dimensions" indiquent la taille de la matrice de caractéristiques utilisée pour chaque méthode. Le premier nombre représente le nombre d'échantillons (lignes) dans l'ensemble de données, et le deuxième nombre représente le nombre de caractéristiques (colonnes) générées par le vectoriseur.
 \begin{table}[htbp]
     \centering
-    \caption{Combined Classification Reports Across Different Methods}
+    \caption{Rapports de classification combinés pour différentes méthodes}
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{@{}lccccccccc@{}}
     \toprule
-    \textbf{Method} & \textbf{Features Dimension} & \multicolumn{2}{c}{\textbf{Class 0}} & \multicolumn{2}{c}{\textbf{Class 1}} & \textbf{Accuracy} & \textbf{Macro Avg} & \textbf{Weighted Avg} \\
-    & & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} & \textbf{Recall} & & & \\
+    \textbf{Méthode} & \textbf{Dimensions des Features} & \multicolumn{2}{c}{\textbf{Classe 0}} & \multicolumn{2}{c}{\textbf{Classe 1}} & \textbf{Précision} & \textbf{Macro Moy.} & \textbf{Moy. Pondérée} \\
+    & & \textbf{Précision} & \textbf{Rappel} & \textbf{Précision} & \textbf{Rappel} & & & \\
     \midrule
-    comment\_text\_baseline & (127656, 165785) & 0.96 & 0.94 & 0.54 & 0.68 & 0.91 & (0.75, 0.81, 0.78) & (0.92, 0.91, 0.92) \\
-    comment\_text\_bpe\_tokenize\_full\_normalization & (127656, 29611) & 0.97 & 0.93 & 0.53 & 0.77 & 0.91 & (0.75, 0.85, 0.79) & (0.93, 0.91, 0.92) \\
-    comment\_text\_word\_tokenize\_no\_normalization & (127656, 165757) & 0.96 & 0.94 & 0.54 & 0.68 & 0.91 & (0.75, 0.81, 0.78) & (0.92, 0.91, 0.92) \\
-    comment\_text\_gpt\_tokenize\_no\_normalization & (127656, 64839) & 0.96 & 0.93 & 0.50 & 0.64 & 0.90 & (0.73, 0.78, 0.75) & (0.91, 0.90, 0.91) \\
-    comment\_text\_word\_tokenize\_normalization & (127656, 136809) & 0.97 & 0.94 & 0.56 & 0.69 & 0.92 & (0.76, 0.81, 0.78) & (0.93, 0.92, 0.92) \\
-    comment\_text\_gpt\_tokenize\_normalization & (127656, 36098) & 0.97 & 0.92 & 0.49 & 0.69 & 0.90 & (0.73, 0.81, 0.76) & (0.92, 0.90, 0.91) \\
-    comment\_text\_word\_tokenize\_full\_normalization & (127656, 134296) & 0.97 & 0.94 & 0.56 & 0.69 & 0.92 & (0.76, 0.81, 0.78) & (0.93, 0.92, 0.92) \\
-    comment\_text\_gpt\_tokenize\_full\_normalization & (127656, 32705) & 0.97 & 0.93 & 0.52 & 0.73 & 0.91 & (0.74, 0.83, 0.78) & (0.93, 0.91, 0.91) \\
-    comment\_text\_word\_tokenize\_simple\_normalization & (127656, 145452) & 0.97 & 0.94 & 0.54 & 0.69 & 0.91 & (0.75, 0.81, 0.78) & (0.92, 0.91, 0.92) \\
-    comment\_text\_gpt\_tokenize\_simple\_normalization & (127656, 40563) & 0.97 & 0.91 & 0.48 & 0.74 & 0.90 & (0.73, 0.83, 0.76) & (0.92, 0.90, 0.91) \\
-    comment\_text\_bpe\_tokenize\_simple\_dup\_normalization & (127656, 33322) & 0.97 & 0.92 & 0.51 & 0.77 & 0.90 & (0.74, 0.85, 0.78) & (0.93, 0.90, 0.91) \\
-    comment\_text\_bpe\_tokenize\_no\_dup\_no\_punc\_normalization & (127656, 33402) & 0.97 & 0.92 & 0.51 & 0.77 & 0.91 & (0.74, 0.84, 0.78) & (0.93, 0.91, 0.91) \\
+    comment\_text\_baseline & (63978, 52493) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.86, 0.72) & (0.92, 0.85, 0.88) \\
+    comment\_text\_bpe\_tokenize\_full\_normalization & (63978, 22188) & 0.98 & 0.86 & 0.40 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
+    comment\_text\_word\_tokenize\_no\_normalization & (63978, 52478) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.85, 0.72) & (0.92, 0.85, 0.88) \\
+    comment\_text\_gpt\_tokenize\_no\_normalization & (63978, 44632) & 0.97 & 0.90 & 0.45 & 0.74 & 0.89 & (0.71, 0.82, 0.75) & (0.92, 0.89, 0.90) \\
+    comment\_text\_word\_tokenize\_normalization & (63978, 42934) & 0.98 & 0.85 & 0.39 & 0.87 & 0.85 & (0.69, 0.86, 0.73) & (0.93, 0.85, 0.88) \\
+    comment\_text\_gpt\_tokenize\_normalization & (63978, 24578) & 0.98 & 0.87 & 0.40 & 0.80 & 0.86 & (0.69, 0.84, 0.73) & (0.92, 0.86, 0.88) \\
+    comment\_text\_word\_tokenize\_full\_normalization & (63978, 41908) & 0.98 & 0.85 & 0.39 & 0.88 & 0.85 & (0.69, 0.86, 0.73) & (0.93, 0.85, 0.88) \\
+    comment\_text\_gpt\_tokenize\_full\_normalization & (63978, 22750) & 0.98 & 0.86 & 0.40 & 0.85 & 0.86 & (0.69, 0.85, 0.73) & (0.92, 0.86, 0.88) \\
+    comment\_text\_word\_tokenize\_simple\_normalization & (63978, 48335) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.86, 0.72) & (0.92, 0.85, 0.88) \\
+    comment\_text\_gpt\_tokenize\_simple\_normalization & (63978, 29389) & 0.98 & 0.86 & 0.39 & 0.82 & 0.86 & (0.69, 0.84, 0.72) & (0.92, 0.86, 0.88) \\
+    comment\_text\_bpe\_tokenize\_simple\_dup\_normalization & (63978, 27126) & 0.98 & 0.86 & 0.39 & 0.85 & 0.86 & (0.69, 0.85, 0.73) & (0.92, 0.86, 0.88) \\
+    comment\_text\_bpe\_tokenize\_no\_dup\_no\_punc\_normalization & (63978, 27290) & 0.98 & 0.86 & 0.39 & 0.85 & 0.86 & (0.69, 0.85, 0.73) & (0.92, 0.86, 0.88) \\
     \bottomrule
     \end{tabular}%
     }
-\end{table}
+    \end{table}
 
 
 \subsection{Validation croisée}
