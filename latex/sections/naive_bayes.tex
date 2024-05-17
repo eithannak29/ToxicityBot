@@ -112,16 +112,23 @@ La matrice de confusion montre que le modèle prédit correctement les commentai
     \caption{Matrice de confusion du modèle Bayésien naïf}
 \end{figure}
 
-\subsection{Fonction de prédiction}
-
-Nous avons également créé une fonction \texttt{isToxicity} qui prend en entrée un commentaire et prédit sa toxicité.
-
-\subsection{Distribution de la toxicité globale}
-
+\subsection{Etudes Annexe sur les données}
 \begin{figure}[h]
+        \centering
+        \includegraphics[width=.43\linewidth]{figures/distribution-toxicity-naive_bayes.png}
+        \caption{Distribution de la toxicité des commentaires}
+    \end{figure}
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=.47\linewidth]{figures/distribution-toxicity-naive_bayes.png}
-    \caption{Distribution de la toxicité des commentaires}
+    \includegraphics[width=.7\linewidth]{figures/30_first_non_toxic-naive_bayes.png}
+    \caption{Top 30 mots non toxiques}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.7\linewidth]{figures/30_first_toxic-naive_bayes.png}
+    \caption{Top 30 mots toxiques}
 \end{figure}
 
 \end{document}
