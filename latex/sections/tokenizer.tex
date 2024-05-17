@@ -96,33 +96,33 @@ Parfois, certaines ponctuations occupent trop d’espace sans être utiles au mo
 \subsubsection*{Effacement des duplication}
 En constatant que plusieurs messages vulgaires étaient dissimulés parmi nos tokens en raison de la duplication des premières et/ou dernières lettres, nous avons été contraints de corriger ces tokens pour leur attribuer une plus grande valeur.
 
-% \subsubsection*{Tableau représentatif des différentes fonctions de pré-traitement}
-% \begin{table}[ht]
-%     \centering
-%     % \begin{adjustbox}{max width=\textwidth}
-%     \renewcommand{\arraystretch}{1.5} % Increases row height
-%     \setlength{\tabcolsep}{6pt} % Adjusts column padding
-%     \begin{tabular}{|p{3.5cm}|c|c|c|c|c|c|c|}
-%         \hline
-%         \textbf{Pré traitement} & \textbf{Remove special caractère} & \textbf{Remove Stop W} & \textbf{Replace emojis} & \textbf{Lowercase} & \textbf{Lemmatization} & \textbf{Remove punctuation} & \textbf{Remove duplication} \\
-%         \hline
-%         BPE Tokenizer 2 (no\_dup\_no\_punc) & TRUE & FALSE & FALSE & TRUE & FALSE & TRUE & TRUE \\
-%         BPE Tokenizer 1 (simple dup) & TRUE & FALSE & FALSE & TRUE & FALSE & FALSE & TRUE \\
-%         Word Tokenizer 4 (full) & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE \\
-%         Word Tokenizer 3 (norm) & TRUE & TRUE & TRUE & TRUE & TRUE & FALSE & FALSE \\
-%         Word Tokenizer 2 (simple) & TRUE & FALSE & FALSE & TRUE & FALSE & TRUE & FALSE \\
-%         Word Tokenizer 1 (no) & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE \\
-%         GPT Tokenizer 4 (full) & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE \\
-%         GPT Tokenizer 3 (norm) & TRUE & TRUE & TRUE & TRUE & TRUE & FALSE & FALSE \\
-%         GPT Tokenizer 2 (simpl) & TRUE & FALSE & FALSE & TRUE & FALSE & FALSE & FALSE \\
-%         GPT Tokenizer 1 (no) & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE \\
-%         Baseline (split espace) & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE & FALSE \\
-%         \hline
-%     \end{tabular}
-%     % \end{adjustbox}
-%     \caption{Pré traitement comparatif}
-%     \label{tab:pre_treatment_comparative}
-% \end{table}
+\subsubsection*{Tableau représentatif des différentes fonctions de pré-traitement}
+\begin{table}[ht]
+    \centering
+    \begin{adjustbox}{max width=\textwidth}
+    \renewcommand{\arraystretch}{1.5} % Increases row height
+    \setlength{\tabcolsep}{6pt} % Adjusts column padding
+    \begin{tabular}{|p{3.5cm}|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{Pré traitement} & \textbf{Remove special caractère} & \textbf{Remove Stop W} & \textbf{Replace emojis} & \textbf{Lowercase} & \textbf{Lemmatization} & \textbf{Remove punctuation} & \textbf{Remove duplication} \\
+        \hline
+        BPE Tokenizer 2  & VRAI & FAUX & FAUX & VRAI & FAUX & VRAI & VRAI \\
+        BPE Tokenizer 1  & VRAI & FAUX & FAUX & VRAI & FAUX & FAUX & VRAI \\
+        Word Tokenizer 4  & VRAI & VRAI & VRAI & VRAI & VRAI & VRAI & VRAI \\
+        Word Tokenizer 3 & VRAI & VRAI & VRAI & VRAI & VRAI & FAUX & FAUX \\
+        Word Tokenizer 2  & VRAI & FAUX & FAUX & VRAI & FAUX & VRAI & FAUX \\
+        Word Tokenizer 1  & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX \\
+        GPT Tokenizer 4  & VRAI & VRAI & VRAI & VRAI & VRAI & VRAI & VRAI \\
+        GPT Tokenizer 3 & VRAI & VRAI & VRAI & VRAI & VRAI & FAUX & FAUX \\
+        GPT Tokenizer 2  & VRAI & FAUX & FAUX & VRAI & FAUX & FAUX & FAUX \\
+        GPT Tokenizer 1 & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX \\
+        Baseline & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX \\
+        \hline
+    \end{tabular}
+    \end{adjustbox}
+    \caption{Pré traitement comparatif}
+    \label{tab:pre_treatment_comparative}
+\end{table}
 
 \subsection{Pré-traitement supplémentaire du jeu de données}
 
