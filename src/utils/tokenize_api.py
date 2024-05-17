@@ -51,7 +51,6 @@ def lemmatize_normalize_text(tokens):
             )
         )
         for token, pos in pos_tags
-        if token.lower() not in stop_words
     ]
 
     return lemmatized_tokens
@@ -205,33 +204,59 @@ def preprocess_text(
     Returns:
     str: Texte prétraité.
     """
+    print("Texte initial:", text)
+    
     if is_replace_emojis:
         text = replace_emojis(text)
+        print("Après remplacement des emojis:", text)
+    
     if is_remove_special_characters:
-        text = remove_special_characters(text, remove_punctuations, remove_duplications,space_after_punctuations)
+        text = remove_special_characters(text, remove_punctuations, remove_duplications, space_after_punctuations)
+        print("Après suppression des caractères spéciaux:", text)
+    
     if is_lemmatization:
         tokens = word_tokenize(text) if not is_pretokenizer else tokenize(text)
+        print("Après tokenisation:", tokens)
+        
         if is_lowercase:
             tokens = [word.lower() for word in tokens]
+            print("Après conversion en minuscules:", tokens)
+        
         tokens = lemmatize_normalize_text(tokens)
+        print("Après lemmatisation:", tokens)
+        
         if remove_stopwords:
             tokens = [word for word in tokens if word not in stop_words]
-        return (
+            print("Après suppression des stopwords:", tokens)
+        
+        processed_text = (
             " ".join(tokenize(" ".join(tokens)))
             if tokenize != word_tokenize
             else " ".join(tokens)
         )
+        print("Texte final après re-tokenisation:", processed_text)
+        return processed_text
+    
     elif is_lowercase:
         text = text.lower()
+        print("Après conversion en minuscules:", text)
+        
         if remove_stopwords:
             tokens = word_tokenize(text) if not is_pretokenizer else tokenize(text)
             tokens = [word for word in tokens if word not in stop_words]
-            return (
+            print("Après suppression des stopwords:", tokens)
+            
+            processed_text = (
                 " ".join(tokenize(" ".join(tokens)))
                 if tokenize != word_tokenize
                 else " ".join(tokens)
             )
-    return " ".join(tokenize(text))
+            print("Texte final après re-tokenisation:", processed_text)
+            return processed_text
+    
+    processed_text = " ".join(tokenize(text))
+    print("Texte final:", processed_text)
+    return processed_text
 
 
 def gpt_tokenize(
