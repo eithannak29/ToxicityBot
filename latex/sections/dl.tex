@@ -36,6 +36,7 @@ Le modèle de réseau de neurones feedforward (FNN) que nous avons construit est
 \subsection{Fonction de coût}
 
 Pour entraîner notre modèle, nous avons utilisé la fonction de coût de la perte de log-vraisemblance négative (\texttt{BCEWithLogitsLoss}) qui est couramment utilisée pour les tâches de classification multilabel.
+De plus, nous avons utilisé la pondération des classes pour compenser le déséquilibre des classes dans notre jeu de données.
 
 \subsection{Optimisation}
 
