@@ -1,0 +1,94 @@
+\chapter{Feed Forward Neural Networks}
+
+\section{Étape de la construction du modèle}
+
+Pour construire un modèle de réseau de neurones, il est nécessaire de définir l'architecture du réseau, les entrées et les sorties, les fonctions d'activation, ainsi que les fonctions de coût. 
+Pour ce faire, nous nous sommes basés sur notre étude préalable sur la régression logistique afin de sélectionner au mieux nos paramètres.
+
+\section{Les Embeddings}
+
+Les embeddings sont une technique couramment utilisée pour représenter des données de manière dense et continue dans des espaces de grande dimension. 
+Ils sont particulièrement utiles pour traiter des données textuelles et des catégories discrètes.
+Pour réaliser une classification multilabel, nous avons décidé d'utiliser deux types d'embeddings différents : GloVe et FastText.
+
+\subsection{GloVe}
+
+GloVe (Global Vectors for Word Representation) est un algorithme de vectorisation de mots qui représente les mots sous forme de vecteurs de dimension prédéfinie. 
+Il utilise des statistiques globales de co-occurrence des mots pour capturer des relations contextuelles subtiles, ce qui le rend particulièrement adapté à des tâches comme la classification de texte.
+
+\subsection{FastText}
+
+FastText est un modèle d'embeddings développé par Facebook AI Research (FAIR) qui améliore les techniques de vectorisation de mots en prenant en compte les sous-mots. 
+Contrairement aux méthodes traditionnelles qui représentent les mots entiers comme des unités indépendantes, FastText décompose chaque mot en n-grammes de caractères, ce qui permet de capturer les relations morphologiques entre les mots.
+
+
+\section{Architecture du modèle}
+
+Le modèle de réseau de neurones feedforward (FNN) que nous avons construit est composé de plusieurs couches entièrement connectées. Voici les détails de l'architecture du modèle :
+
+\begin{itemize}
+    \item \textbf{Couche d'entrée}: Reçoit les données d'entrée de dimension 200.
+    \item \textbf{Couche cachée}: Une couche entièrement connectée de dimension \texttt{hidden\_dim} suivie d'une normalisation par batch (\texttt{BatchNorm1d}).
+    \item \textbf{Fonction d'activation}: ReLU (Rectified Linear Unit) après la couche cachée.
+    \item \textbf{Couche de sortie}: Une couche entièrement connectée de dimension 6 suivie d'une fonction d'activation sigmoïde pour la classification multilabel de chaque catégorie.
+\end{itemize}
+
+\subsection{Fonction de coût}
+
+Pour entraîner notre modèle, nous avons utilisé la fonction de coût de la perte de log-vraisemblance négative (\texttt{BCEWithLogitsLoss}) qui est couramment utilisée pour les tâches de classification multilabel.
+
+\subsection{Optimisation}
+
+Pour optimiser notre modèle, nous avons utilisé l'algorithme d'optimisation Adam (\texttt{AdamOptimizer}) qui est une méthode d'optimisation stochastique basée sur l'estimation adaptative des moments.
+
+\section{Création des modèles}
+
+Afin de trouver la meilleure architecture pour notre modèle, nous avons décidé de tester plusieurs configurations de réseaux de neurones en faisant varier trois paramètres :
+
+\begin{itemize}
+    \item \textbf{Nombre de neurones dans la couche cachée} : 32, 64, 128
+    \item \textbf{Type d'embedding utilisé} : GloVe et FastText
+    \item \textbf{Type de prétraitement des données textuelles} : Différentes méthodes de prétraitement des données textuelles ont été explorées, telles que la normalisation, la suppression des stop-words et la lemmatisation, afin de trouver la combinaison optimale pour notre tâche de classification multilabel.
+\end{itemize}
+
+
+\section{Résultats}
+
+Voici les scores de précision, de rappel et de F1-Score par label, d'un modèle avec une couche cachée de 32 neurones, utilisant les embeddings de FastText et aucun prétraitement des données textuelles.
+
+\begin{table}[ht]
+    \centering
+    \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle de réseau de neurones feedforward FastText Optimisé pour chaque label, sur le jeu de test}    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Label} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\ \hline
+    toxic          & 0.64               & 0.50            & 0.56              & 6090             \\
+    severe\_toxic  & 0.27               & 0.22            & 0.24              & 367              \\
+    obscene        & 0.71               & 0.46            & 0.56              & 3691             \\
+    threat         & 0.50               & 0.07            & 0.12              & 211              \\
+    insult         & 0.66               & 0.36            & 0.47              & 3427             \\
+    identity\_hate & 0.50               & 0.02            & 0.04              & 712              \\
+    overall\_non\_toxic & 0.95           & 0.97            & 0.96              & 57735            \\\hline
+    macro avg      & 0.60              & 0.37            & 0.42              & 72233            \\
+    weighted avg   & 0.89               & 0.86            & 0.87              & 72233            \\ \hline
+    \end{tabular}
+    \label{tab:scores}
+\end{table}
+
+Après avoir entraîné et évalué plusieurs modèles de réseaux de neurones, nous avons constaté que le modèle avec une couche cachée de 64 neurones, utilisant les embeddings de GloVe et un prétraitement des données textuelles comprenant la suppression des caractères spéciaux, la mise en minuscules et la suppression des duplications, a obtenu les meilleurs résultats.
+\begin{table}[ht]
+    \centering
+    \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle de réseau de neurones feedforward Glove Optimisé pour chaque label, sur le jeu de test}    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Label} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\ \hline
+    toxic          & 0.55               & 0.72            & 0.62              & 6090             \\
+    severe\_toxic  & 0.33               & 0.47            & 0.38              & 367              \\
+    obscene        & 0.62               & 0.63            & 0.62              & 3691             \\
+    threat         & 0.52               & 0.42            & 0.46              & 211              \\
+    insult         & 0.59               & 0.61            & 0.60              & 3427             \\
+    identity\_hate & 0.49               & 0.37            & 0.42              & 712              \\
+    overall\_non\_toxic & 0.97           & 0.94            & 0.95              & 57735            \\\hline
+    macro avg      & 0.58              & 0.59            & 0.58              & 72233            \\
+    weighted avg   & 0.89               & 0.88            & 0.88              & 72233            \\ \hline
+    \end{tabular}
+    \label{tab:scores}
+\end{table}
