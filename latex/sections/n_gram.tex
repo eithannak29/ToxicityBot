@@ -1,53 +1,53 @@
 \chapter{N-gram}
 
-\section{Pré-traitement des données}
+\section{Prétraitement des données}
 
-Nous avons d'abord effectué un pré-traitement des données en utilisant différentes techniques pour améliorer la qualité des entrées pour le modèle N-gram.
+Le prétraitement des données a été initié en utilisant diverses techniques visant à améliorer la qualité des entrées pour le modèle \textit{N-gram}.
 
-\subsection{Tokenisation des commentaires}
+\subsubsection{Tokenisation des commentaires}
 
-La tokenisation divise les commentaires en unités de base appelées tokens, facilitant l'analyse et la modélisation des données textuelles.
+La tokenisation divise les commentaires en unités de base appelées \textit{tokens}, facilitant l'analyse et la modélisation des données textuelles.
 
-\subsubsection*{Tokenisation à l'aide de notre API \texttt{tokenize\_apy}}
+\subsubsection*{Tokenisation à l'aide de notre \textit{API} \textit{tokenize\_apy}}
 
-Nous avons utilisé l'API \texttt{tokenize\_apy} pour effectuer la tokenisation des commentaires. Cette API nous permet de transformer les phrases en une séquence de mots individuels ou tokens, essentielle pour la création des n-grams.
+L'API \textit{tokenize\_apy} a été employée pour la tokenisation des commentaires. Cette \textit{API} permet la transformation des phrases en une séquence de mots individuels ou \textit{tokens}, essentielle à la création des \textit{n-grams}.
 
 \subsubsection*{Équilibrage du jeu de données}
 
-Pour éviter les biais dans notre modèle, nous avons équilibré le jeu de données en échantillonnant un nombre égal de commentaires toxiques et non toxiques. Cette étape est cruciale pour s'assurer que le modèle apprend de manière équitable des deux types de données.
+Afin d'éviter les biais dans le modèle, le jeu de données a été équilibré en échantillonnant un nombre égal de commentaires toxiques et non toxiques. Cette étape est cruciale pour garantir une apprentissage équitable des deux types de données par le modèle.
 
-\section{Analyse exploratoire des données}
+\subsubsection{Analyse exploratoire des données}
 
-Avant de procéder à l'entraînement du modèle, nous avons effectué une analyse exploratoire pour comprendre les caractéristiques de notre jeu de données.
+Avant de procéder à l'entraînement du modèle, une analyse exploratoire a été réalisée afin de comprendre les caractéristiques du jeu de données.
 
-\subsection{Statistiques descriptives}
+\subsubsection{Statistiques descriptives}
 
 Voici les statistiques descriptives sur le jeu de données équilibré :
 
 \begin{itemize}
     \item Nombre total de documents : 223 549
-    \item Nombre total de tokens : Variable selon les n-grams
-    \item Les n-grams les plus fréquents incluent "nigger nigger", "on my", "be blocked", etc.
+    \item Nombre total de \textit{tokens} : Variable selon les \textit{n-grams}
+    \item Les \textit{n-grams} les plus fréquents incluent \textit{"nigger nigger", "on my", "be blocked", etc.}
 \end{itemize}
 
 \section{Entraînement du modèle}
 
-Nous avons entraîné notre modèle N-gram en suivant une série d'étapes méthodiques.
+Le modèle \textit{N-gram} a été entraîné en suivant une série d'étapes méthodiques.
 
-\subsection{Préparation des données}
+\subsubsection{Préparation des données}
 
 \begin{itemize}
-    \item Utilisation de \texttt{CountVectorizer} pour créer des bigrams, trigrams et 4-grams.
-    \item Entraînement du modèle en utilisant les fréquences des n-grams extraits des commentaires.
+    \item Utilisation de \textit{CountVectorizer} pour créer des \textit{bigrams} et \textit{trigrams}
+    \item Entraînement du modèle en utilisant les fréquences des \textit{n-grams} extraits des commentaires.
 \end{itemize}
 
-\subsection{Création du modèle de bigrams et trigrams}
+\subsubsection{Création du modèle de bigrams et trigrams}
 
-Nous avons utilisé `CountVectorizer` pour créer des modèles de bigrams (séquences de deux mots) et trigrams (séquences de trois mots) à partir des phrases. 
+\textit{CountVectorizer} a été utilisé pour créer des modèles de \textit{bigrams} (séquences de deux mots) et \textit{trigrams} (séquences de trois mots) à partir des phrases.
 
-\subsection{Fréquence des n-grams}
+\subsubsection{Fréquence des \textit{n-grams}}
 
-Nous avons calculé la fréquence des n-grams les plus courants dans le jeu de données pour avoir une meilleure compréhension de leur distribution.
+La fréquence des \textit{n-grams} les plus courants dans le jeu de données a été calculée afin d'obtenir une meilleure compréhension de leur distribution.
 
 \begin{table}[h]
     \centering
@@ -59,7 +59,7 @@ Nous avons calculé la fréquence des n-grams les plus courants dans le jeu de d
     be blocked & 2761 \\ \hline
     fuck you & 2681 \\ \hline
     \end{tabular}
-    \caption{Fréquence des bigrams les plus courants}
+    \caption{Fréquence des \textit{bigrams} les plus courants}
 \end{table}
 
 \begin{table}[h]
@@ -71,28 +71,28 @@ Nous avons calculé la fréquence des n-grams les plus courants dans le jeu de d
     on my talk & 20 \\ \hline
     be blocked from & 15 \\ \hline
     \end{tabular}
-    \caption{Fréquence des trigrams les plus courants}
+    \caption{Fréquence des \textit{trigrams} les plus courants}
 \end{table}
 
-\subsection{Fonction de prédiction}
+\subsubsection{Fonction de prédiction}
 
-Nous avons défini des fonctions de prédiction pour compléter les phrases basées sur les n-grams les plus fréquents.
+Des fonctions de prédiction ont été définies pour compléter les phrases basées sur les \textit{n-grams} les plus fréquents.
 
-\subsubsection*{Prédiction avec les bigrams}
+\subsubsection*{Prédiction avec les \textit{bigrams}}
 
 \begin{itemize}
-    \item Exemple de prédiction bigram : "Do you like playing" $\rightarrow$ "the"
+    \item Exemple de prédiction \textit{bigram} : "Do you like playing" $\rightarrow$ "the"
 \end{itemize}
 
-\subsubsection*{Prédiction avec les trigrams}
+\subsubsection*{Prédiction avec les \textit{trigrams}}
 
 \begin{itemize}
-    \item Exemple de prédiction trigram : "once upon a" $\rightarrow$ "time"
+    \item Exemple de prédiction \textit{trigram} : "once upon a" $\rightarrow$ "time"
 \end{itemize}
 
 \subsubsection*{Complétion de phrase}
 
-Nous avons également créé une fonction \texttt{complete\_the\_phrase} qui prend en entrée une phrase de départ et prédit la suite.
+Une fonction \textit{complete\_the\_phrase} a également été créée, prenant en entrée une phrase de départ et prédisant la suite.
 
 \begin{itemize}
     \item Exemple d'utilisation : "once upon" $\rightarrow$ "a time when I was just a few days ago I’m not"
@@ -100,28 +100,28 @@ Nous avons également créé une fonction \texttt{complete\_the\_phrase} qui pre
 
 \section{Évaluation des performances du modèle}
 
-Pour évaluer les performances de notre modèle, nous avons calculé son accuracy. Nous avons testé le modèle sur une cinquantaine de phrases concaténées afin d'obtenir ces résultats.
+Afin d'évaluer les performances du modèle, l'\textit{accuracy} a été calculée. Le modèle a été testé sur une cinquantaine de phrases concaténées pour obtenir ces résultats.
 \begin{table}[h]
     \centering
     \begin{tabular}{|l|l|}
     \hline
     \textbf{N-gram} & \textbf{Accuracy} \\ \hline
-    Bigram & 0.0925   \\ \hline
-    Trigram & 0.0925  \\ \hline
+    \textit{Bigram} & 0.0925   \\ \hline
+    \textit{Trigram} & 0.0925  \\ \hline
     % 4-gram & 0.0 \\ \hline
     \end{tabular}
-    \caption{Performances du modèle N-gram avec différentes configurations (sur 50 phrases)}
+    \caption{Performances du modèle \textit{N-gram} avec différentes configurations (sur 50 phrases)}
 \end{table}
 
 \section{Analyse des résultats}
 
-\subsection{Interprétation des fréquences des n-grams}
+\subsubsection{Interprétation des fréquences des \textit{n-grams}}
 
-Les n-grams les plus fréquents identifiés révèlent des schémas de langage courants et des expressions fréquentes dans le corpus. Ces informations sont cruciales pour améliorer la compréhension et la génération de texte.
+Les \textit{n-grams} les plus fréquents identifiés révèlent des schémas de langage courants et des expressions fréquentes dans le corpus. Ces informations sont cruciales pour améliorer la compréhension et la génération de texte.
 
-\subsection{Prédiction et complétion de phrases}
+\subsubsection{Prédiction et complétion de phrases}
 
-Les modèles de bigrams et trigrams ont été utilisés pour prédire le mot suivant dans une phrase donnée, et pour compléter des phrases entières. Cela démontre l'efficacité des n-grams pour la génération de texte basée sur des séquences de mots précédents.
+Les modèles de \textit{bigrams} et \textit{trigrams} ont été utilisés pour prédire le mot suivant dans une phrase donnée, et pour compléter des phrases entières. Cela démontre l'efficacité des \textit{n-grams} pour la génération de texte basée sur des séquences de mots précédents.
 
 % \subsubsection*{Exemples de prédiction et complétion}
 
@@ -131,6 +131,6 @@ Les modèles de bigrams et trigrams ont été utilisés pour prédire le mot sui
 %     \item Complétion de phrase : "once upon" $\rightarrow$ "a time when I was just a few days ago I’m not"
 % \end{itemize}
 
-\section{Conclusion}
+\subsubsection{Conclusion}
 
-Le modèle N-gram, bien que simple, offre une capacité intéressante pour prédire et générer du texte basé sur les séquences de mots précédents. Cependant, il est limité par la taille du contexte qu'il peut utiliser (les n-grams). Des modèles plus avancés, comme les modèles de langage basés sur les réseaux de neurones, peuvent utiliser un contexte plus large et capturer des relations plus complexes dans les données textuelles.
+Le modèle \textit{N-gram}, bien que simple, offre une capacité intéressante pour prédire et générer du texte basé sur les séquences de mots précédents. Cependant, il est limité par la taille du contexte qu'il peut utiliser (les {n-grams}). Des modèles plus avancés, comme les modèles de langage basés sur les réseaux de neurones, peuvent utiliser un contexte plus large et capturer des relations plus complexes dans les données textuelles.
