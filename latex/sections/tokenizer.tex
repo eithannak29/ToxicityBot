@@ -2,7 +2,7 @@
 
 \section{Prétraitement du jeu de données}
 
-Le prétraitement des données est une étape essentielle dans le processus d'analyse de texte. Il vise à nettoyer, transformer et préparer les données brutes afin de les rendre exploitables pour l'entraînement des modèles. Dans cette section, des techniques de prétraitement seront appliquées sur notre jeu de données afin de le rendre apte à être utilisé dans nos modèles prédictifs.
+Le prétraitement des données est une étape essentielle dans le processus d'analyse de texte. Il vise à nettoyer, transformer et préparer les données brutes afin de les rendre exploitables pour l'entraînement des modèles. Dans cette section, des techniques de prétraitement seront appliquées sur le jeu de données afin de le rendre apte à être utilisé dans nos modèles prédictifs.
 
 \subsubsection{Tokenisation à base d'expressions régulières (\textit{RegexTokenizer})}
 
@@ -41,7 +41,7 @@ La tokenisation BPE est appliquée sur le jeu de données en utilisant la biblio
 
 \section{Comparaison avec d'autres \textit{tokenizers}}
 
-Une comparaison a également été effectuée sur la performance de notre \textit{tokenizer} avec d'autres options disponibles dans la bibliothèque MinBPE.
+Une comparaison a également été effectuée sur la performance du \textit{tokenizer} avec d'autres options disponibles dans la bibliothèque MinBPE.
 
 \begin{table}[h]
 \centering
@@ -76,35 +76,33 @@ La mise en minuscules permet d'uniformiser le texte en convertissant toutes les 
 
 La méthode de lemmatisation a été modifiée pour identifier les verbes et les noms dans une phrase. Parfois, les verbes étaient considérés comme des noms et ne pouvaient pas être lemmatisés avec le lemmatiseur par défaut.
 
-\subsubsection*{Les caractères spéciaux}
-
-En examinant attentivement notre base de données, il a été constaté la présence de nombreux tokens représentant des \textit{URL}, des adresses e-mail et d’autres éléments inutiles pour nos calculs d’entraînement des modèles. 
-Par conséquent, une décision a été prise de les supprimer afin de réduire au maximum le bruit dans nos données et ainsi optimiser nos modèles.
 
 \subsubsection*{Remplacement des emojis}
 
 Certains emojis peuvent être importants pour l'indication d'une toxicité ou non c'est pourquoi il a été décidé de remplacer certains emojis par un mot les représentant au mieux afin de permettre aux models de mieux s'adapter.
+\subsubsection*{Les caractères spéciaux}
 
-\subsubsection*{Effacement des ponctuations}
+En examinant attentivement la base de données, il a été constaté la présence de nombreux tokens représentant des \textit{URL}, des adresses e-mail et d’autres éléments inutiles pour nos calculs d’entraînement des modèles. 
+Par conséquent, une décision a été prise de les supprimer afin de réduire au maximum le bruit dans nos données et ainsi optimiser nos modèles.
+
+\subsubsection*{Effacement des ponctuations et des caractère non ASCII}
 
 Parfois, certaines ponctuations occupent trop d'espace sans être utiles au modèle. Ainsi, tous les caractères qui ne sont pas dans la table \textit{ASCII} et les signes de ponctuation qui pourraient compromettre l'entraînement des modèles seront supprimées.
 
 \subsubsection*{Effacement des duplications}
-En constatant que plusieurs messages vulgaires étaient dissimulés parmi les \textit{tokens} en raison de la duplication des premières et/ou dernières lettres, il a été nécessaire de corriger ces \textit{tokens} pour leur attribuer une plus grande valeur.
+En constatant que plusieurs messages vulgaires étaient dissimulés parmi les \textit{tokens} en raison de la duplication des premières et/ou dernières lettres, chaque charactère répété strictement plus de \textbf{2} fois a été réduit à un seul charactère.
 
 \subsubsection*{Tableau représentatif des différentes fonctions de prétraitement}
 Le tableau représentatif des différentes fonctions de prétraitement peut être consulté dans l'annexe dédiée au \textit{tokenizer} (Annexe \ref{chap:appendix_tokenizer}).
 
 \section{Prétraitement supplémentaire du jeu de données}
 
-En plus des techniques de prétraitement déjà mentionnées, les auteurs ont également effectué les actions suivantes pour rendre le jeu de données plus adapté à l'entraînement des modèles :
-
 \subsubsection*{Réflexion sur la suppression des symboles opérateurs et des chiffres}
 
 Dans le cadre du prétraitement des données, il avait été envisagé initialement de supprimer les symboles opérateurs et les chiffres présents dans les textes. Cependant, après réflexion, il a été réalisé que ces symboles pouvaient avoir une valeur sémantique importante pour déterminer si une phrase est toxique ou non. Ainsi, au lieu de les supprimer, un processus sophistiqué a été mis en place consistant à utiliser une série d'expressions régulières (regex) pour remplacer ces symboles par leur signification correspondante.
 Par exemple, un remplacement a été effectué sur des symboles comme ":/" par leur signification afin d'améliorer la compréhension du texte par nos modèles.
 Cette approche permet d'assurer des interactions plus contextuelles et pertinentes avec les utilisateurs, tout en garantissant une analyse précise et efficace du langage.
-Chacune de ces expressions régulières a été soigneusement personnalisée par notre équipe pour répondre aux besoins spécifiques de notre projet, permettant ainsi à notre \textit{IA} de mieux comprendre le langage naturel et d'interagir de manière plus fluide avec les utilisateurs.
+Chacune de ces expressions régulières a été soigneusement personnalisée pour répondre aux besoins spécifiques du projet, permettant ainsi aux modèles de mieux comprendre le langage naturel et d'interagir de manière plus fluide avec les utilisateurs.
 
 \begin{table}[h]
 \centering
@@ -122,13 +120,10 @@ Chacune de ces expressions régulières a été soigneusement personnalisée par
 \end{table}
 
 
-\subsubsection*{Suppression des balises \textit{HTML}, des \textit{URL} et des adresses e-mail}
-
-Les balises \textit{HTML}, les \textit{URL} et les adresses e-mail ont été supprimées du jeu de données. Ces éléments étaient fréquents dans notre base de données en raison d'erreurs de récupération de données lors de la collecte de commentaires sur \textit{Wikipedia}.
 
 \subsubsection*{Correction des erreurs orthographiques et des fautes de frappe}
 
-Un algorithme de correction des erreurs orthographiques et des fautes de frappe a été utilisé pour améliorer la qualité des données textuelles. Cet algorithme remplace les mots incorrectement orthographiés par les mots les plus proches dans notre dictionnaire de référence. Par exemple les caractères spéciaux, tels que \textit{'ı'} utilisé à la place de \textit{'i'}, seront corrigés. Voici des exemples de phrases avant et après l'application de notre algorithme de correction :
+Un algorithme de correction des erreurs orthographiques et des fautes de frappe a été utilisé pour améliorer la qualité des données textuelles. Cet algorithme remplace les mots incorrectement orthographiés par les mots les plus proches dans le dictionnaire de référence. Par exemple les caractères spéciaux, tels que \textit{'ı'} utilisé à la place de \textit{'i'}, seront corrigés. Voici des exemples de phrases avant et après l'application de l'algorithme de correction :
 
 \begin{table}[h]
     \centering
@@ -145,6 +140,7 @@ Un algorithme de correction des erreurs orthographiques et des fautes de frappe 
 \subsubsection*{Non-application de la correction d'orthographe}
 Initialement, l'équipe avait envisagé d'appliquer un algorithme de correction d'orthographe pour améliorer la qualité des données textuelles. Cependant, après avoir constaté que cette étape prenait trop de temps et pouvait introduire des erreurs, notamment en modifiant des noms propres en mots n'ayant aucun rapport, la décision a été prise de ne pas l'appliquer. En effet, cela pourrait introduire des biais importants, notamment si un prénom ressemble à une insulte, ce qui pourrait transformer une phrase anodine en une phrase insultante. Par conséquent, il a été choisi de ne pas effectuer cette étape de correction d'orthographe pour garantir l'intégrité et la qualité des données textuelles.
 
+\newpage
 \subsubsection*{Exemple d'une phrase après toutes les étapes de normalisation}
 
 \begin{table}[h]

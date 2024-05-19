@@ -34,7 +34,7 @@ Le modèle de réseau de neurones \textit{feedforward (FNN)} construit est compo
 
 \subsubsection{Fonction de coût}
 
-Pour entraîner notre modèle, la fonction de coût utilisée est la vraisemblance négative logarithmique (\textit{BCEWithLogitsLoss}) qui est couramment utilisée pour les tâches de classification multilabel.
+Pour entraîner le modèle, la fonction de coût utilisée est la vraisemblance négative logarithmique (\textit{BCEWithLogitsLoss}) qui est couramment utilisée pour les tâches de classification multilabel.
 De plus, la pondération des classes a été utilisée pour compenser le déséquilibre des classes dans le jeu de données.
 \subsubsection{Optimisation}
 
@@ -42,12 +42,12 @@ Pour optimiser le modèle, l'algorithme d'optimisation employé est \textit{Adam
 
 \section{Création des modèles}
 
-Afin de trouver la meilleure architecture pour notre modèle, il a été décidé de tester plusieurs configurations de réseaux de neurones en faisant varier trois paramètres :
+Afin de trouver la meilleure architecture du modèle, il a été décidé de tester plusieurs configurations de réseaux de neurones en faisant varier trois paramètres :
 
 \begin{itemize}
     \item \textbf{Nombre de neurones dans la couche cachée} : \textbf{32},\textbf{64},\textbf{128}
     \item \textbf{Type d'embedding utilisé} : \textit{GloVe} et \textit{FastText}
-    \item \textbf{Type de prétraitement des données textuelles} : Différentes méthodes de prétraitement des données textuelles ont été explorées, telles que la normalisation, la suppression des stop-words et la lemmatisation, afin de trouver la combinaison optimale pour notre tâche de classification multilabel.
+    \item \textbf{Type de prétraitement des données textuelles} : Différentes méthodes de prétraitement des données textuelles ont été explorées, telles que la normalisation, la suppression des stop-words et la lemmatisation, afin de trouver la combinaison optimale pour cette tâche de classification \textit{multilabel}.
 \end{itemize}
 
 

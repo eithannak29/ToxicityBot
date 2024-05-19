@@ -2,10 +2,10 @@
 
 \section{Construction du modèle}
 
-Afin d'améliorer les performances de notre solution, il a été décidé de tester un modèle \textit{transformer}.
+Afin d'améliorer les performances du modèle, il a été décidé de tester un modèle \textit{transformer}.
 Pour ce faire, la bibliothèque \textit{Hugging Face} a été utilisée car elle propose des implémentations de modèles \textit{transformer} pré-entraînés.
 Le modèle \textit{BERT} a été choisi car il a été préentraîné sur des données textuelles massives et qui a montré de très bonnes performances sur de nombreuses tâches de traitement du langage naturel.
-Le modèle a été entraîné sur notre jeu de données pour réaliser une classification multilabel des commentaires à l'aide de \textit{Google Colab}.
+Le modèle a été entraîné sur le jeu de données pour réaliser une classification multilabel des commentaires à l'aide de \textit{Google Colab}.
 
 \subsubsection{Prétraitement des données}
 
@@ -17,7 +17,7 @@ Voici les spécificités de l'architecture du modèle :
 
 \begin{itemize}
 \item Il est constitué de plusieurs couches de transformeurs pour capturer les représentations contextuelles des mots.
-\item Le modèle a été adapté pour notre tâche avec une couche de sortie de dimension \textbf{6} et une fonction d'activation sigmoïde, permettant la classification multilabel des catégories.
+\item Le modèle a été adapté avec une couche de sortie de dimension \textbf{6} et une fonction d'activation sigmoïde, permettant la classification multilabel des catégories.
 \item La fonction de coût utilisée est la perte de log-vraisemblance négative (\textit{BCEWithLogitsLoss}), adaptée aux tâches de classification multilabel.
 \item L'optimisation a été réalisée à l'aide de l'algorithme Adam, une méthode efficace pour les grands ensembles de données et les réseaux de neurones complexes.
 \end{itemize}
