@@ -16,3 +16,4 @@ jigsaw-toxic-comment-classification-challenge/
 /src/models/gloves/
 *.deb
 *.blg
+*.synctex(busy)

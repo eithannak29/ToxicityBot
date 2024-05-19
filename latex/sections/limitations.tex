@@ -1,0 +1,22 @@
+\chapter{Limitation et Perspectives}
+
+\section{Limitations}
+\subsubsection{Machine Learning}
+Le jeu de données de test n'étant pas labellisé correctement, les modèles de \textit{machine learning} avaient un peu plus de mal à généraliser et prédire correctement les \textit{labels} des commentaires.
+ De plus, le jeu de données étant déséquilibré, les modèles avaient tendance à mieux prédire les classes majoritaires.
+
+\subsubsection{Deep Learning}
+Concernant les modèles \textit{transformers}, une limitation majeure est le temps de calcul nécessaire pour entraîner ces modèles sur des jeux de données massifs. 
+En effet, l'entraînement de ces modèles peut prendre plusieurs heures, voire plusieurs jours, en fonction de la taille du jeu de données et de la complexité du modèle.
+C'est pour cela que le service \textit{Google Colab Pro} et le \textit{GPU A100} ont été utilisés. Celui-ci étant payant, la quantité de test était restreinte.
+
+\section{Perspectives}
+\subsubsection{Data augmentation}
+Faire une augmentation de données pour équilibrer le jeu de données aurait permis d'améliorer les performances des modèles.
+Ainsi, il aurait été possible de traduire les phrases en français, allemand ou espagnol pour augmenter la taille du jeu de données.
+Un \textit{Large Language Model (LLM)} aurait pu être utile pour créer des données synthétiques afin d'améliorer les performances des modèles. 
+
+Le jeu de données fourni aurait aussi pu être augmenté par un autre jeu de données afin d'avoir d'autres références toxiques et un modèle plus général.
+
+\subsubsection{Fine-tuning}
+Pour les modèles de \textit{transformers}, il aurait été intéressant d'exploiter d'autres modèles d'\textit{encoder} pré-entrainés comme \textit{Roberta}, \textit{DeBERTa}, \textit{DistilBERT} ou \textit{CANINE}, ainsi que de comparer différents hyperparamètres.

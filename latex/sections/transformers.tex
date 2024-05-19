@@ -2,34 +2,33 @@
 
 \section{Construction du modèle}
 
-Afin d'améliorer les performances de notre solution, nous avons décidé de tester un modèle transformer.
-Pour ce faire nous avons utilisé la librairie Hugging Face qui propose des implémentations de modèles transformer pré-entraînés.
-Nous avons choisi d'utiliser le modèle DistilBert qui est une version plus légère du modèle BERT qui a été pré-entraîné sur des données textuelles massives.
-Cette version plus légère permet de réduire le temps d'entraînement et la consommation de mémoire tout en conservant 97\% des performances du modèle BERT.
+Afin d'améliorer les performances de notre solution, nous avons décidé de tester un modèle \textit{transformer}.
+Pour ce faire nous avons utilisé la bibliothèque \textit{Hugging Face} qui propose des implémentations de modèles \textit{transformer} préentraînés.
+Nous avons choisi d'utiliser le modèle \textit{BERT} qui a été préentraîné sur des données textuelles massives et qui a montré de très bonnes performances sur de nombreuses tâches de traitement du langage naturel.
+Nous avons entraîné le modèle sur notre jeu de données pour réaliser une classification multilabel des commentaires à l'aide de \textit{Google Colab}.
 
 \subsection{Prétraitement des données}
 
-Pour prétraiter les données textuelles, nous avons utilisé le tokenizer DistilBertTokenizer qui permet de transformer les textes en tokens qui peuvent être compris par le modèle DistilBert.
+Pour prétraiter les données textuelles, nous avons utilisé le \textit{tokenizer} \textit{BERTTokenizer} qui permet de \textit{transformer} les textes en \textit{tokens} qui peuvent être compris par le modèle \textit{BERT}.
 
 \subsection{Architecture du modèle}
 
-Nous avons utilisé le modèle transformeur DistilBERT, un modèle allégé de BERT, pour notre tâche de classification multilabel. Voici les spécificités de l'architecture du modèle :
+Nous avons utilisé le modèle transformeur \textit{BERT}, un modèle allégé de \textit{BERT}, pour notre tâche de classification multilabel. Voici les spécificités de l'architecture du modèle :
 
 \begin{itemize}
-\item DistilBERT conserve les performances de BERT tout en étant plus rapide et plus léger.
 \item Il est constitué de plusieurs couches de transformeurs pour capturer les représentations contextuelles des mots.
-\item Le modèle a été adapté pour notre tâche avec une couche de sortie de dimension 6 et une fonction d'activation sigmoïde, permettant la classification multilabel des catégories.
-\item La fonction de coût utilisée est la perte de log-vraisemblance négative (\texttt{BCEWithLogitsLoss}), adaptée aux tâches de classification multilabel.
+\item Le modèle a été adapté pour notre tâche avec une couche de sortie de dimension \textbf{6} et une fonction d'activation sigmoïde, permettant la classification multilabel des catégories.
+\item La fonction de coût utilisée est la perte de log-vraisemblance négative (\textit{BCEWithLogitsLoss}), adaptée aux tâches de classification multilabel.
 \item L'optimisation a été réalisée à l'aide de l'algorithme Adam, une méthode efficace pour les grands ensembles de données et les réseaux de neurones complexes.
 \end{itemize}
 
 \section{Résultats}
 
-Voici les scores de précision, de rappel et de F1-Score par label, d'un modèle DistilBERT pré-entraîné sur des données textuelles massives, pour la classification multilabel des différentes catégories au bout de 10 époques.
+Voici les scores de précision, de rappel et de F1-Score par label, d'un modèle \textit{BERT} préentraîné sur des données textuelles massives, pour la classification multilabel des différentes catégories au bout de \textbf{10} \textit{epochs}.
 
 \begin{table}[ht]
     \centering
-    \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle DistilBERT \textbf{sans} la pondération des classes, sur le jeu de test}    \begin{tabular}{lcccc}
+    \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle \textit{BERT} \textbf{sans} la pondération des classes, sur le jeu de test}    \begin{tabular}{lcccc}
     \hline
     \textbf{Label} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\ \hline
     toxic          & 0.52               & 0.91            & 0.66              & 6090             \\
@@ -48,7 +47,7 @@ Voici les scores de précision, de rappel et de F1-Score par label, d'un modèle
 
 \begin{table}[ht]
     \centering
-    \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle DistilBERT \textbf{avec} la pondération des classes, sur le jeu de test}    \begin{tabular}{lcccc}
+    \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle \textit{BERT} \textbf{avec} la pondération des classes, sur le jeu de test}    \begin{tabular}{lcccc}
     \hline
     \textbf{Label} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\ \hline
     toxic          & 0.52               & 0.91            & 0.66              & 6090             \\
