@@ -2,18 +2,18 @@
 
 \section{Construction du modèle}
 
-Afin d'améliorer les performances de notre solution, nous avons décidé de tester un modèle \textit{transformer}.
-Pour ce faire nous avons utilisé la bibliothèque \textit{Hugging Face} qui propose des implémentations de modèles \textit{transformer} préentraînés.
-Nous avons choisi d'utiliser le modèle \textit{BERT} qui a été préentraîné sur des données textuelles massives et qui a montré de très bonnes performances sur de nombreuses tâches de traitement du langage naturel.
-Nous avons entraîné le modèle sur notre jeu de données pour réaliser une classification multilabel des commentaires à l'aide de \textit{Google Colab}.
+Afin d'améliorer les performances de notre solution, il a été décidé de tester un modèle \textit{transformer}.
+Pour ce faire, la bibliothèque \textit{Hugging Face} a été utilisée car elle propose des implémentations de modèles \textit{transformer} préentraînés.
+Le modèle \textit{BERT} a été choisi car il a été préentraîné sur des données textuelles massives et qui a montré de très bonnes performances sur de nombreuses tâches de traitement du langage naturel.
+Le modèle a été entraîné sur notre jeu de données pour réaliser une classification multilabel des commentaires à l'aide de \textit{Google Colab}.
 
-\subsection{Prétraitement des données}
+\subsubsection{Prétraitement des données}
 
-Pour prétraiter les données textuelles, nous avons utilisé le \textit{tokenizer} \textit{BERTTokenizer} qui permet de \textit{transformer} les textes en \textit{tokens} qui peuvent être compris par le modèle \textit{BERT}.
+Pour prétraiter les données textuelles,Le \textit{tokenizer} \textit{BERTTokenizer} a été utilisé. En effet, il permet de transformer nos données d'entrer en \textit{tokens} qui peuvent être compris par le modèle \textit{BERT}.
 
-\subsection{Architecture du modèle}
+\subsubsection{Architecture du modèle}
 
-Nous avons utilisé le modèle transformeur \textit{BERT}, un modèle allégé de \textit{BERT}, pour notre tâche de classification multilabel. Voici les spécificités de l'architecture du modèle :
+Voici les spécificités de l'architecture du modèle :
 
 \begin{itemize}
 \item Il est constitué de plusieurs couches de transformeurs pour capturer les représentations contextuelles des mots.
@@ -31,15 +31,15 @@ Voici les scores de précision, de rappel et de F1-Score par label, d'un modèle
     \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle \textit{BERT} \textbf{sans} la pondération des classes, sur le jeu de test}    \begin{tabular}{lcccc}
     \hline
     \textbf{Label} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\ \hline
-    toxic          & 0.52               & 0.91            & 0.66              & 6090             \\
-    severe\_toxic  & 0.40               & 0.38            & 0.39              & 367              \\
-    obscene        & 0.59               & 0.82            & 0.69              & 3691             \\
-    threat         & 0.46               & 0.57            & 0.51              & 211              \\
-    insult         & 0.62               & 0.78            & 0.69              & 3427             \\
-    identity\_hate & 0.63               & 0.61            & 0.62              & 712              \\
-    overall\_non\_toxic & 0.99           & 0.91            & 0.95              & 57735            \\\hline
-    macro avg      & 0.60              & 0.71            & 0.64              & 72233            \\
-    weighted avg   & 0.90               & 0.90            & 0.89             & 72233            \\ \hline
+    toxic          & 0.80               & 0.85            & 0.83              & 6090             \\
+    severe\_toxic  & 0.53               & 0.43            & 0.48              & 367              \\
+    obscene        & 0.85               & 0.83            & 0.84              & 3691             \\
+    threat         & 0.51               & 0.57            & 0.54              & 211              \\
+    insult         & 0.75               & 0.78            & 0.77              & 3427             \\
+    identity\_hate & 0.61               & 0.55            & 0.58              & 712              \\
+    overall\_non\_toxic & 0.98           & 0.98            & 0.98             & 57735            \\\hline
+    macro avg      & 0.72              & 0.71            & 0.72              & 72233            \\
+    weighted avg   & 0.94               & 0.95            & 0.94            & 72233            \\ \hline
     \end{tabular}
     \label{tab:scores}
 \end{table}
@@ -50,15 +50,15 @@ Voici les scores de précision, de rappel et de F1-Score par label, d'un modèle
     \caption{Scores de Précision, Rappel, et F1-Score par Label, d'un modèle \textit{BERT} \textbf{avec} la pondération des classes, sur le jeu de test}    \begin{tabular}{lcccc}
     \hline
     \textbf{Label} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\ \hline
-    toxic          & 0.52               & 0.91            & 0.66              & 6090             \\
-    severe\_toxic  & 0.40               & 0.38            & 0.39              & 367              \\
-    obscene        & 0.59               & 0.82            & 0.69              & 3691             \\
-    threat         & 0.46               & 0.57            & 0.51              & 211              \\
-    insult         & 0.62               & 0.78            & 0.69              & 3427             \\
-    identity\_hate & 0.63               & 0.61            & 0.62              & 712              \\
-    overall\_non\_toxic & 0.99           & 0.91            & 0.95              & 57735            \\\hline
-    macro avg      & 0.60              & 0.71            & 0.64              & 72233            \\
-    weighted avg   & 0.90               & 0.90            & 0.89             & 72233            \\ \hline
+    toxic          & 0.73               & 0.90            & 0.81              & 6090             \\
+    severe\_toxic  & 0.36               & 0.83            & 0.50              & 367              \\
+    obscene        & 0.72               & 0.92            & 0.81              & 3691             \\
+    threat         & 0.39               & 0.72            & 0.51              & 211              \\
+    insult         & 0.65               & 0.89            & 0.75              & 3427             \\
+    identity\_hate & 0.47               & 0.71            & 0.57              & 712              \\
+    overall\_non\_toxic & 0.99           & 0.97            & 0.98              & 57735            \\\hline
+    macro avg      & 0.62              & 0.85            & 0.70              & 72233            \\
+    weighted avg   & 0.93               & 0.95            & 0.94             & 72233            \\ \hline
     \end{tabular}
     \label{tab:scores}
 \end{table}

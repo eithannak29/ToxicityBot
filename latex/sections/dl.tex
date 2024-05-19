@@ -11,12 +11,12 @@ Les \textit{embeddings} sont une technique couramment utilisée pour représente
 Ils sont particulièrement utiles pour traiter des données textuelles et des catégories discrètes.
 Pour réaliser une classification multilabel, Il a été décidé d'utiliser deux types d'\textit{embeddings} différents : \textit{GloVe} et \textit{FastText}.
 
-\subsection{GloVe}
+\subsubsection{GloVe}
 
 \textit{GloVe} (Global Vectors for Word Representation) est un algorithme de vectorisation de mots qui représente les mots sous forme de vecteurs de dimension prédéfinie. 
 Il utilise des statistiques globales de cooccurrence des mots pour capturer des relations contextuelles subtiles, ce qui le rend particulièrement adapté à des tâches comme la classification de texte.
 
-\subsection{FastText}
+\subsubsection{FastText}
 
 \textit{FastText} est un modèle d'\textit{embeddings} développé par \textit{Facebook AI Research (FAIR)} qui améliore les techniques de vectorisation de mots en prenant en compte les sous-mots. 
 Contrairement aux méthodes traditionnelles qui représentent les mots entiers comme des unités indépendantes, \textit{FastText} décompose chaque mot en n-grammes de caractères, ce qui permet de capturer les relations morphologiques entre les mots.
@@ -32,11 +32,11 @@ Le modèle de réseau de neurones \textit{feedforward (FNN)} construit est compo
     \item \textbf{Couche de sortie}: Une couche entièrement connectée de dimension \textbf{6} suivie d'une fonction d'activation sigmoïde pour la classification multilabel de chaque catégorie.
 \end{itemize}
 
-\subsection{Fonction de coût}
+\subsubsection{Fonction de coût}
 
 Pour entraîner notre modèle, La fonction de coût utilisée est la vraisemblance négative logarithmique (\textit{BCEWithLogitsLoss}) qui est couramment utilisée pour les tâches de classification multilabel.
 De plus, la pondération des classes a été utilisée pour compenser le déséquilibre des classes dans le jeu de données.
-\subsection{Optimisation}
+\subsubsection{Optimisation}
 
 Pour optimiser le modèle, l'algorithme d'optimisation employé est \textit{Adam} (AdamOptimizer), qui est une méthode d'optimisation stochastique basée sur l'estimation adaptative des moments.
 
