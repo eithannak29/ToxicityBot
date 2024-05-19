@@ -1,8 +1,8 @@
 \chapter{Tokenizer}
 
-\section{Pré-traitement du jeu de données}
+\section{Prétraitement du jeu de données}
 
-Le pré-traitement des données est une étape essentielle dans le processus d'analyse de texte. Il vise à nettoyer, transformer et préparer les données brutes afin de les rendre exploitables pour l'entraînement des modèles. Dans cette section, nous appliquerons différentes techniques de pré-traitement sur notre jeu de données afin de le rendre apte à être utilisé dans nos modèles prédictifs.
+Le prétraitement des données est une étape essentielle dans le processus d'analyse de texte. Il vise à nettoyer, transformer et préparer les données brutes afin de les rendre exploitables pour l'entraînement des modèles. Dans cette section, nous appliquerons différentes techniques de prétraitement sur notre jeu de données afin de le rendre apte à être utilisé dans nos modèles prédictifs.
 
 \subsection{Tokenisation à base d’expressions régulières (RegexTokenizer)}
 
@@ -23,13 +23,13 @@ Nous commençons par importer la classe RegexTokenizer et appliquer la tokenisat
 \caption{Exemple de tokenisation à base d'expressions régulières}
 \end{table}
 
-\subsection{Tokenisation byte-pair encoding (TikToken)}
+\subsection{Tokenisation byte-pair encoding (\textit{TikToken})}
 
-Le byte-pair encoding (BPE) est une méthode de tokenisation qui découpe le texte en sous-unités de texte appelées "tokens" en utilisant un algorithme de compression de données.
+Le \textit{Byte-Pair Encoding (BPE)} est une méthode de tokenisation qui découpe le texte en sous-unités de texte appelées "tokens" en utilisant un algorithme de compression de données.
 
-\subsubsection*{Implémentation de la tokenisation à l'aide de la bibliothèque TikToken}
+\subsubsection*{Implémentation de la tokenisation à l'aide de la bibliothèque \textit{TikToken}}
 
-Nous appliquons la tokenisation BPE sur notre jeu de données en utilisant la bibliothèque TikToken.
+Nous appliquons la tokenisation BPE sur notre jeu de données en utilisant la bibliothèque \textit{TikToken}.
 
 \begin{table}[h]
 \centering
@@ -37,7 +37,7 @@ Nous appliquons la tokenisation BPE sur notre jeu de données en utilisant la bi
 \hline
 \textbf{Avant tokenisation} & \textbf{Après tokenisation} \\ \hline
 ``Hello, World!'' & ['Hello', ',', 'World', '!'] \\ \hline
-``I love TikToken'' & ['I', 'love', 'Ti', 'k', 'To', 'ken'] \\ \hline
+``I love \textit{TikToken}'' & ['I', 'love', 'Ti', 'k', 'To', 'ken'] \\ \hline
 \end{tabular}
 \caption{Exemple de tokenisation BPE}
 \end{table}
@@ -50,23 +50,23 @@ Nous avons également comparé la performance de notre tokenizer avec d'autres o
 \centering
 \begin{tabular}{|l|l|}
 \hline
-\textbf{Tokenizer} & \textbf{Temps d'entrainement (minutes)} \\ \hline
+\textbf{Tokenizer} & \textbf{Temps d'entraînement (minutes)} \\ \hline
 RegexTokenizer & 182 \\ \hline
-TikToken & 0 (déja entrainé) \\ \hline
+\textit{TikToken} & 0 (déjà entrainé) \\ \hline
 BasicTokenizer & 69 \\ \hline
 \end{tabular}
-\caption{Comparaison des temps d'entrainement des tokenizers}
+\caption{Comparaison des temps d'entraînement des tokenizers}
 \end{table}
 
 
-Nous constatons que le RegexTokenizer et le TikToken sont significativement plus rapides que le BasicTokenizer. TikToken est le plus rapide parmi tous les tokenizers testés.
+Nous constatons que le RegexTokenizer et le \textit{TikToken} sont significativement plus rapides que le BasicTokenizer. \textit{TikToken} est le plus rapide de tous les tokenizers testés.
 
 \subsection{Méthodes de normalisation du texte}
-La normalisation du texte est une étape cruciale du pré-traitement des données textuelles. Elle vise à uniformiser le texte en le mettant en minuscules, en supprimant les stop words et en lemmatisant les mots.
+La normalisation du texte est une étape cruciale du prétraitement des données textuelles. Elle vise à uniformiser le texte en le mettant en minuscules, en supprimant les stop words et en lemmatisant les mots.
 
 \subsubsection*{Suppression des stop words}
 
-Les stop words sont des mots courants qui n'apportent pas beaucoup de valeur sémantique au texte(exemple : 'a' , 'the' ,'for',...). Nous les supprimerons de notre jeu de données.
+Les stop words sont des mots courants qui n'apportent pas beaucoup de valeur sémantique au texte (par exemple : 'a' , 'the' ,'for', ...). Nous les supprimerons de notre jeu de données.
 
 \subsubsection*{Lemmatisation}
 
@@ -87,16 +87,16 @@ Par conséquent, nous avons décidé de les supprimer afin de réduire au maximu
 
 \subsubsection*{Remplacement des emojis}
 
-Certains emojis peuvent etre important pour l'indication d'une toxicité ou non c'est pourquoi nous avons pris la décision de remplacer certains emojis par un mot le représentant au mieux afin de permettre aux models de mieux s'adapter.
+Certains emojis peuvent être importants pour l'indication d'une toxicité ou non c'est pourquoi nous avons pris la décision de remplacer certains emojis par un mot le représentant au mieux afin de permettre aux models de mieux s'adapter.
 
 \subsubsection*{Effacement des ponctuations}
 
-Parfois, certaines ponctuations occupent trop d’espace sans être utiles au modèle. Ainsi, nous pouvons supprimer tous les caractères qui ne sont pas dans la table ASCII ainsi que les signes de ponctuation qui pourraient compromettre l’entraînement des modèles.
+Parfois, certaines ponctuations occupent trop d'espace sans être utiles au modèle. Ainsi, nous pouvons supprimer tous les caractères qui ne sont pas dans la table ASCII ainsi que les signes de ponctuation qui pourraient compromettre l'entraînement des modèles.
 
-\subsubsection*{Effacement des duplication}
+\subsubsection*{Effacement des duplications}
 En constatant que plusieurs messages vulgaires étaient dissimulés parmi nos tokens en raison de la duplication des premières et/ou dernières lettres, nous avons été contraints de corriger ces tokens pour leur attribuer une plus grande valeur.
 
-\subsubsection*{Tableau représentatif des différentes fonctions de pré-traitement}
+\subsubsection*{Tableau représentatif des différentes fonctions de prétraitement}
 \begin{table}[ht]
     \centering
     \begin{adjustbox}{max width=\textwidth}
@@ -124,9 +124,9 @@ En constatant que plusieurs messages vulgaires étaient dissimulés parmi nos to
     \label{tab:pre_treatment_comparative}
 \end{table}
 
-\subsection{Pré-traitement supplémentaire du jeu de données}
+\subsection{Prétraitement supplémentaire du jeu de données}
 
-En plus des techniques de pré-traitement déjà mentionnées, nous avons également effectué les actions suivantes pour rendre notre jeu de données plus adapté à l'entraînement de nos modèles :
+En plus des techniques de prétraitement déjà mentionnées, nous avons également effectué les actions suivantes pour rendre notre jeu de données plus adapté à l'entraînement de nos modèles :
 
 \subsubsection*{Réflexion sur la suppression des symboles opérateurs et des chiffres}
 
@@ -144,7 +144,7 @@ Dans le cadre du prétraitement des données, nous avons envisagé initialement 
 :D & laught \\ \hline
 8============> & penis \\ \hline
 \end{tabular}
-\caption{Exemple d'éléments toxiques contenant des symboles opérateurs et des chiffres que nous avons remplacé par leurs signification}
+\caption{Exemple d'éléments toxiques contenant des symboles opérateurs et des chiffres que nous avons remplacé par leur signification}
 \end{table}
 
 
@@ -186,7 +186,7 @@ Initialement, nous avions envisagé d'appliquer un algorithme de correction d'or
         \fontsize{14}{16}\selectfont Après conversion en minuscules & \fontsize{14}{16}\selectfont 'motherfuck', 'a', 'strings', 'bitch', 'happy', 'penis' \\ \hline
         \fontsize{14}{16}\selectfont Après lemmatisation & \fontsize{14}{16}\selectfont 'motherfuck', 'a', 'string', 'bitch', 'happy', 'penis' \\ \hline
         \fontsize{14}{16}\selectfont Après suppression des stopwords & \fontsize{14}{16}\selectfont 'motherfuck', 'string', 'bitch', 'happy', 'penis' \\ \hline
-        \fontsize{14}{16}\selectfont Texte final après re-tokenisation & \fontsize{14}{16}\selectfont mother fuck string bitch happy penis \\ \hline
+        \fontsize{14}{16}\selectfont Texte final après retokenisation & \fontsize{14}{16}\selectfont mother fuck string bitch happy penis \\ \hline
     \end{tabular}%
     }
     \caption{Étapes de normalisation du texte}

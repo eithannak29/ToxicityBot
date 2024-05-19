@@ -17,12 +17,12 @@ Test & 63,978 \\
 
 
 \section*{Répartition des labels}
-Les commentaires toxiques sont minoritaires dans l'ensemble des données. 
-En effet il y a \textbf{10.2\%} de commentaire globalement non-toxique. 
+Les commentaires toxiques sont minoritaires dans l'ensemble de données. 
+En effet il y a \textbf{10.2\%} de commentaire globalement non-toxiques. 
 Cela peut poser des problèmes lors de l'entraînement des modèles, car les classes minoritaires peuvent être sous-représentées et donc mal apprises.
 Il y a aussi une répartition inégale au sein des labels de toxicité
-On peut remarquer que la somme des pourcentages n'est pas égale à 100\% car un commentaire peut avoir plusieurs labels. 
-On est donc dans un problème de classification multi-labels.
+La somme des pourcentages n'est pas égale à 100\% car un commentaire peut avoir plusieurs labels. 
+C'est donc dans un problème de classification multi-labels.
 \begin{table}[h]
 \centering
 \begin{tabular}{lc}
@@ -45,10 +45,10 @@ identity-hate & 8.6\% \\ % Replace X.X with the actual value
 \section*{Corrélation entre les labels}
 On peut remarqué que les labels de toxicité sont fortement corrélés entre eux. 
 On peut dès à présent anticiper une difficulté du modèle à distinge un commentaire toxique d'un commentaire obscene (\textbf{74\%} de corrélation).
-Cela représente un point à prendre en compte lors de la conception du modèle. La matrice de corrélation est inclus dans l'appendice \ref{chap:appendix}. 
+Cela représente un point à prendre en compte lors de la conception du modèle. La matrice de corrélation est incluse dans l'appendice \ref{chap:appendix}. 
 
 \section*{Longueur des commentaires}
-La distribution de la longueur des commentaires est très variée. En effet l'écart type est bien plus élevé que la moyenne. 
+La distribution de la longueur des commentaires est très variée. En effet, l'écart-type est bien plus élevé que la moyenne. 
 La longueur moyenne des commentaires est de \textbf{395} caractères, avec un écart-type de \textbf{593} caractères. 
 Cela peut poser des problèmes lors de la conception du modèle. Il est donc important de prétraiter les données pour normaliser la longueur des commentaires.
 \begin{figure}[h]
@@ -58,10 +58,9 @@ Cela peut poser des problèmes lors de la conception du modèle. Il est donc imp
 \end{figure}
 
 \section*{Distribution des mots}
-Dans le jeu de données, il y a un total de environs 180 000 mots uniques. 
-Sans surprises, les mots les plus fréquents sont les mots de liaison et les mots vides. 
-Mais en vue de la source du dataset les mots \textbf{articles}, \textbf{wikipedia} et \textbf{pages} apparaissent aussi très souvent dans les commentaires (top 26, 30, 31 respectivement).
-En effet les utilisateurs peuvent citer des sources pour appuyer leurs propos. 
-Dans les commentaires toxiques, on trouve des insultes, des mots vulgaires et des mots discriminatoires.
-On peut visualiser ces derniers en utilisant WordCloud. Cela représente une représentation visuelle des mots les plus utilisés.
-En annexe \ref{chap:appendix}, on peut voir une représentation WordCloud générée à partir des commentaires du jeu de données filtré selon le type de toxicité.
+Dans le jeu de données, environ \textbf{180 000} mots uniques sont recensés. 
+Sans surprise, les mots les plus fréquents sont les mots de liaison et les mots vides.
+Cependant, en raison de la source du dataset, les termes \textbf{articles}, \textbf{wikipedia} et \textbf{pages} apparaissent également très souvent dans les commentaires (respectivement en 26e, 30e et 31e positions).
+En effet, les utilisateurs citent souvent des sources pour appuyer leurs propos. Dans les commentaires toxiques, des insultes, des mots vulgaires et des termes discriminatoires sont fréquemment observés. 
+La visualisation de ces derniers à l'aide de \textit{\textit{WordCloud}} permet de représenter visuellement les mots les plus utilisés. 
+En annexe \ref{chap:appendix}, une représentation \textit{\textit{WordCloud}} des commentaires du jeu de données, filtrée selon le type de toxicité est présentée.

@@ -13,7 +13,7 @@ Deux méthodes de featurisation et douze méthodes de pré-traitement ont été 
 Pour chaque featurisation, divers hyper-paramètres ont été optimisés à l'aide de la bibliothèque \texttt{Optuna}. 
 Enfin, un modèle de régression linéaire \textit{multilabel} a été entraîné sur les meilleures méthodes de pré-traitement et de featurisation.
 
-\subsection{TF-IDF}
+\section{TF-IDF}
 La featurisation \textit{TF-IDF} est une méthode qui transforme les mots en vecteurs numériques, attribuant un poids à chaque mot selon sa fréquence dans le document et dans l'ensemble du corpus.
 Cette technique ne prend pas en compte la séquence des mots ni les relations entre eux. Malgré cette limitation, elle se révèle très efficace lorsqu'elle est utilisée avec des modèles de régression linéaire.
 
@@ -85,7 +85,7 @@ Les \textit{Shap Values} révèlent les mots ayant le plus d'impact sur le modè
 Sans surprise, les termes les plus influents sont les plus vulgaires. On remarque aussi que les mots comme ``please'' ou ``thank'' ont un impact négatif sur la prédiction de toxicité.
 Un aperçu des 20 mots avec les plus grandes \textit{SHAP Values} est présenté en annexe \ref{chap:appendix_reg}.
 
-\subsection{Word2Vec}
+\section{Word2Vec}
 La featurisation \textit{Word2Vec} est une technique qui permet de convertir les mots en vecteurs de nombres. 
 Elle permet de réduire la dimensionnalité des données et de capturer les relations sémantiques entre les mots.
 
@@ -149,7 +149,7 @@ Par exemple, le modèle n'a pas identifié \texttt{motherfucker} comme toxique.
 Cela révèle deux problèmes : le Tokenizerr ne sépare pas les mots composés et le modèle \textit{Word2Vec} n'a pas été entraîné sur ces mots plus longs. 
 Un ensemble de données plus grand et un entraînement de \textit{Word2Vec} avec un Tokenizerr entraîné sur le jeu d'entraînement auraient été nécessaires pour une meilleure compréhension globale de la sémantique.
 
-\subsection{Régression Multilabel}
+\section{Régression Multilabel}
 En raison de la nette différence de performance entre le modèle \textit{Word2Vec} et \textit{TF-IDF}, la featurisation TF-IDF a été choisie pour le modèle \textit{multilabel}. 
 Le prétraitement choisi est \textit{BPE Tokenizer 2}, car il a obtenu les meilleurs scores en termes de macro et de F1-score rappel. 
 Un modèle est entraîné par label.
