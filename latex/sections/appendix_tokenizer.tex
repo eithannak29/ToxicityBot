@@ -1,0 +1,30 @@
+\chapter{Appendix}
+\label{chap:appendix_tokenizer}
+
+\section*{Tableau représentatif des différentes fonctions de prétraitement}
+\begin{table}[ht]
+    \centering
+    \begin{adjustbox}{max width=\textwidth}
+    \renewcommand{\arraystretch}{1.5} % Increases row height
+    \setlength{\tabcolsep}{6pt} % Adjusts column padding
+    \begin{tabular}{|p{3.5cm}|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{Pré traitement} & \textbf{Remove special caractère} & \textbf{Remove Stop Words} & \textbf{Replace emojis} & \textbf{Lowercase} & \textbf{Lemmatization} & \textbf{Remove punctuation} & \textbf{Remove duplication} \\
+        \hline
+        BPE Tokenizer 2  & VRAI & FAUX & FAUX & VRAI & FAUX & VRAI & VRAI \\
+        BPE Tokenizer 1  & VRAI & FAUX & FAUX & VRAI & FAUX & FAUX & VRAI \\
+        Word Tokenizer 4  & VRAI & VRAI & VRAI & VRAI & VRAI & VRAI & VRAI \\
+        Word Tokenizer 3 & VRAI & VRAI & VRAI & VRAI & VRAI & FAUX & FAUX \\
+        Word Tokenizer 2  & VRAI & FAUX & FAUX & VRAI & FAUX & VRAI & FAUX \\
+        Word Tokenizer 1  & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX \\
+        GPT Tokenizer 4  & VRAI & VRAI & VRAI & VRAI & VRAI & VRAI & VRAI \\
+        GPT Tokenizer 3 & VRAI & VRAI & VRAI & VRAI & VRAI & FAUX & FAUX \\
+        GPT Tokenizer 2  & VRAI & FAUX & FAUX & VRAI & FAUX & FAUX & FAUX \\
+        GPT Tokenizer 1 & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX \\
+        Baseline & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX & FAUX \\
+        \hline
+    \end{tabular}
+    \end{adjustbox}
+    \caption{Pré traitement comparatif}
+    \label{tab:pre_treatment_comparative}
+\end{table}
