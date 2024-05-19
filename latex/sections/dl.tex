@@ -3,13 +3,13 @@
 \section{Étape de la construction du modèle}
 
 Pour construire un modèle de réseau de neurones, il est nécessaire de définir l'architecture du réseau, les entrées, les sorties et les fonctions d'activation, ainsi que les fonctions de coût. 
-Pour ce faire, L'étude préalable a servi de base pour sélectionner les paramètres de manière optimale.
+Pour ce faire, l'étude préalable a servi de base pour sélectionner les paramètres de manière optimale.
 
-\section{Les embeddings}
+\section{Embeddings}
 
 Les \textit{embeddings} sont une technique couramment utilisée pour représenter des données de manière dense et continue dans des espaces de grande dimension. 
 Ils sont particulièrement utiles pour traiter des données textuelles et des catégories discrètes.
-Pour réaliser une classification multilabel, Il a été décidé d'utiliser deux types d'\textit{embeddings} différents : \textit{GloVe} et \textit{FastText}.
+Pour réaliser une classification multilabel, il a été décidé d'utiliser deux types d'\textit{embeddings} différents : \textit{GloVe} et \textit{FastText}.
 
 \subsubsection{GloVe}
 
@@ -34,7 +34,7 @@ Le modèle de réseau de neurones \textit{feedforward (FNN)} construit est compo
 
 \subsubsection{Fonction de coût}
 
-Pour entraîner notre modèle, La fonction de coût utilisée est la vraisemblance négative logarithmique (\textit{BCEWithLogitsLoss}) qui est couramment utilisée pour les tâches de classification multilabel.
+Pour entraîner notre modèle, la fonction de coût utilisée est la vraisemblance négative logarithmique (\textit{BCEWithLogitsLoss}) qui est couramment utilisée pour les tâches de classification multilabel.
 De plus, la pondération des classes a été utilisée pour compenser le déséquilibre des classes dans le jeu de données.
 \subsubsection{Optimisation}
 

@@ -1,78 +1,55 @@
 \chapter{Naive Bayes}
 
-\section{Pré-traitement des données}
+\section{Prétraitement des données}
 
-Nous avons d'abord effectué un pré-traitement des données en utilisant différentes techniques :
+Un prétraitement des données a d'abord été effectué en utilisant différentes techniques :
 
-\subsection{Tokenisation des commentaires}
+\subsubsection{Tokenisation des commentaires}
 
-Nous avons utilisé la tokenisation pour diviser les commentaires en tokens individuels.
+La \textit{tokenisation} a été utilisée pour diviser les commentaires en \textit{tokens} individuels.
 
-\subsubsection*{Tokenisation à l'aide de nôtre API \texttt{tokenize\_apy}}
+\subsubsection*{Tokenisation à l'aide de n\^otre API \textit{tokenize\_api}}
 
-La tokenisation des commentaires a été réalisée en utilisant l'API \texttt{tokenize\_apy}.
+La \textit{tokenisation} des commentaires a été réalisée en utilisant l'API \textit{tokenize\_api}.
 
 \subsubsection*{Équilibrage du jeu de données}
 
-Nous avons équilibré le jeu de données en échantillonnant un nombre égal de commentaires toxiques et non toxiques.
+L'équilibrage du jeu de données à été effectué en échantillonnant un nombre égal de commentaires toxiques et non toxiques.
 
 \section{Analyse exploratoire des données}
 
 Voici les statistiques descriptives sur le jeu de données équilibré :
 
-\subsection{Statistiques descriptives}
+\subsubsection{Statistiques descriptives}
 
 \begin{itemize}
-    \item Nombre total de documents : 25 962
-    \item Nombre total de tokens : 127 656
-    \item Nombre de classes à prédire : 2 (toxique ou non toxique)
-    \item Les tokens les plus fréquents incluent "grand", "ter", "burn", etc.
+    \item Nombre total de documents : \textbf{25 962}
+    \item Nombre total de \textit{tokens} : \textbf{127 656}
+    \item Nombre de classes à prédire : \textbf{2} (toxique ou non toxique)
+    \item Les \textit{tokens} les plus fréquents incluent \textbf{"grand", "ter", "burn"}, etc.
 \end{itemize}
 
 \section{Entraînement du modèle}
 
-Nous avons entraîné le modèle Bayésien naïf en suivant les étapes suivantes :
+L'entraînement du modèle \textit{Bayésien naïf} à été réalisé en suivant les étapes suivantes :
 
-\subsection{Préparation des données}
+\subsubsection{Préparation des données}
 
 \begin{itemize}
-    \item Calcul de la fréquence des mots et sélection des stop words.
-    \item Entraînement du modèle en utilisant \texttt{CountVectorizer} et \texttt{MultinomialNB}.
+    \item Calcul de la fréquence des mots et sélection des \textit{StopWords}.
+    \item Entraînement du modèle en utilisant \textit{CountVectorizer} et \textit{MultinomialNB}.
 \end{itemize}
 
-\subsection{Évaluation des performances du modèle}
+\subsubsection{Évaluation des performances du modèle}
 
-Les "Feature Dimensions" indiquent la taille de la matrice de caractéristiques utilisée pour chaque méthode. Le premier nombre représente le nombre d'échantillons (lignes) dans l'ensemble de données, et le deuxième nombre représente le nombre de caractéristiques (colonnes) générées par le vectoriseur.
-\begin{table}[htbp]
-    \centering
-    \caption{Rapports de classification combinés pour différentes méthodes}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{@{}lccccccccc@{}}
-    \toprule
-    \textbf{Méthode} & \textbf{Dimensions des Features} & \multicolumn{2}{c}{\textbf{Classe 0}} & \multicolumn{2}{c}{\textbf{Classe 1}} & \textbf{Précision} & \textbf{Macro Moy.} & \textbf{Moy. Pondérée} \\
-    & & \textbf{Précision} & \textbf{Rappel} & \textbf{Précision} & \textbf{Rappel} & & & \\
-    \midrule
-    comment\_text\_baseline & (63978, 52493) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.86, 0.72) & (0.92, 0.85, 0.88) \\
-    comment\_text\_bpe\_tokenize\_full\_normalization & (63978, 22188) & 0.98 & 0.86 & 0.40 & 0.87 & 0.86 & (0.69, 0.86, 0.73) & (0.93, 0.86, 0.88) \\
-    comment\_text\_word\_tokenize\_no\_normalization & (63978, 52478) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.85, 0.72) & (0.92, 0.85, 0.88) \\
-    comment\_text\_gpt\_tokenize\_no\_normalization & (63978, 44632) & 0.97 & 0.90 & 0.45 & 0.74 & 0.89 & (0.71, 0.82, 0.75) & (0.92, 0.89, 0.90) \\
-    comment\_text\_word\_tokenize\_normalization & (63978, 42934) & 0.98 & 0.85 & 0.39 & 0.87 & 0.85 & (0.69, 0.86, 0.73) & (0.93, 0.85, 0.88) \\
-    comment\_text\_gpt\_tokenize\_normalization & (63978, 24578) & 0.98 & 0.87 & 0.40 & 0.80 & 0.86 & (0.69, 0.84, 0.73) & (0.92, 0.86, 0.88) \\
-    comment\_text\_word\_tokenize\_full\_normalization & (63978, 41908) & 0.98 & 0.85 & 0.39 & 0.88 & 0.85 & (0.69, 0.86, 0.73) & (0.93, 0.85, 0.88) \\
-    comment\_text\_gpt\_tokenize\_full\_normalization & (63978, 22750) & 0.98 & 0.86 & 0.40 & 0.85 & 0.86 & (0.69, 0.85, 0.73) & (0.92, 0.86, 0.88) \\
-    comment\_text\_word\_tokenize\_simple\_normalization & (63978, 48335) & 0.98 & 0.85 & 0.39 & 0.86 & 0.85 & (0.68, 0.86, 0.72) & (0.92, 0.85, 0.88) \\
-    comment\_text\_gpt\_tokenize\_simple\_normalization & (63978, 29389) & 0.98 & 0.86 & 0.39 & 0.82 & 0.86 & (0.69, 0.84, 0.72) & (0.92, 0.86, 0.88) \\
-    comment\_text\_bpe\_tokenize\_simple\_dup\_normalization & (63978, 27126) & 0.98 & 0.86 & 0.39 & 0.85 & 0.86 & (0.69, 0.85, 0.73) & (0.92, 0.86, 0.88) \\
-    comment\_text\_bpe\_tokenize\_no\_dup\_no\_punc\_normalization & (63978, 27290) & 0.98 & 0.86 & 0.39 & 0.85 & 0.86 & (0.69, 0.85, 0.73) & (0.92, 0.86, 0.88) \\
-    \bottomrule
-    \end{tabular}%
-    }
-    \end{table}
+Les "\textit{Feature Dimensions}" indiquent la taille de la matrice de caractéristiques utilisée pour chaque méthode. Le premier nombre représente le nombre d'échantillons (lignes) dans l'ensemble de données, et le deuxième nombre représente le nombre de caractéristiques (colonnes) générées par le vectoriseur.
+Annexe \ref{chap:appendix_rapportclass}
 
 
-\subsection{Validation croisée}
 
-Nous avons également effectué une validation croisée en utilisant la métrique \texttt{f1\_macro}.
+\subsubsection{Validation croisée}
+
+Une validation croisée a également été effectuée en utilisant la métrique \textit{f1\_macro}.
 
 \begin{table}[h]
     \centering
@@ -87,46 +64,29 @@ Nous avons également effectué une validation croisée en utilisant la métriqu
 
 \section{Analyse des résultats}
 
-\subsection{Calcul des probabilités}
+\subsubsection{Calcul des probabilités}
 
 \begin{itemize}
-    \item Probabilités a priori pour chaque classe : \{0: 0.89831, 1: 0.10168\}
-    \item Vocabulaire contient 33397 mots uniques
+    \item Probabilités à priori pour chaque classe : \{\textbf{0}: \textbf{0.89831}, \textbf{1}: \textbf{0.10168}\}
+    \item Vocabulaire contient \textbf{33397} mots uniques
 \end{itemize}
 
-\subsection{Calcul des vraisemblances}
+\subsubsection{Calcul des vraisemblances}
 
-Nous avons calculé les probabilités conditionnelles (vraisemblances) pour chaque mot dans chaque classe.
+Le calcul des vraisemblances a été réalisé pour chaque mot dans chaque classe.
 
-\subsection{Prédiction}
+\subsubsection{Prédiction}
 
-Nous avons utilisé le modèle entraîné pour prédire la toxicité des commentaires de test. Par exemple, le commentaire "chretian attack" a été prédit comme toxique avec une probabilité de 0.000168.
+Le modèle entraîné a été utilisé pour prédire la toxicité des commentaires de test. Par exemple, le commentaire "\textit{chretian attack}" a été prédit comme toxique avec une probabilité de \textbf{0.000168}.
 
-\subsection{Matrice de confusion}
+\subsubsection{Matrice de confusion}
 
-La matrice de confusion montre que le modèle prédit correctement les commentaires toxiques et non toxiques dans une large mesure.
+La matrice de confusion montre que le modèle prédit correctement les commentaires toxiques et non toxiques mais dans une large mesure.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=.49\linewidth]{figures/matrix-confusion-naive_bayes.png}
-    \caption{Matrice de confusion du modèle Bayésien naïf}
-\end{figure}
 
-\subsection{Etudes Annexe sur les données}
-\begin{figure}[h]
-        \centering
-        \includegraphics[width=.43\linewidth]{figures/distribution-toxicity-naive_bayes.png}
-        \caption{Distribution de la toxicité des commentaires}
-    \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=.7\linewidth]{figures/30_first_non_toxic-naive_bayes.png}
-    \caption{Top 30 mots non toxiques}
-\end{figure}
+\subsubsection{Études Annexe sur les données}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=.7\linewidth]{figures/30_first_toxic-naive_bayes.png}
-    \caption{Top 30 mots toxiques}
-\end{figure}
+Tableaux récapitulatif de la distribution des données en annexe :  \ref{chap:appendix_rapportclass}
+message.txt
+4 Ko

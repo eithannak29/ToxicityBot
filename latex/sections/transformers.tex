@@ -3,13 +3,13 @@
 \section{Construction du modèle}
 
 Afin d'améliorer les performances de notre solution, il a été décidé de tester un modèle \textit{transformer}.
-Pour ce faire, la bibliothèque \textit{Hugging Face} a été utilisée car elle propose des implémentations de modèles \textit{transformer} préentraînés.
+Pour ce faire, la bibliothèque \textit{Hugging Face} a été utilisée car elle propose des implémentations de modèles \textit{transformer} pré-entraînés.
 Le modèle \textit{BERT} a été choisi car il a été préentraîné sur des données textuelles massives et qui a montré de très bonnes performances sur de nombreuses tâches de traitement du langage naturel.
 Le modèle a été entraîné sur notre jeu de données pour réaliser une classification multilabel des commentaires à l'aide de \textit{Google Colab}.
 
 \subsubsection{Prétraitement des données}
 
-Pour prétraiter les données textuelles,Le \textit{tokenizer} \textit{BERTTokenizer} a été utilisé. En effet, il permet de transformer nos données d'entrer en \textit{tokens} qui peuvent être compris par le modèle \textit{BERT}.
+Pour prétraiter les données textuelles, le \textit{tokenizer} \textit{BERTTokenizer} a été utilisé. En effet, il permet de transformer nos données d'entrées en \textit{tokens} qui peuvent être compris par le modèle \textit{BERT}.
 
 \subsubsection{Architecture du modèle}
 
