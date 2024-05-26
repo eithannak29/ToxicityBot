@@ -1,6 +1,7 @@
 import requests
 import os
 from dotenv import load_dotenv
+import random
 
 load_dotenv()
 
@@ -37,12 +38,15 @@ def translate_text(text, target_language='en'):
 def query(payload):
     response = requests.post(API_URL, headers=headers, json=payload)
     response_json = response.json()
-    return response_json
-    # return {item['label']: item['score'] for item in response_json[0]}
+    # return response_json
+    return {item['label']: item['score'] for item in response_json[0]}
 
 
-output = query({
-    "inputs": "I hate toy.",
-})
+def get_random_color():
+    return "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
-print(output)
+# output = query({
+#     "inputs": "I hate toy.",
+# })
+
+# print(output)

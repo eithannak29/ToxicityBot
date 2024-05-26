@@ -2,20 +2,15 @@ import streamlit as st
 import asyncio
 from collections import deque
 import pandas as pd
-import random
 from twitchio.ext import commands
 import os
 from dotenv import load_dotenv
-from request import query, translate_text
+from utils import query , get_random_color
 
 load_dotenv()
 
 TOKEN_TWITCH = os.getenv('TOKEN_TWITCH')
 TOKEN_TWITCH_USER = os.getenv('TOKEN_TWITCH_USER')
-
-# Function to generate a random color
-def get_random_color():
-    return "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
 # Dictionary to store colors for each user
 user_colors = {}
@@ -54,7 +49,7 @@ st.markdown(
 )
 
 # Title of the Streamlit application
-st.title("Twitch Monitor")
+st.title("Twitch Monitor 🤖")
 
 # Input for the channel name
 channel = st.text_input('Enter the channel name')
@@ -96,6 +91,7 @@ class Bot(commands.Bot):
         messages_html = '<br>'.join(message_queue)
         chat_box.markdown(f'<div class="chat-box">{messages_html}</div>', unsafe_allow_html=True)
         
+        # Analyze the message using the selected AI model
         if ai_model == 'Transformer':
             response = query({"inputs": message.content})
         
@@ -103,7 +99,7 @@ class Bot(commands.Bot):
         df = pd.concat([df, new_row], ignore_index=True)
         
         # Apply conditional text color formatting
-        df_styled = df.style.applymap(get_color, subset=['Toxique', 'Très toxique', 'Obscène', 'Menace', 'Insulte', 'Haine identitaire']).format(subset=['Toxique', 'Très toxique', 'Obscène', 'Menace', 'Insulte', 'Haine identitaire'], formatter="{:.2f}")
+        df_styled = df.style.applymap(get_color, subset=['Toxic', 'Severe toxic', 'Obscene', 'Threat', 'Insult', 'Identity hate']).format(subset=['Toxic', 'Severe toxic', 'Obscene', 'Threat', 'Insult', 'Identity hate'], formatter="{:.2f}")
         table.dataframe(df_styled, width=1000)
                 
         await self.handle_commands(message)
